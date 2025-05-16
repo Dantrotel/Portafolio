@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: #f4f4f4;
+  color: #222;
+}
+
+.header {
+  text-align: center;
+  padding: 2rem;
+  background-color: #005aa7;
+  color: white;
+}
+
+.profile-pic {
+  width: 120px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+a {
+  color: #005aa7;
+  text-decoration: none;
+}
