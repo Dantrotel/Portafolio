@@ -54,6 +54,37 @@ a {
   color: #66ccff;
 }
 
+/* Nuevas reglas para el componente Contact */
+.dark-mode .contact-container {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .contact-title {
+  color: #f1f1f1;
+}
+
+.dark-mode .contact-item {
+  color: #d0d0d0;
+}
+
+.dark-mode .social-title {
+  color: #e0e0e0;
+}
+
+.dark-mode .social-icons a {
+  color: #b0b0b0;
+}
+
+.dark-mode .social-icons a:hover {
+  color: #66ccff;
+}
+
+.dark-mode .contact-icon {
+  color: #66ccff;
+}
+
 .theme-switch-wrapper {
   position: fixed;
   top: 1rem;
