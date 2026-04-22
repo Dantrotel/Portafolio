@@ -2,7 +2,7 @@ import React from 'react';
 import { FaBriefcase, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import './Exp.css';
 
-export default function ExperienceSection() {
+export default function ExperienceSection({ t }) {
   const experiences = [
     {
       id: 1,
@@ -25,9 +25,9 @@ export default function ExperienceSection() {
   ];
 
   return (
-    <div className="experience-container">
+    <div className="experience-container section" id="experiencia">
       <h2 className="experience-title">
-        <FaBriefcase className="title-icon" /> Experiencia Laboral
+        <FaBriefcase className="title-icon" /> {t?.exp?.title || 'Experiencia Laboral'}
       </h2>
 
       <div className="experience-timeline">

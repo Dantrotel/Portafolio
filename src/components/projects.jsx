@@ -1,33 +1,103 @@
+import React from 'react'
 import './Projects.css'
+import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { SiCplusplus, SiPython } from 'react-icons/si'
 
 const projects = [
   {
-    title: "Seguimiento de Tesistas",
-    description: "Este proyecto es una aplicación web diseñada para realizar seguimiento de estudiantes que están en el proyecto final de carrera en la Universidad. La app permite la gestión de roles específicos (estudiante, profesor, jefe de carrera y secretaria), asignación de profesores a estudiantes, agendamiento de reuniones y entrega de avances. Los estudiantes también tienen una comisión evaluadora que otorga una nota final tras la defensa del proyecto.",
-    link: "https://github.com/Dantrotel/AcTitUBB"
+    title: 'Seguimiento de Tesistas',
+    description:
+      'Aplicación web para gestionar el proceso de titulación universitaria. Incluye roles diferenciados (estudiante, profesor, jefatura, secretaria), asignación de guías, agenda de reuniones, entregas y evaluación por comisión.',
+    live: null,
+    code: 'https://github.com/Dantrotel/AcTitUBB',
+    tags: ['Angular', 'Node.js', 'MySQL'],
+    image: 'projects/comision.png',
   },
   {
-    title: "Simulación de Carrera de Autos con Multihebras en C++",
-    description: "Este programa simula una carrera de autos utilizando programación con múltiples hebras en C++. Cada auto corre en su propia hebra, avanzando en intervalos de distancia y pausas aleatorias hasta completar la distancia total de la carrera. Al final, el programa muestra un podio con los tres primeros autos que terminan la carrera.",
-    link: "https://github.com/Dantrotel/Race_SSOO"
+    title: 'Simulación de Carrera Multihilo en C++',
+    description:
+      'Simulación de carrera de autos con multithreading: cada auto avanza concurrentemente con pausas aleatorias hasta la meta. Muestra el podio final de ganadores.',
+    live: null,
+    code: 'https://github.com/Dantrotel/Race_SSOO',
+    tags: ['C++'],
+    image: null,
+    icon: SiCplusplus,
+    gradient: 'linear-gradient(135deg, #00599C 0%, #002d50 100%)',
   },
   {
-    title: "Clasificación de Géneros Musicales con Deep Learning",
-    description: "Este proyecto implementa un sistema de clasificación de géneros musicales utilizando técnicas de deep learning. El modelo está entrenado con el dataset GTZAN, que consiste en 1000 archivos de audio de 10 géneros diferentes. El objetivo es clasificar las canciones según su género utilizando características extraídas de las señales de audio.",
-    link: "https://github.com/Dantrotel/Clasificacion_generos_musicales"
+    title: 'Clasificación de Géneros Musicales con Deep Learning',
+    description:
+      'Clasificador de géneros musicales entrenado sobre el dataset GTZAN usando deep learning y extracción de features de audio (MFCC, espectrogramas).',
+    live: null,
+    code: 'https://github.com/Dantrotel/Clasificacion_generos_musicales',
+    tags: ['Python'],
+    image: null,
+    icon: SiPython,
+    gradient: 'linear-gradient(135deg, #3776AB 0%, #1e4b70 100%)',
   },
 ]
 
-export default function Projects() {
+
+export default function Projects({ t }) {
   return (
-    <section className="projects section">
-      <h2>Proyectos</h2>
+    <section className="projects section" id="proyectos">
+      <h2>{t?.projects?.title || 'Proyectos'}</h2>
+
+
       <div className="projects-grid">
-        {projects.map((proj, index) => (
-          <a key={index} href={proj.link} className="project-card" target="_blank" rel="noopener noreferrer">
-            <h3>{proj.title}</h3>
-            <p>{proj.description}</p>
-          </a>
+        {projects.map((proj) => (
+          <article key={proj.title} className="project-card">
+
+            {proj.image ? (
+              <div className="project-image-container">
+                <img 
+                  src={`${import.meta.env.BASE_URL}${proj.image.replace(/^\//, '')}`} 
+                  alt={`Captura de ${proj.title}`} 
+                  className="project-image" 
+                />
+              </div>
+            ) : proj.icon ? (
+              <div className="project-image-container fallback-icon" style={{ background: proj.gradient }}>
+                <proj.icon size={72} color="rgba(255, 255, 255, 0.9)" className="project-icon-anim" />
+              </div>
+            ) : null}
+
+            <div className="project-content">
+              <h3>{proj.title}</h3>
+              <p>{proj.description}</p>
+
+              <div className="project-tags">
+                {proj.tags.map((tag) => (
+                  <span key={tag} className="project-tag">{tag}</span>
+                ))}
+              </div>
+
+              <div className="project-links">
+                {proj.live && (
+                  <a
+                    className="btn primary"
+                    href={proj.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Ver demo de ${proj.title}`}
+                  >
+                    <FaExternalLinkAlt size={12} />
+                    {t?.projects?.viewDemo || 'Ver demo'}
+                  </a>
+                )}
+                <a
+                  className="btn ghost"
+                  href={proj.code}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Ver código de ${proj.title}`}
+                >
+                  <FaGithub size={14} />
+                  {t?.projects?.viewCode || 'Ver código'}
+                </a>
+              </div>
+            </div>
+          </article>
         ))}
       </div>
     </section>

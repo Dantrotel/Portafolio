@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dantrotel.github.io/Portafolio/sitemap.xml
+
+

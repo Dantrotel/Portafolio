@@ -5,21 +5,24 @@ on:
     branches: [main]  # Solo se ejecuta al hacer push a la rama main
   workflow_dispatch:  # Permite ejecutarlo manualmente desde GitHub
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 22.14  # O la versión que uses
+          node-version: 20
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci --no-audit --no-fund
 
       - name: Build project
         run: npm run build
@@ -29,4 +32,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist  # Carpeta de salida de Vite
-          publish_branch: gh-page
+          publish_branch: gh-pages
