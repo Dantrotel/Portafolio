@@ -7,8 +7,8 @@ import Contact from './components/Contact'
 import Exp from './components/Exp'
 import Skills from './components/Skills'
 import Education from './components/Education'
-import ParticlesBackground from './components/ParticlesBackground'
 import { STRINGS } from './i18n'
+import { motion, AnimatePresence } from 'framer-motion'
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -42,7 +42,6 @@ function App() {
 
   return (
     <div className="app-layout">
-      <ParticlesBackground darkMode={darkMode} />
       <Sidebar
         t={t}
         darkMode={darkMode}
@@ -60,9 +59,18 @@ function App() {
       />
 
       <main className="main-content">
-        <div className="section-panel" key={activeSection}>
-          {sections[activeSection]}
-        </div>
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={activeSection}
+            className="section-panel motion-gpu"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {sections[activeSection]}
+          </motion.div>
+        </AnimatePresence>
       </main>
     </div>
   )

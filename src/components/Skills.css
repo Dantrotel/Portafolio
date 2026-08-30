@@ -15,12 +15,14 @@
 }
 
 .category-title {
+  font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--text);
+  color: #fff;
   margin: 0;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-hover);
+  border-bottom: 1px solid var(--accent);
+  text-shadow: 0 0 5px var(--accent-subtle);
 }
 
 .tech-grid {
@@ -37,30 +39,33 @@
   padding: 18px 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--bg-elevated);
-  transition: all 0.2s ease;
+  background: rgba(17, 9, 38, 0.6);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
   cursor: default;
 }
 
 .tech-item:hover {
-  border-color: var(--border-hover);
+  border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 5px 20px var(--accent-subtle);
 }
 
 .tech-icon {
   font-size: 2rem;
   display: block;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .tech-item:hover .tech-icon {
   transform: scale(1.1);
+  filter: drop-shadow(0 0 8px var(--accent));
 }
 
 .tech-name {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
   color: var(--text-muted);
   text-align: center;
   line-height: 1.3;

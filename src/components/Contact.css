@@ -16,39 +16,53 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-family: var(--font-body);
   font-size: 0.95rem;
+  font-weight: 500;
   margin-bottom: 12px;
   padding: 8px 12px;
   border-radius: 8px;
-  transition: background 0.2s ease;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid transparent;
 }
 
 .contact-item:hover {
   background: var(--accent-subtle);
+  border-color: var(--accent);
+  box-shadow: 0 0 15px var(--accent-subtle);
 }
 
 .contact-item a {
   color: var(--text);
   font-weight: 500;
+  text-decoration: none;
 }
 
-.contact-item a:hover {
-  color: var(--accent);
+.contact-item:hover a {
+  color: var(--text-muted);
 }
 
 .contact-icon {
   color: var(--accent);
-  font-size: 1rem;
+  font-size: 1.1rem;
   flex-shrink: 0;
+  transition: filter 0.3s ease;
+}
+
+.contact-item:hover .contact-icon {
+  color: var(--accent-hover);
+  filter: drop-shadow(0 0 5px var(--accent-hover));
 }
 
 .social-title {
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  margin: 0 0 8px;
+  letter-spacing: 0.05em;
+  margin: 0 0 12px;
 }
 
 .contact-form {

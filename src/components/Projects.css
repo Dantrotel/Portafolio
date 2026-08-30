@@ -6,10 +6,11 @@
 }
 
 .project-card {
-  background: var(--card);
+  background: rgba(17, 9, 38, 0.6);
+  backdrop-filter: blur(5px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -22,17 +23,17 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
+  height: 4px;
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.25s ease;
+  transition: transform 0.2s ease;
 }
 
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: var(--border-hover);
+  box-shadow: 0 10px 30px var(--accent-subtle);
+  border-color: var(--accent);
 }
 
 .project-card:hover::before {
@@ -85,22 +86,26 @@
 
 .project-category {
   font-size: 0.7rem;
+  font-family: var(--font-body);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.1em;
   color: var(--accent);
-  background: var(--accent-subtle);
+  background: rgba(0, 255, 204, 0.1);
   border: 1px solid var(--accent);
-  padding: 3px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
+  box-shadow: 0 0 10px var(--accent-subtle);
 }
 
 .project-card h3 {
-  font-size: 1.05rem;
-  font-family: 'Sora', sans-serif;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-family: var(--font-heading);
+  font-weight: 600;
   margin-bottom: 8px;
-  color: var(--text);
+  color: #fff;
+  letter-spacing: 0;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
 .project-card p {
@@ -119,13 +124,14 @@
 }
 
 .project-tag {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
   font-weight: 500;
-  color: var(--text-muted);
-  background: var(--bg-elevated);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border);
-  padding: 3px 9px;
-  border-radius: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
 }
 
 .project-links {

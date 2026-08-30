@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from 'framer-motion'
 import './Projects.css'
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
 import { SiCplusplus, SiPython } from 'react-icons/si'
@@ -44,9 +45,36 @@ export default function Projects({ t }) {
       <h2>{t?.projects?.title || 'Proyectos'}</h2>
 
 
-      <div className="projects-grid">
+      <motion.div 
+        className="projects-grid"
+initial="hidden"
+animate="visible"
+viewport={{ once: true, amount: 0.1 }}
+variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.2 }
+          }
+        }}
+      >
         {projects.map((proj) => (
-          <article key={proj.title} className="project-card">
+          <motion.article 
+            key={proj.title} 
+            className="project-card"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { 
+                opacity: 1,
+                transition: { duration: 0.35, ease: "linear" }
+              }
+            }}
+            whileHover={{ 
+              y: -5, 
+              boxShadow: "0 15px 30px rgba(0,0,0,0.12)",
+              transition: { duration: 0.2, ease: "easeOut" }
+            }}
+          >
 
             {proj.image ? (
               <div className="project-image-container">
@@ -97,9 +125,9 @@ export default function Projects({ t }) {
                 </a>
               </div>
             </div>
-          </article>
+          </motion.article>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

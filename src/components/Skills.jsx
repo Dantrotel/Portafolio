@@ -15,11 +15,12 @@ import {
   SiDocker,
   SiFigma,
   SiGooglecloud,
-  SiAmazonec2,
+
   SiPostgresql,
   SiSass,
 } from 'react-icons/si'
-import { FaDatabase } from 'react-icons/fa'
+import { FaDatabase, FaAws } from 'react-icons/fa'
+import { motion } from 'framer-motion'
 import './Skills.css'
 
 export default function Skills({ t }) {
@@ -39,7 +40,7 @@ export default function Skills({ t }) {
       skills: [
         { name: 'Node.js', Icon: SiNodedotjs, color: '#339933' },
         { name: 'Google Cloud', Icon: SiGooglecloud, color: '#FFCA28' },
-        { name: 'AWS EC2', Icon: SiAmazonec2, color: '#FF9900' },
+        { name: 'AWS EC2', Icon: FaAws, color: '#FF9900' },
       ]
     },
     {
@@ -81,21 +82,37 @@ export default function Skills({ t }) {
 
       <div className="skills-container">
         {skillCategories.map((category) => (
-          <div key={category.title} className="skill-category">
+          <motion.div 
+            key={category.title} 
+            className="skill-category"
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+viewport={{ once: true }}
+transition={{ duration: 0.5, ease: "linear" }}
+          >
             <h3 className="category-title">{category.title}</h3>
             <div className="tech-grid">
               {category.skills.map(({ name, Icon, color }) => (
-                <div key={name} className="tech-item">
+                <motion.div 
+                  key={name} 
+                  className="tech-item"
+                  whileHover={{ 
+                    y: -4,
+                    backgroundColor: "var(--bg-elevated)",
+                    transition: { duration: 0.2, ease: "easeOut" }
+                  }}
+                  whileTap={{ scale: 0.96 }}
+                >
                   <Icon
                     className="tech-icon"
                     style={color ? { color } : undefined}
                     aria-hidden="true"
                   />
                   <span className="tech-name">{name}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>
