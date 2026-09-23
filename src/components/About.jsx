@@ -24,7 +24,10 @@ export default function About({ t }) {
         </div>
         
         <div className="about-dj-illustration">
-          <img src="/dj-rave.png" alt="DJ Mixing at Rave" className="dj-img" />
+          <img src={`${import.meta.env.BASE_URL}dj-rave.webp`} alt="DJ Mixing at Rave" className="dj-img" />
+          <p className="about-hobby-text">
+            {t?.about?.hobby || "Cuando no estoy programando, me apasiona la música y los entornos creativos."}
+          </p>
         </div>
       </motion.div>
 

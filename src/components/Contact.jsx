@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaPhone, FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
 import './Contact.css'
 
-export default function ContactInfo({ t }) {
+export default function Contact({ t }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
@@ -15,7 +15,7 @@ export default function ContactInfo({ t }) {
     const endpoint = import.meta.env.VITE_CONTACT_FORM_URL
     
     if (!endpoint) {
-      alert('⚠️ Para enviar mensajes directamente, necesitas configurar VITE_CONTACT_FORM_URL en tu archivo .env')
+      window.location.href = `mailto:dantrottel@gmail.com?subject=Contacto desde Portafolio&body=Nombre: ${form.name}%0DEmail: ${form.email}%0DMensaje:%0D${form.message}`
       setSending(false)
       return
     }

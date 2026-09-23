@@ -1,14 +1,15 @@
-import './index.css'
 import { useState, useEffect } from 'react'
-import Sidebar from './components/Sidebar'
+import Navbar from './components/Navbar'
 import About from './components/About'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
-import Exp from './components/Exp'
+import Experience from './components/Experience'
 import Skills from './components/Skills'
 import Education from './components/Education'
 import { STRINGS } from './i18n'
 import { motion, AnimatePresence } from 'framer-motion'
+
+const VALID_SECTIONS = ['sobre-mi', 'habilidades', 'proyectos', 'estudios', 'experiencia', 'contacto']
 
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
@@ -26,23 +27,42 @@ function App() {
     document.body.className = darkMode ? 'dark-mode' : ''
   }, [darkMode])
 
+  // Sync state with URL hash on mount and hashchange
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '')
+      if (hash && VALID_SECTIONS.includes(hash)) {
+        setActiveSection(hash)
+      }
+    }
+    window.addEventListener('hashchange', handleHashChange)
+    handleHashChange() // initial check
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
   useEffect(() => {
     document.body.style.overflow = sidebarOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [sidebarOpen])
+
+  const handleSectionChange = (id) => {
+    setActiveSection(id)
+    setSidebarOpen(false)
+    window.history.pushState(null, '', `#${id}`)
+  }
 
   const sections = {
     'sobre-mi':    <About t={t} />,
     'habilidades': <Skills t={t} />,
     'proyectos':   <Projects t={t} />,
     'estudios':    <Education t={t} />,
-    'experiencia': <Exp t={t} />,
+    'experiencia': <Experience t={t} />,
     'contacto':    <Contact t={t} />,
   }
 
   return (
     <div className="app-layout">
-      <Sidebar
+      <Navbar
         t={t}
         darkMode={darkMode}
         onThemeToggle={() => setDarkMode(d => !d)}
@@ -52,10 +72,7 @@ function App() {
         onClose={() => setSidebarOpen(false)}
         onOpen={() => setSidebarOpen(true)}
         activeSection={activeSection}
-        onSectionChange={(id) => {
-          setActiveSection(id)
-          setSidebarOpen(false)
-        }}
+        onSectionChange={handleSectionChange}
       />
 
       <main className="main-content">

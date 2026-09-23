@@ -1,12 +1,56 @@
-# React + Vite
+# Daniel Aguayo — Portafolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portafolio personal como Desarrollador Full Stack. Incluye secciones de presentación, habilidades, proyectos, estudios, experiencia laboral y formulario de contacto.
 
-Currently, two official plugins are available:
+🔗 **[Ver en vivo](https://dantrotel.github.io/Portafolio/)**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Stack
 
-## Expanding the ESLint configuration
+- **React 19** + **Vite**
+- **Framer Motion** — animaciones y transiciones
+- **React Icons** — iconografía
+- Soporte bilingüe (ES / EN)
+- Tema claro / oscuro
+- Deploy automático a GitHub Pages
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Desarrollo local
+
+```bash
+# Instalar dependencias
+npm install
+
+# Servidor de desarrollo
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
+```
+
+## Deploy
+
+El deploy a GitHub Pages se ejecuta automáticamente al hacer push a `main` via GitHub Actions.
+
+Para deploy manual:
+
+```bash
+npm run deploy
+```
+
+## Estructura del proyecto
+
+```
+src/
+├── components/     # Componentes de React (.jsx + .css)
+├── data/           # Datos estáticos (proyectos, skills, educación, experiencia)
+├── i18n.js         # Traducciones ES/EN
+├── index.css       # Estilos globales y design tokens
+├── App.jsx         # Componente raíz con routing por hash
+└── main.jsx        # Entry point
+```
+
+## Licencia
+
+MIT
