@@ -66,6 +66,8 @@ export const STRINGS = {
       viewDemo: 'Ver demo',
       filterLabel: 'Filtrar proyectos por categoría',
       screenshotOf: 'Captura de',
+      problem: 'El problema',
+      decisions: 'Decisiones técnicas',
     },
     exp: {
       title: 'Experiencia',
@@ -163,6 +165,8 @@ export const STRINGS = {
       viewDemo: 'View demo',
       filterLabel: 'Filter projects by category',
       screenshotOf: 'Screenshot of',
+      problem: 'The problem',
+      decisions: 'Technical decisions',
     },
     exp: {
       title: 'Experience',

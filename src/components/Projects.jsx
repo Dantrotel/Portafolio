@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m, AnimatePresence } from 'framer-motion'
 import { FiGithub, FiExternalLink } from 'react-icons/fi'
 import { projectsData } from '../data/projectsData'
 import SectionHeader from './SectionHeader'
@@ -57,7 +57,7 @@ export default function Projects({ t, lang }) {
                 onClick={() => setFilter(id)}
               >
                 {filter === id && (
-                  <motion.span
+                  <m.span
                     layoutId="projects-filter-pill"
                     className="projects-filter-pill"
                     transition={{ type: 'spring', stiffness: 400, damping: 34 }}
@@ -69,10 +69,10 @@ export default function Projects({ t, lang }) {
           </div>
         </Reveal>
 
-        <motion.div className="projects-grid" layout>
+        <m.div className="projects-grid" layout>
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
-              <motion.article
+              <m.article
                 key={project.title}
                 layout
                 className={`project-card ${project.featured ? 'project-card--featured' : ''}`}
@@ -89,7 +89,22 @@ export default function Projects({ t, lang }) {
                     <span className="project-featured">{t.projects.featured}</span>
                   )}
                   <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
+
+                  <p className="project-problem">
+                    <span className="project-label">{t.projects.problem}</span>
+                    {isEn ? project.problemEn : project.problem}
+                  </p>
+
                   <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
+
+                  <div className="project-decisions">
+                    <span className="project-label">{t.projects.decisions}</span>
+                    <ul>
+                      {(isEn ? project.decisionsEn : project.decisions).map((decision) => (
+                        <li key={decision}>{decision}</li>
+                      ))}
+                    </ul>
+                  </div>
 
                   <ul className="project-tags">
                     {project.tags.map((tag) => (
@@ -120,10 +135,10 @@ export default function Projects({ t, lang }) {
                     </a>
                   </div>
                 </div>
-              </motion.article>
+              </m.article>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )
