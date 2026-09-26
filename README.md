@@ -1,16 +1,17 @@
-# Daniel Aguayo — Portafolio
+# dantrottel — Portafolio de Daniel Aguayo
 
-Portafolio personal como Desarrollador Full Stack. Incluye secciones de presentación, habilidades, proyectos, estudios, experiencia laboral y formulario de contacto.
+Portafolio personal como Desarrollador Full Stack. Página única con secciones de presentación, habilidades, proyectos, experiencia, estudios y contacto.
 
-🔗 **[Ver en vivo](https://dantrotel.github.io/Portafolio/)**
+**[Ver en vivo](https://dantrotel.github.io/Portafolio/)**
 
 ## Stack
 
 - **React 19** + **Vite**
 - **Framer Motion** — animaciones y transiciones
 - **React Icons** — iconografía
-- Soporte bilingüe (ES / EN)
-- Tema claro / oscuro
+- Soporte bilingüe (ES / EN) con detección del idioma del navegador
+- Tema claro / oscuro con paleta azul marino, persistido y sin flash al cargar
+- Respeta `prefers-reduced-motion`
 - Deploy automático a GitHub Pages
 
 ## Desarrollo local
@@ -43,11 +44,12 @@ npm run deploy
 
 ```
 src/
-├── components/     # Componentes de React (.jsx + .css)
+├── components/     # Secciones y piezas de UI (.jsx + .css por componente)
+├── hooks/          # useActiveSection: sección visible para el navbar
 ├── data/           # Datos estáticos (proyectos, skills, educación, experiencia)
 ├── i18n.js         # Traducciones ES/EN
-├── index.css       # Estilos globales y design tokens
-├── App.jsx         # Componente raíz con routing por hash
+├── index.css       # Design tokens, estilos base y utilidades compartidas
+├── App.jsx         # Página única con scroll, tema e idioma
 └── main.jsx        # Entry point
 ```
 

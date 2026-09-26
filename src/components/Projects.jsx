@@ -1,111 +1,130 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa'
+import { FiGithub, FiExternalLink } from 'react-icons/fi'
 import { projectsData } from '../data/projectsData'
+import SectionHeader from './SectionHeader'
+import Reveal from './Reveal'
 import './Projects.css'
 
-export default function Projects({ t }) {
+function ProjectMedia({ project, alt }) {
+  if (project.image) {
+    return (
+      <div className="project-media">
+        <img
+          src={`${import.meta.env.BASE_URL}${project.image}`}
+          alt={alt}
+          loading="lazy"
+        />
+      </div>
+    )
+  }
+
+  const Icon = project.icon
+  return (
+    <div className="project-media project-media--placeholder" aria-hidden="true">
+      {Icon && <Icon className="project-media-icon" />}
+    </div>
+  )
+}
+
+export default function Projects({ t, lang }) {
+  const isEn = lang === 'en'
   const [filter, setFilter] = useState('all')
   const categories = [
-    { id: 'all',       label: t?.projects?.filterAll || 'Todos' },
-    { id: 'fullstack', label: t?.projects?.filterFullstack || 'Full Stack' },
-    { id: 'ai',        label: t?.projects?.filterAI || 'IA / ML' },
-    { id: 'academic',  label: t?.projects?.filterAcademic || 'Académico' },
+    { id: 'all',       label: t.projects.filterAll },
+    { id: 'fullstack', label: t.projects.filterFullstack },
+    { id: 'ai',        label: t.projects.filterAI },
+    { id: 'academic',  label: t.projects.filterAcademic },
   ]
 
   const filteredProjects = filter === 'all'
     ? projectsData
-    : projectsData.filter(p => p.category === filter)
+    : projectsData.filter((p) => p.category === filter)
 
   return (
-    <section className="projects section" id="proyectos">
-      <h2>{t?.projects?.title || 'Proyectos'}</h2>
+    <section className="section" id="proyectos">
+      <div className="container">
+        <SectionHeader index="03" title={t.projects.title} subtitle={t.projects.subtitle} />
 
-      <div className="projects-filter">
-        {categories.map(({ id, label }) => (
-          <button
-            key={id}
-            className={`filter-btn ${filter === id ? 'active' : ''}`}
-            onClick={() => setFilter(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
-
-      <motion.div 
-        className="projects-grid"
-        layout
-      >
-        <AnimatePresence mode="popLayout">
-          {filteredProjects.map((proj) => (
-            <motion.article 
-              key={proj.title} 
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="project-card"
-              whileHover={{ 
-                y: -5, 
-                boxShadow: "0 15px 30px rgba(0,0,0,0.12)",
-                transition: { duration: 0.2, ease: "easeOut" }
-              }}
-            >
-            {proj.image ? (
-              <div className="project-image-container">
-                <img 
-                  src={`${import.meta.env.BASE_URL}${proj.image.replace(/^\//, '')}`} 
-                  alt={`Captura de ${proj.title}`} 
-                  className="project-image" 
-                />
-              </div>
-            ) : proj.icon ? (
-              <div className="project-image-container fallback-icon" style={{ background: proj.gradient }}>
-                <proj.icon size={72} color="rgba(255, 255, 255, 0.9)" className="project-icon-anim" />
-              </div>
-            ) : null}
-
-            <div className="project-content">
-              <h3>{proj.title}</h3>
-              <p>{proj.description}</p>
-
-              <div className="project-tags">
-                {proj.tags.map((tag) => (
-                  <span key={tag} className="project-tag">{tag}</span>
-                ))}
-              </div>
-
-              <div className="project-links">
-                {proj.live && (
-                  <a
-                    className="btn primary"
-                    href={proj.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Ver demo de ${proj.title}`}
-                  >
-                    <FaExternalLinkAlt size={12} />
-                    {t?.projects?.viewDemo || 'Ver demo'}
-                  </a>
+        <Reveal className="projects-filter" delay={0.1}>
+          <div role="group" aria-label={t.projects.filterLabel} className="projects-filter-group">
+            {categories.map(({ id, label }) => (
+              <button
+                key={id}
+                type="button"
+                className={`projects-filter-btn ${filter === id ? 'is-active' : ''}`}
+                aria-pressed={filter === id}
+                onClick={() => setFilter(id)}
+              >
+                {filter === id && (
+                  <motion.span
+                    layoutId="projects-filter-pill"
+                    className="projects-filter-pill"
+                    transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                  />
                 )}
-                <a
-                  className="btn ghost"
-                  href={proj.code}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Ver código de ${proj.title}`}
-                >
-                  <FaGithub size={14} />
-                  {t?.projects?.viewCode || 'Ver código'}
-                </a>
-              </div>
-            </div>
-          </motion.article>
-          ))}
-        </AnimatePresence>
-      </motion.div>
+                <span className="projects-filter-label">{label}</span>
+              </button>
+            ))}
+          </div>
+        </Reveal>
+
+        <motion.div className="projects-grid" layout>
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => (
+              <motion.article
+                key={project.title}
+                layout
+                className={`project-card ${project.featured ? 'project-card--featured' : ''}`}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <ProjectMedia project={project} alt={`${t.projects.screenshotOf} ${project.title}`} />
+
+                <div className="project-body">
+                  {project.featured && (
+                    <span className="project-featured">{t.projects.featured}</span>
+                  )}
+                  <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
+                  <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
+
+                  <ul className="project-tags">
+                    {project.tags.map((tag) => (
+                      <li key={tag} className="tag">{tag}</li>
+                    ))}
+                  </ul>
+
+                  <div className="project-links">
+                    {project.live && (
+                      <a
+                        className="btn btn-primary btn-sm"
+                        href={project.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FiExternalLink size={14} aria-hidden="true" />
+                        {t.projects.viewDemo}
+                      </a>
+                    )}
+                    <a
+                      className="btn btn-secondary btn-sm"
+                      href={project.code}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <FiGithub size={14} aria-hidden="true" />
+                      {t.projects.viewCode}
+                    </a>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
     </section>
   )
 }

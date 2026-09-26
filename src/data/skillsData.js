@@ -19,56 +19,63 @@ import {
   SiExpress,
   SiMysql,
   SiFastapi,
+  SiSocketdotio,
+  SiMongodb,
+  SiTailwindcss,
 } from 'react-icons/si'
-import { FaDatabase, FaAws } from 'react-icons/fa'
+import { FaDatabase, FaAws, FaJava } from 'react-icons/fa'
 
-export const getSkillCategories = (t) => [
+export const skillCategories = [
   {
-    title: t?.skills?.frontend || 'Frontend',
+    key: 'backend',
     skills: [
-      { name: 'React', Icon: SiReact, color: '#61DAFB' },
-      { name: 'Angular', Icon: SiAngular, color: '#DD0031' },
-      { name: 'HTML5', Icon: SiHtml5, color: '#E34F26' },
-      { name: 'Sass / SCSS', Icon: SiSass, color: '#CC6699' },
-      { name: 'Vite', Icon: SiVite, color: '#646CFF' },
+      { name: 'Node.js', Icon: SiNodedotjs },
+      { name: 'Express', Icon: SiExpress },
+      { name: 'FastAPI', Icon: SiFastapi },
+      { name: 'Socket.io', Icon: SiSocketdotio },
+      { name: 'Google Cloud', Icon: SiGooglecloud },
+      { name: 'AWS EC2', Icon: FaAws },
     ]
   },
   {
-    title: t?.skills?.backend || 'Backend & Nube',
+    key: 'languages',
     skills: [
-      { name: 'Node.js', Icon: SiNodedotjs, color: '#339933' },
-      { name: 'Express', Icon: SiExpress, color: null },
-      { name: 'FastAPI', Icon: SiFastapi, color: '#009688' },
-      { name: 'Google Cloud', Icon: SiGooglecloud, color: '#FFCA28' },
-      { name: 'AWS EC2', Icon: FaAws, color: '#FF9900' },
+      { name: 'JavaScript', Icon: SiJavascript },
+      { name: 'TypeScript', Icon: SiTypescript },
+      { name: 'Python', Icon: SiPython },
+      { name: 'Java', Icon: FaJava },
+      { name: 'C++', Icon: SiCplusplus },
+      { name: 'SQL', Icon: FaDatabase },
+      { name: 'MySQL', Icon: SiMysql },
+      { name: 'PostgreSQL', Icon: SiPostgresql },
+      { name: 'MongoDB', Icon: SiMongodb },
+      { name: 'Firebase', Icon: SiFirebase },
     ]
   },
   {
-    title: t?.skills?.languages || 'Lenguajes & BD',
+    key: 'frontend',
     skills: [
-      { name: 'JavaScript', Icon: SiJavascript, color: '#F7DF1E' },
-      { name: 'TypeScript', Icon: SiTypescript, color: '#3178C6' },
-      { name: 'Python', Icon: SiPython, color: '#3776AB' },
-      { name: 'C++', Icon: SiCplusplus, color: '#00599C' },
-      { name: 'SQL', Icon: FaDatabase, color: '#4479A1' },
-      { name: 'MySQL', Icon: SiMysql, color: '#4479A1' },
-      { name: 'PostgreSQL', Icon: SiPostgresql, color: '#4479A1' },
-      { name: 'Firebase', Icon: SiFirebase, color: '#FFCA28' },
+      { name: 'React', Icon: SiReact },
+      { name: 'Angular', Icon: SiAngular },
+      { name: 'HTML5', Icon: SiHtml5 },
+      { name: 'Tailwind CSS', Icon: SiTailwindcss },
+      { name: 'Sass / SCSS', Icon: SiSass },
+      { name: 'Vite', Icon: SiVite },
     ]
   },
   {
-    title: t?.skills?.mobile || 'Móvil',
+    key: 'mobile',
     skills: [
-      { name: 'React Native', Icon: SiReact, color: '#61DAFB' },
-      { name: 'Expo', Icon: SiExpo, color: null },
+      { name: 'React Native', Icon: SiReact },
+      { name: 'Expo', Icon: SiExpo },
     ]
   },
   {
-    title: t?.skills?.tools || 'Herramientas',
+    key: 'tools',
     skills: [
-      { name: 'Git', Icon: SiGit, color: '#F05032' },
-      { name: 'GitHub', Icon: SiGithub, color: null },
-      { name: 'Docker', Icon: SiDocker, color: '#2496ED' },
+      { name: 'Git', Icon: SiGit },
+      { name: 'GitHub', Icon: SiGithub },
+      { name: 'Docker', Icon: SiDocker },
     ]
-  }
-];
+  },
+]

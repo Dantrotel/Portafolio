@@ -1,51 +1,29 @@
-import { getSkillCategories } from '../data/skillsData'
-import { motion } from 'framer-motion'
+import { skillCategories } from '../data/skillsData'
+import SectionHeader from './SectionHeader'
+import Reveal from './Reveal'
 import './Skills.css'
 
 export default function Skills({ t }) {
-  const skillCategories = getSkillCategories(t);
-
   return (
-    <section className="section skills-section" id="habilidades">
-      <h2>{t?.skills?.title || 'Habilidades'}</h2>
-      <p className="skills-subtitle">
-        {t?.skills?.subtitle || 'Tecnologías y herramientas con las que trabajo'}
-      </p>
+    <section className="section" id="habilidades">
+      <div className="container">
+        <SectionHeader index="02" title={t.skills.title} subtitle={t.skills.subtitle} />
 
-      <div className="skills-container">
-        {skillCategories.map((category) => (
-          <motion.div 
-            key={category.title} 
-            className="skill-category"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: "linear" }}
-          >
-            <h3 className="category-title">{category.title}</h3>
-            <div className="tech-grid">
-              {category.skills.map(({ name, Icon, color }) => (
-                <motion.div 
-                  key={name} 
-                  className="tech-item"
-                  whileHover={{ 
-                    y: -4,
-                    backgroundColor: "var(--bg-elevated)",
-                    transition: { duration: 0.2, ease: "easeOut" }
-                  }}
-                  whileTap={{ scale: 0.96 }}
-                >
-                  <Icon
-                    className="tech-icon"
-                    style={color ? { color } : undefined}
-                    aria-hidden="true"
-                  />
-                  <span className="tech-name">{name}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        ))}
+        <div className="skills-grid">
+          {skillCategories.map((category, i) => (
+            <Reveal key={category.key} className={`skills-card skills-card--${category.key}`} delay={0.07 * i}>
+              <h3 className="skills-card-title">{t.skills[category.key]}</h3>
+              <ul className="skills-list">
+                {category.skills.map(({ name, Icon }) => (
+                  <li key={name} className="skills-item">
+                    <Icon className="skills-icon" aria-hidden="true" />
+                    <span>{name}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -1,95 +1,74 @@
 import { useState, useEffect } from 'react'
+import { MotionConfig, motion, useScroll, useSpring } from 'framer-motion'
 import Navbar from './components/Navbar'
+import Hero from './components/Hero'
 import About from './components/About'
-import Projects from './components/Projects'
-import Contact from './components/Contact'
-import Experience from './components/Experience'
 import Skills from './components/Skills'
+import Projects from './components/Projects'
+import Experience from './components/Experience'
 import Education from './components/Education'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 import { STRINGS } from './i18n'
-import { motion, AnimatePresence } from 'framer-motion'
 
-const VALID_SECTIONS = ['sobre-mi', 'habilidades', 'proyectos', 'estudios', 'experiencia', 'contacto']
+function readStorage(key) {
+  try { return localStorage.getItem(key) } catch { return null }
+}
+
+function writeStorage(key, value) {
+  try { localStorage.setItem(key, value) } catch { /* almacenamiento no disponible */ }
+}
+
+function initialLang() {
+  const saved = readStorage('lang')
+  if (saved === 'es' || saved === 'en') return saved
+  return navigator.language?.toLowerCase().startsWith('es') ? 'es' : 'en'
+}
 
 function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches
-    }
-    return false
-  })
-  const [lang, setLang] = useState('es')
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('sobre-mi')
+  // El script inline de index.html ya resolvió el tema antes del primer render
+  const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || 'light')
+  const [lang, setLang] = useState(initialLang)
   const t = STRINGS[lang]
 
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark-mode' : ''
-  }, [darkMode])
-
-  // Sync state with URL hash on mount and hashchange
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#', '')
-      if (hash && VALID_SECTIONS.includes(hash)) {
-        setActiveSection(hash)
-      }
-    }
-    window.addEventListener('hashchange', handleHashChange)
-    handleHashChange() // initial check
-    return () => window.removeEventListener('hashchange', handleHashChange)
-  }, [])
+  const { scrollYProgress } = useScroll()
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
 
   useEffect(() => {
-    document.body.style.overflow = sidebarOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
-  }, [sidebarOpen])
+    document.documentElement.dataset.theme = theme
+    writeStorage('theme', theme)
+  }, [theme])
 
-  const handleSectionChange = (id) => {
-    setActiveSection(id)
-    setSidebarOpen(false)
-    window.history.pushState(null, '', `#${id}`)
-  }
-
-  const sections = {
-    'sobre-mi':    <About t={t} />,
-    'habilidades': <Skills t={t} />,
-    'proyectos':   <Projects t={t} />,
-    'estudios':    <Education t={t} />,
-    'experiencia': <Experience t={t} />,
-    'contacto':    <Contact t={t} />,
-  }
+  useEffect(() => {
+    document.documentElement.lang = lang
+    writeStorage('lang', lang)
+  }, [lang])
 
   return (
-    <div className="app-layout">
+    <MotionConfig reducedMotion="user">
+      <a href="#main" className="skip-link">{t.nav.skip}</a>
+      <motion.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
+
       <Navbar
         t={t}
-        darkMode={darkMode}
-        onThemeToggle={() => setDarkMode(d => !d)}
+        theme={theme}
+        onThemeToggle={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
         lang={lang}
         onLangChange={setLang}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        onOpen={() => setSidebarOpen(true)}
-        activeSection={activeSection}
-        onSectionChange={handleSectionChange}
       />
 
-      <main className="main-content">
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            key={activeSection}
-            className="section-panel motion-gpu"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {sections[activeSection]}
-          </motion.div>
-        </AnimatePresence>
+      <main id="main">
+        <Hero t={t} />
+        <About t={t} />
+        <Skills t={t} />
+        <Projects t={t} lang={lang} />
+        <Experience t={t} lang={lang} />
+        <Education t={t} lang={lang} />
+        <Contact t={t} />
       </main>
-    </div>
+
+      <Footer t={t} />
+    </MotionConfig>
   )
 }
 

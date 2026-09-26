@@ -1,44 +1,37 @@
-import { FaBriefcase, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa'
-import './Experience.css'
-
+import { FiMapPin } from 'react-icons/fi'
 import { experienceData } from '../data/experienceData'
+import SectionHeader from './SectionHeader'
+import Reveal from './Reveal'
 
-export default function Experience({ t }) {
-  const experiences = experienceData
+export default function Experience({ t, lang }) {
+  const isEn = lang === 'en'
 
   return (
-    <div className="experience-container section" id="experiencia">
-      <h2 className="experience-title">
-        <FaBriefcase className="title-icon" /> {t?.exp?.title || 'Experiencia Laboral'}
-      </h2>
+    <section className="section" id="experiencia">
+      <div className="container">
+        <SectionHeader index="04" title={t.exp.title} />
 
-      <div className="experience-timeline">
-        {experiences.map(exp => (
-          <div key={exp.id} className="experience-card">
-            <div className="experience-header">
-              <h3 className="position">{exp.position}</h3>
-              <h4 className="company">{exp.company}</h4>
-            </div>
-            
-            <div className="experience-details">
-              <p className="location">
-                <FaMapMarkerAlt className="detail-icon" /> {exp.location}
-              </p>
-              <p className="period">
-                <FaCalendarAlt className="detail-icon" /> {exp.period}
-              </p>
-            </div>
-            
-            <p className="description">{exp.description}</p>
-            
-            <div className="technologies">
-              {exp.technologies.map((tech, index) => (
-                <span key={index} className="tech-tag">{tech}</span>
-              ))}
-            </div>
-          </div>
-        ))}
+        <ol className="timeline">
+          {experienceData.map((exp, i) => (
+            <Reveal as="li" key={exp.id} className="timeline-item" delay={0.1 * i}>
+              <article className="timeline-card">
+                <span className="timeline-period">{isEn ? exp.periodEn : exp.period}</span>
+                <h3 className="timeline-title">{isEn ? exp.positionEn : exp.position}</h3>
+                <p className="timeline-org">{exp.company}</p>
+                <div className="timeline-meta">
+                  <span><FiMapPin size={13} aria-hidden="true" /> {isEn ? exp.locationEn : exp.location}</span>
+                </div>
+                <p className="timeline-desc">{isEn ? exp.descriptionEn : exp.description}</p>
+                <ul className="timeline-tags">
+                  {((isEn && exp.technologiesEn) || exp.technologies).map((tech) => (
+                    <li key={tech} className="tag">{tech}</li>
+                  ))}
+                </ul>
+              </article>
+            </Reveal>
+          ))}
+        </ol>
       </div>
-    </div>
+    </section>
   )
 }

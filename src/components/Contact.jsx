@@ -1,122 +1,150 @@
 import { useState } from 'react'
-import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
+import { AnimatePresence, motion } from 'framer-motion'
+import { FiArrowUpRight, FiGithub, FiLinkedin, FiSend } from 'react-icons/fi'
+import SectionHeader from './SectionHeader'
+import Reveal from './Reveal'
 import './Contact.css'
 
+const EMAIL = 'dantrottel@gmail.com'
+
+const socials = [
+  { href: 'https://www.linkedin.com/in/dantrottel/', label: 'LinkedIn', Icon: FiLinkedin },
+  { href: 'https://github.com/Dantrotel', label: 'GitHub', Icon: FiGithub },
+]
+
+const emptyForm = { name: '', email: '', message: '' }
+
 export default function Contact({ t }) {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [sending, setSending] = useState(false)
-  const [sent, setSent] = useState(false)
+  const [form, setForm] = useState(emptyForm)
+  // idle | sending | sent | errorServer | errorNetwork
+  const [status, setStatus] = useState('idle')
+
+  const update = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (sending) return
-    setSending(true)
+    if (status === 'sending') return
 
     const endpoint = import.meta.env.VITE_CONTACT_FORM_URL
-    
+
     if (!endpoint) {
-      window.location.href = `mailto:dantrottel@gmail.com?subject=Contacto desde Portafolio&body=Nombre: ${form.name}%0DEmail: ${form.email}%0DMensaje:%0D${form.message}`
-      setSending(false)
+      const body = `Nombre: ${form.name}\nEmail: ${form.email}\n\n${form.message}`
+      window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent('Contacto desde Portafolio')}&body=${encodeURIComponent(body)}`
       return
     }
 
+    setStatus('sending')
     try {
       const response = await fetch(endpoint, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          Nombre: form.name,
-          Email: form.email,
-          Mensaje: form.message,
-        }),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ Nombre: form.name, Email: form.email, Mensaje: form.message }),
       })
 
       if (response.ok) {
-        setForm({ name: '', email: '', message: '' })
-        setSent(true)
-        setTimeout(() => setSent(false), 4000)
+        setForm(emptyForm)
+        setStatus('sent')
+        setTimeout(() => setStatus('idle'), 5000)
       } else {
-        alert('Hubo un problema al enviar el mensaje por parte del servidor. Intenta de nuevo.')
+        setStatus('errorServer')
       }
-    } catch (err) {
-      console.error(err)
-      alert('Hubo un error de conexión al intentar enviar el mensaje.')
-    } finally {
-      setSending(false)
+    } catch {
+      setStatus('errorNetwork')
     }
   }
 
+  const feedback = status === 'sent' || status.startsWith('error') ? status : null
+
   return (
-    <div className="contact-container section" id="contacto">
-      <h2 className="contact-title">{t?.contact?.title || 'Contacto'}</h2>
+    <section className="section" id="contacto">
+      <div className="container">
+        <SectionHeader index="06" title={t.contact.title} />
 
-      <p className="social-title">{t?.contact?.social || 'Redes sociales'}</p>
-      <div className="social-icons">
-        <a href="https://www.linkedin.com/in/dantrottel/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-          <FaLinkedin />
-        </a>
-        <a href="https://github.com/Dantrotel" aria-label="GitHub" target="_blank" rel="noopener noreferrer">
-          <FaGithub />
-        </a>
-        <a
-          href="mailto:dantrottel@gmail.com"
-          aria-label="Correo electrónico"
-        >
-          <FaEnvelope />
-        </a>
-      </div>
+        <div className="contact-grid">
+          <Reveal className="contact-info">
+            <h3 className="contact-heading">{t.contact.heading}</h3>
+            <p className="contact-intro">{t.contact.intro}</p>
 
-      <h3 className="social-title" style={{ marginTop: 24 }}>
-        {t?.contact?.formTitle || 'Envíame un mensaje'}
-      </h3>
+            <p className="contact-label">{t.contact.emailLabel}</p>
+            <a href={`mailto:${EMAIL}`} className="contact-email">
+              {EMAIL}
+              <FiArrowUpRight aria-hidden="true" />
+            </a>
 
-      {sent && (
-        <div className="success-message" role="alert">
-          {t?.contact?.thankYou || '¡Mensaje enviado! Te responderé pronto.'}
+            <p className="contact-label">{t.contact.social}</p>
+            <ul className="contact-socials">
+              {socials.map(({ href, label, Icon }) => (
+                <li key={label}>
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="contact-social">
+                    <Icon size={16} aria-hidden="true" />
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal className="contact-form-wrap" delay={0.15}>
+            <form onSubmit={handleSubmit} className="contact-form">
+              <label className="form-field">
+                <span>{t.contact.name}</span>
+                <input
+                  required
+                  type="text"
+                  name="name"
+                  autoComplete="name"
+                  placeholder={t.contact.namePlaceholder}
+                  value={form.name}
+                  onChange={update('name')}
+                />
+              </label>
+              <label className="form-field">
+                <span>{t.contact.email}</span>
+                <input
+                  required
+                  type="email"
+                  name="email"
+                  autoComplete="email"
+                  placeholder={t.contact.emailPlaceholder}
+                  value={form.email}
+                  onChange={update('email')}
+                />
+              </label>
+              <label className="form-field">
+                <span>{t.contact.message}</span>
+                <textarea
+                  required
+                  name="message"
+                  rows="5"
+                  placeholder={t.contact.messagePlaceholder}
+                  value={form.message}
+                  onChange={update('message')}
+                />
+              </label>
+
+              <button className="btn btn-primary contact-submit" type="submit" disabled={status === 'sending'}>
+                <FiSend size={15} aria-hidden="true" />
+                {status === 'sending' ? t.contact.sending : t.contact.send}
+              </button>
+
+              <AnimatePresence>
+                {feedback && (
+                  <motion.p
+                    key={feedback}
+                    role={feedback === 'sent' ? 'status' : 'alert'}
+                    className={`form-feedback ${feedback === 'sent' ? 'is-success' : 'is-error'}`}
+                    initial={{ opacity: 0, y: -6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    {feedback === 'sent' ? t.contact.thankYou : t.contact[feedback]}
+                  </motion.p>
+                )}
+              </AnimatePresence>
+            </form>
+          </Reveal>
         </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="contact-form">
-        <label className="form-field">
-          <span>{t?.contact?.name || 'Nombre'}</span>
-          <input
-            required
-            type="text"
-            name="name"
-            placeholder="Tu nombre completo"
-            value={form.name}
-            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-          />
-        </label>
-        <label className="form-field">
-          <span>{t?.contact?.email || 'Correo electrónico'}</span>
-          <input
-            required
-            type="email"
-            name="email"
-            placeholder="tu@email.com"
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          />
-        </label>
-        <label className="form-field">
-          <span>{t?.contact?.message || 'Mensaje'}</span>
-          <textarea
-            required
-            name="message"
-            rows="5"
-            placeholder="Cuéntame sobre tu proyecto o consulta..."
-            value={form.message}
-            onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-          />
-        </label>
-        <button className="btn primary" type="submit" disabled={sending} style={{ width: '100%' }}>
-          {sending ? (t?.contact?.sending || 'Enviando...') : (t?.contact?.send || 'Enviar mensaje')}
-        </button>
-      </form>
-    </div>
+      </div>
+    </section>
   )
 }

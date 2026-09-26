@@ -1,0 +1,75 @@
+.whoami-card {
+  width: min(100%, 460px);
+  margin: 0;
+  border-radius: var(--radius);
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+}
+
+.whoami-card:hover {
+  transform: translateY(-4px);
+}
+
+.whoami-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
+.whoami-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+
+.whoami-dot:first-child { background: var(--accent); opacity: 0.85; }
+
+.whoami-title {
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 2.2rem; /* compensa los dots para centrar el título */
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-subtle);
+}
+
+.whoami-body {
+  margin: 0;
+  padding: 1.35rem 1.4rem 1.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.json-prompt { color: var(--accent); font-weight: 500; }
+.json-key    { color: var(--accent); }
+.json-string { color: var(--text); }
+.json-punct  { color: var(--text-subtle); }
+
+.whoami-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: var(--accent);
+  animation: whoamiBlink 1s steps(1) infinite;
+}
+
+@keyframes whoamiBlink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .whoami-body { font-size: 0.74rem; padding: 1.1rem; }
+}
