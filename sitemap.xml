@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://dantrotel.github.io/Portafolio/</loc></url>
-  <url><loc>https://dantrotel.github.io/Portafolio/#sobre-mi</loc></url>
-  <url><loc>https://dantrotel.github.io/Portafolio/#proyectos</loc></url>
-  <url><loc>https://dantrotel.github.io/Portafolio/#experiencia</loc></url>
-  <url><loc>https://dantrotel.github.io/Portafolio/#contacto</loc></url>
+  <url>
+    <loc>https://dantrotel.github.io/Portafolio/</loc>
+    <lastmod>2026-09-26</lastmod>
+  </url>
 </urlset>
-
-
