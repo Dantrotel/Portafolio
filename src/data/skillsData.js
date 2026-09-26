@@ -13,10 +13,12 @@ import {
   SiGit,
   SiGithub,
   SiDocker,
-  SiFigma,
   SiGooglecloud,
   SiPostgresql,
   SiSass,
+  SiExpress,
+  SiMysql,
+  SiFastapi,
 } from 'react-icons/si'
 import { FaDatabase, FaAws } from 'react-icons/fa'
 
@@ -35,6 +37,8 @@ export const getSkillCategories = (t) => [
     title: t?.skills?.backend || 'Backend & Nube',
     skills: [
       { name: 'Node.js', Icon: SiNodedotjs, color: '#339933' },
+      { name: 'Express', Icon: SiExpress, color: null },
+      { name: 'FastAPI', Icon: SiFastapi, color: '#009688' },
       { name: 'Google Cloud', Icon: SiGooglecloud, color: '#FFCA28' },
       { name: 'AWS EC2', Icon: FaAws, color: '#FF9900' },
     ]
@@ -47,6 +51,7 @@ export const getSkillCategories = (t) => [
       { name: 'Python', Icon: SiPython, color: '#3776AB' },
       { name: 'C++', Icon: SiCplusplus, color: '#00599C' },
       { name: 'SQL', Icon: FaDatabase, color: '#4479A1' },
+      { name: 'MySQL', Icon: SiMysql, color: '#4479A1' },
       { name: 'PostgreSQL', Icon: SiPostgresql, color: '#4479A1' },
       { name: 'Firebase', Icon: SiFirebase, color: '#FFCA28' },
     ]
@@ -64,7 +69,6 @@ export const getSkillCategories = (t) => [
       { name: 'Git', Icon: SiGit, color: '#F05032' },
       { name: 'GitHub', Icon: SiGithub, color: null },
       { name: 'Docker', Icon: SiDocker, color: '#2496ED' },
-      { name: 'Figma', Icon: SiFigma, color: '#F24E1E' },
     ]
   }
 ];
