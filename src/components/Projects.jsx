@@ -5,11 +5,16 @@ import { projectsData } from '../data/projectsData'
 import './Projects.css'
 
 export default function Projects({ t }) {
-  const [filter, setFilter] = useState('Todos')
-  const categories = ['Todos', 'Frontend', 'Móvil', 'Backend', 'IA / ML']
-  
-  const filteredProjects = filter === 'Todos' 
-    ? projectsData 
+  const [filter, setFilter] = useState('all')
+  const categories = [
+    { id: 'all',       label: t?.projects?.filterAll || 'Todos' },
+    { id: 'fullstack', label: t?.projects?.filterFullstack || 'Full Stack' },
+    { id: 'ai',        label: t?.projects?.filterAI || 'IA / ML' },
+    { id: 'academic',  label: t?.projects?.filterAcademic || 'Académico' },
+  ]
+
+  const filteredProjects = filter === 'all'
+    ? projectsData
     : projectsData.filter(p => p.category === filter)
 
   return (
@@ -17,13 +22,13 @@ export default function Projects({ t }) {
       <h2>{t?.projects?.title || 'Proyectos'}</h2>
 
       <div className="projects-filter">
-        {categories.map(cat => (
-          <button 
-            key={cat} 
-            className={`filter-btn ${filter === cat ? 'active' : ''}`}
-            onClick={() => setFilter(cat)}
+        {categories.map(({ id, label }) => (
+          <button
+            key={id}
+            className={`filter-btn ${filter === id ? 'active' : ''}`}
+            onClick={() => setFilter(id)}
           >
-            {cat}
+            {label}
           </button>
         ))}
       </div>
