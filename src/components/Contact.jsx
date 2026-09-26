@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FaPhone, FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
+import { FaLinkedin, FaGithub, FaEnvelope } from 'react-icons/fa'
 import './Contact.css'
 
 export default function Contact({ t }) {
@@ -52,11 +52,6 @@ export default function Contact({ t }) {
   return (
     <div className="contact-container section" id="contacto">
       <h2 className="contact-title">{t?.contact?.title || 'Contacto'}</h2>
-
-      <div className="contact-item">
-        <FaPhone className="contact-icon" aria-hidden="true" />
-        <a href="tel:+56998829898" aria-label="Llamar por teléfono">+56 9 9882 9898</a>
-      </div>
 
       <p className="social-title">{t?.contact?.social || 'Redes sociales'}</p>
       <div className="social-icons">
