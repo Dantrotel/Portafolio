@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { FiArrowUpRight, FiGithub, FiLinkedin, FiSend } from 'react-icons/fi'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
@@ -129,7 +129,7 @@ export default function Contact({ t }) {
 
               <AnimatePresence>
                 {feedback && (
-                  <motion.p
+                  <m.p
                     key={feedback}
                     role={feedback === 'sent' ? 'status' : 'alert'}
                     className={`form-feedback ${feedback === 'sent' ? 'is-success' : 'is-error'}`}
@@ -138,7 +138,7 @@ export default function Contact({ t }) {
                     exit={{ opacity: 0 }}
                   >
                     {feedback === 'sent' ? t.contact.thankYou : t.contact[feedback]}
-                  </motion.p>
+                  </m.p>
                 )}
               </AnimatePresence>
             </form>

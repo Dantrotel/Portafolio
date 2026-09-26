@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import WhoamiCard from './WhoamiCard'
 import './Hero.css'
@@ -25,23 +25,23 @@ export default function Hero({ t }) {
       <div className="hero-backdrop" aria-hidden="true" />
 
       <div className="container hero-inner">
-        <motion.div className="hero-content" variants={container} initial="hidden" animate="visible">
-          <motion.span className="hero-status" variants={item}>
+        <m.div className="hero-content" variants={container} initial="hidden" animate="visible">
+          <m.span className="hero-status" variants={item}>
             <span className="hero-status-dot" aria-hidden="true" />
             {t.hero.available}
-          </motion.span>
+          </m.span>
 
-          <motion.p className="hero-greeting" variants={item}>{t.hero.greeting}</motion.p>
+          <m.p className="hero-greeting" variants={item}>{t.hero.greeting}</m.p>
 
-          <motion.h1 className="hero-name" variants={item}>
+          <m.h1 className="hero-name" variants={item}>
             Daniel Aguayo<span className="hero-name-dot">.</span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.p className="hero-role" variants={item}>{t.hero.role}</motion.p>
+          <m.p className="hero-role" variants={item}>{t.hero.role}</m.p>
 
-          <motion.p className="hero-tagline" variants={item}>{t.hero.tagline}</motion.p>
+          <m.p className="hero-tagline" variants={item}>{t.hero.tagline}</m.p>
 
-          <motion.div className="hero-actions" variants={item}>
+          <m.div className="hero-actions" variants={item}>
             <a href="#proyectos" className="btn btn-primary">
               {t.hero.ctaProjects}
               <FiArrowRight size={16} aria-hidden="true" />
@@ -54,9 +54,9 @@ export default function Hero({ t }) {
               <FiDownload size={15} aria-hidden="true" />
               {t.hero.ctaCv}
             </a>
-          </motion.div>
+          </m.div>
 
-          <motion.ul className="hero-socials" variants={item}>
+          <m.ul className="hero-socials" variants={item}>
             {socials.map(({ href, label, Icon, external }) => (
               <li key={label}>
                 <a
@@ -69,17 +69,17 @@ export default function Hero({ t }) {
                 </a>
               </li>
             ))}
-          </motion.ul>
-        </motion.div>
+          </m.ul>
+        </m.div>
 
-        <motion.div
+        <m.div
           className="hero-visual"
           initial={{ opacity: 0, y: 30, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
           <WhoamiCard t={t} />
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

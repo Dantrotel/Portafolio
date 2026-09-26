@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, m } from 'framer-motion'
 import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection'
 import './Navbar.css'
@@ -41,7 +41,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
   const themeLabel = theme === 'dark' ? t.nav.toLight : t.nav.toDark
 
   return (
-    <motion.header
+    <m.header
       className={`navbar ${scrolled ? 'is-scrolled' : ''}`}
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -62,7 +62,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             >
               {t.nav[labelKey]}
               {active === id && (
-                <motion.span
+                <m.span
                   layoutId="navbar-underline"
                   className="navbar-underline"
                   transition={{ type: 'spring', stiffness: 380, damping: 32 }}
@@ -95,7 +95,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             title={themeLabel}
           >
             <AnimatePresence mode="wait" initial={false}>
-              <motion.span
+              <m.span
                 key={theme}
                 initial={{ rotate: -90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
@@ -103,7 +103,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
                 transition={{ duration: 0.2 }}
               >
                 {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
-              </motion.span>
+              </m.span>
             </AnimatePresence>
           </button>
 
@@ -127,7 +127,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
 
       <AnimatePresence>
         {open && (
-          <motion.nav
+          <m.nav
             id="mobile-menu"
             className="mobile-menu"
             aria-label="Principal"
@@ -138,7 +138,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
           >
             <div className="container mobile-menu-inner">
               {navLinks.map(({ id, labelKey }, i) => (
-                <motion.a
+                <m.a
                   key={id}
                   href={`#${id}`}
                   className={`mobile-menu-link ${active === id ? 'is-active' : ''}`}
@@ -149,16 +149,16 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
                 >
                   <span className="mobile-menu-index">{String(i + 1).padStart(2, '0')}</span>
                   {t.nav[labelKey]}
-                </motion.a>
+                </m.a>
               ))}
               <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary mobile-menu-cv">
                 <FiDownload size={15} aria-hidden="true" />
                 {t.hero.ctaCv}
               </a>
             </div>
-          </motion.nav>
+          </m.nav>
         )}
       </AnimatePresence>
-    </motion.header>
+    </m.header>
   )
 }

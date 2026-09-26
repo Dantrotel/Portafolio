@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 // Aparición suave al entrar en el viewport (una sola vez)
 export default function Reveal({ children, delay = 0, y = 24, as = 'div', className }) {
-  const Component = motion[as]
+  const Component = m[as]
 
   return (
     <Component

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { MotionConfig, motion, useScroll, useSpring } from 'framer-motion'
+import { LazyMotion, MotionConfig, m, useScroll, useSpring } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -10,6 +10,8 @@ import Education from './components/Education'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import { STRINGS } from './i18n'
+
+const loadMotionFeatures = () => import('./motionFeatures').then((mod) => mod.default)
 
 function readStorage(key) {
   try { return localStorage.getItem(key) } catch { return null }
@@ -45,30 +47,32 @@ function App() {
   }, [lang])
 
   return (
-    <MotionConfig reducedMotion="user">
-      <a href="#main" className="skip-link">{t.nav.skip}</a>
-      <motion.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
+    <LazyMotion features={loadMotionFeatures}>
+      <MotionConfig reducedMotion="user">
+        <a href="#main" className="skip-link">{t.nav.skip}</a>
+        <m.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
 
-      <Navbar
-        t={t}
-        theme={theme}
-        onThemeToggle={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-        lang={lang}
-        onLangChange={setLang}
-      />
+        <Navbar
+          t={t}
+          theme={theme}
+          onThemeToggle={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+          lang={lang}
+          onLangChange={setLang}
+        />
 
-      <main id="main">
-        <Hero t={t} />
-        <About t={t} />
-        <Skills t={t} />
-        <Projects t={t} lang={lang} />
-        <Experience t={t} lang={lang} />
-        <Education t={t} lang={lang} />
-        <Contact t={t} />
-      </main>
+        <main id="main">
+          <Hero t={t} />
+          <About t={t} />
+          <Skills t={t} />
+          <Projects t={t} lang={lang} />
+          <Experience t={t} lang={lang} />
+          <Education t={t} lang={lang} />
+          <Contact t={t} />
+        </main>
 
-      <Footer t={t} />
-    </MotionConfig>
+        <Footer t={t} />
+      </MotionConfig>
+    </LazyMotion>
   )
 }
 
