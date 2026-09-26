@@ -1,9 +1,9 @@
-import { FaCode, FaPaintBrush, FaUsers } from 'react-icons/fa'
+import { FaServer, FaCheckCircle, FaRocket } from 'react-icons/fa'
 import { motion } from 'framer-motion'
 import './About.css'
 
 export default function About({ t }) {
-  const icons = [FaCode, FaPaintBrush, FaUsers]
+  const icons = [FaServer, FaCheckCircle, FaRocket]
 
   return (
     <section className="about section" id="sobre-mi">

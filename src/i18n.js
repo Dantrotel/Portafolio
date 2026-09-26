@@ -37,7 +37,8 @@ export const STRINGS = {
           title: 'Buscando mi primer trabajo',
           body: 'Soy egresado reciente con proyectos reales en el bolsillo. Busco un equipo donde pueda aportar desde el día uno y seguir aprendiendo en el camino.'
         }
-      ]
+      ],
+      hobby: 'Cuando no estoy programando, me apasiona la música y los entornos creativos.',
     },
     skills: {
       title: 'Habilidades',
@@ -46,8 +47,7 @@ export const STRINGS = {
     projects: {
       title: 'Proyectos',
       filterAll: 'Todos',
-      filterFrontend: 'Frontend',
-      filterMobile: 'Móvil',
+      filterFullstack: 'Full Stack',
       filterAI: 'IA / ML',
       filterAcademic: 'Académico',
       viewCode: 'Ver código',
@@ -61,7 +61,6 @@ export const STRINGS = {
     },
     contact: {
       title: 'Contacto',
-      phone: 'Teléfono',
       social: 'Redes sociales',
       formTitle: 'Envíame un mensaje',
       name: 'Nombre',
@@ -96,21 +95,22 @@ export const STRINGS = {
     },
     about: {
       title: 'About me',
-      intro: 'I am a Full Stack Developer, graduate of Computer Science and Informatics Engineering at Universidad del Bío-Bío. I am passionate about transforming complex ideas into elegant and efficient digital solutions.',
+      intro: "Hi, I'm Daniel, a Full Stack developer and recent graduate from Universidad del Bío-Bío. I work across the whole stack, but the backend is where I feel most at home. I like building the things that make everything work behind the scenes, and I don't stop until the project is actually up and running.",
       cards: [
         {
-          title: 'Technical Focus',
-          body: 'Specialized in React, React Native, and Node.js to build scalable, maintainable, and high-performance applications.'
+          title: 'Backend is my thing',
+          body: "Node.js, APIs, databases — that's where I enjoy working the most. I like understanding how everything works under the hood and building it right from the ground up."
         },
         {
-          title: 'Intuitive Design',
-          body: 'I prioritize user experience (UX) and clean design, creating fluid interfaces that are easy to use and visually appealing.'
+          title: 'I care that it really works',
+          body: "\"It compiles\" isn't enough for me. I want to see the finished product running and actually useful to the people who will use it."
         },
         {
-          title: 'Team Collaboration',
-          body: 'I am proactive, reliable, and enjoy collaborating in dynamic environments to solve real-world problems.'
+          title: 'Looking for my first job',
+          body: "I'm a recent graduate with real projects under my belt. I'm looking for a team where I can contribute from day one and keep learning along the way."
         }
-      ]
+      ],
+      hobby: "When I'm not coding, I'm into music and creative spaces.",
     },
     skills: {
       title: 'Skills',
@@ -119,8 +119,7 @@ export const STRINGS = {
     projects: {
       title: 'Projects',
       filterAll: 'All',
-      filterFrontend: 'Frontend',
-      filterMobile: 'Mobile',
+      filterFullstack: 'Full Stack',
       filterAI: 'AI / ML',
       filterAcademic: 'Academic',
       viewCode: 'View code',
@@ -134,7 +133,6 @@ export const STRINGS = {
     },
     contact: {
       title: 'Contact',
-      phone: 'Phone',
       social: 'Social networks',
       formTitle: 'Send me a message',
       name: 'Name',
