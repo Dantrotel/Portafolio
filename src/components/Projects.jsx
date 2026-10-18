@@ -27,6 +27,22 @@ function ProjectMedia({ project, alt }) {
   )
 }
 
+const contextLabels = {
+  thesis: 'contextThesis',
+  academic: 'contextAcademic',
+  personal: 'contextPersonal',
+}
+
+function ProjectContext({ context, t }) {
+  const parts = [
+    t.projects[contextLabels[context.kind]],
+    context.team && t.projects.team(context.team),
+    context.period,
+  ].filter(Boolean)
+
+  return <p className="project-context">{parts.join(' · ')}</p>
+}
+
 export default function Projects({ t, lang }) {
   const isEn = lang === 'en'
   const [filter, setFilter] = useState('all')
@@ -34,7 +50,7 @@ export default function Projects({ t, lang }) {
     { id: 'all',       label: t.projects.filterAll },
     { id: 'fullstack', label: t.projects.filterFullstack },
     { id: 'ai',        label: t.projects.filterAI },
-    { id: 'academic',  label: t.projects.filterAcademic },
+    { id: 'systems',   label: t.projects.filterSystems },
   ]
 
   const filteredProjects = filter === 'all'
@@ -89,6 +105,7 @@ export default function Projects({ t, lang }) {
                     <span className="project-featured">{t.projects.featured}</span>
                   )}
                   <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
+                  <ProjectContext context={project.context} t={t} />
 
                   <p className="project-problem">
                     <span className="project-label">{t.projects.problem}</span>
@@ -96,6 +113,13 @@ export default function Projects({ t, lang }) {
                   </p>
 
                   <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
+
+                  {project.role && (
+                    <p className="project-role">
+                      <span className="project-label">{t.projects.role}</span>
+                      {isEn ? project.roleEn : project.role}
+                    </p>
+                  )}
 
                   <div className="project-decisions">
                     <span className="project-label">{t.projects.decisions}</span>

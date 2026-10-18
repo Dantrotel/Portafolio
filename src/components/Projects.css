@@ -58,8 +58,6 @@
 
 .project-card--featured {
   grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
 }
 
 .project-media {
@@ -70,16 +68,9 @@
   border-bottom: 1px solid var(--border);
 }
 
+/* Same ratio as the screenshot (1866x939) so it is never cropped */
 .project-card--featured .project-media {
-  aspect-ratio: auto;
-  min-height: 340px;
-  border-bottom: none;
-  border-right: 1px solid var(--border);
-}
-
-.project-card--featured .project-media img {
-  position: absolute;
-  inset: 0;
+  aspect-ratio: 2 / 1;
 }
 
 .project-media img {
@@ -124,9 +115,36 @@
   padding: 1.75rem;
 }
 
+/* Two text columns: summary on the left, decisions on the right */
 .project-card--featured .project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(6, auto) 1fr;
+  grid-template-areas:
+    'badge   decisions'
+    'title   decisions'
+    'context decisions'
+    'problem decisions'
+    'desc    decisions'
+    'tags    decisions'
+    'links   decisions';
+  column-gap: 3rem;
   padding: 2.25rem;
-  justify-content: center;
+}
+
+.project-card--featured .project-featured  { grid-area: badge; justify-self: start; }
+.project-card--featured .project-title     { grid-area: title; }
+.project-card--featured .project-context   { grid-area: context; }
+.project-card--featured .project-problem   { grid-area: problem; }
+.project-card--featured .project-desc      { grid-area: desc; }
+.project-card--featured .project-tags      { grid-area: tags; align-self: start; }
+.project-card--featured .project-links     { grid-area: links; align-self: end; }
+
+.project-card--featured .project-decisions {
+  grid-area: decisions;
+  margin-top: 0;
+  padding-left: 3rem;
+  border-left: 1px solid var(--border);
 }
 
 .project-featured {
@@ -143,6 +161,14 @@
 
 .project-card--featured .project-title {
   font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+}
+
+.project-context {
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--text-subtle);
 }
 
 .project-label {
@@ -164,6 +190,11 @@
 }
 
 .project-desc {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.project-role {
   margin-top: 1rem;
   font-size: 0.95rem;
 }
@@ -216,19 +247,18 @@
 }
 
 @media (max-width: 960px) {
-  .project-card--featured {
+  .project-card--featured .project-media { aspect-ratio: 16 / 10; }
+
+  .project-card--featured .project-body {
     display: flex;
-    flex-direction: column;
+    padding: 1.75rem;
   }
 
-  .project-card--featured .project-media {
-    aspect-ratio: 16 / 10;
-    min-height: 0;
-    border-right: none;
-    border-bottom: 1px solid var(--border);
+  .project-card--featured .project-decisions {
+    margin-top: 1.25rem;
+    padding-left: 0;
+    border-left: none;
   }
-
-  .project-card--featured .project-body { padding: 1.75rem; }
 }
 
 @media (max-width: 720px) {
