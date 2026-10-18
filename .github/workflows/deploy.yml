@@ -26,6 +26,9 @@ jobs:
 
       - name: Build project
         run: npm run build
+        env:
+          # Endpoint de Formspree (Settings > Secrets and variables > Actions > Variables)
+          VITE_CONTACT_FORM_URL: ${{ vars.CONTACT_FORM_URL }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
