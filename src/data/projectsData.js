@@ -102,7 +102,7 @@ export const projectsData = [
     title: 'Clasificador de Géneros con Deep Learning',
     titleEn: 'Deep Learning Genre Classifier',
     category: 'ai',
-    context: { kind: 'personal', team: null, period: '2024 – 2026' },
+    context: { kind: 'academic', team: null, period: '2024 – 2026' },
     problem:
       'Entrenar una red neuronal que reconozca 10 géneros musicales con un dataset chico (1.000 pistas) sin que se sobreajuste.',
     problemEn:
