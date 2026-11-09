@@ -25,3 +25,10 @@ dist-ssr
 
 # Env files
 .env
+
+# Skills y herramientas de agentes
+.agents/
+.claude/
+.codex/
+.github/hooks/
+skills-lock.json
