@@ -1,5 +1,5 @@
 // Funciones de animación de framer-motion, cargadas en un chunk aparte.
-// domMax (no domAnimation) porque navbar y filtro de proyectos usan layoutId.
-import { domMax } from 'framer-motion'
+// domAnimation basta: ya no se usan layout ni layoutId (la navbar marca la sección activa con CSS).
+import { domAnimation } from 'framer-motion'
 
-export default domMax
+export default domAnimation

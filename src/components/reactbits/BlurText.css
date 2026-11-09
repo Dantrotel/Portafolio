@@ -1,8 +1,0 @@
-.reactbits-blur-text {
-  display: inline;
-}
-
-.reactbits-blur-element {
-  display: inline-block;
-  will-change: transform, filter, opacity;
-}
