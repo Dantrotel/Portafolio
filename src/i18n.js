@@ -49,11 +49,10 @@ export const STRINGS = {
       problem: 'El problema',
       decisions: 'Decisiones técnicas',
     },
-    exp: {
-      title: 'Experiencia',
-    },
-    education: {
-      title: 'Estudios',
+    journey: {
+      title: 'Trayectoria',
+      experience: 'Experiencia',
+      education: 'Estudios',
     },
     contact: {
       title: 'Contacto',
@@ -128,11 +127,10 @@ export const STRINGS = {
       problem: 'The problem',
       decisions: 'Technical decisions',
     },
-    exp: {
-      title: 'Experience',
-    },
-    education: {
-      title: 'Education',
+    journey: {
+      title: 'Background',
+      experience: 'Experience',
+      education: 'Education',
     },
     contact: {
       title: 'Contact',

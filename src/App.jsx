@@ -4,8 +4,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
-import Experience from './components/Experience'
-import Education from './components/Education'
+import Journey from './components/Journey'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import { STRINGS } from './i18n'
@@ -59,8 +58,7 @@ function App() {
           <Hero t={t} />
           <Projects t={t} lang={lang} />
           <Skills t={t} />
-          <Experience t={t} lang={lang} />
-          <Education t={t} lang={lang} />
+          <Journey t={t} lang={lang} />
           <Contact t={t} />
         </main>
 

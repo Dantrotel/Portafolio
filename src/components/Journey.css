@@ -1,0 +1,66 @@
+.journey-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 3rem 4rem;
+  align-items: start;
+}
+
+.journey-heading {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.journey-entry {
+  padding: 1.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.journey-period {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.journey-title {
+  margin-top: 0.5rem;
+  font-size: 1.3rem;
+  letter-spacing: -0.02em;
+}
+
+.journey-org {
+  margin-top: 0.25rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.journey-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.journey-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.journey-desc {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.journey-tags { margin-top: 1.25rem; }
+
+@media (max-width: 900px) {
+  .journey-grid { grid-template-columns: minmax(0, 1fr); }
+}
