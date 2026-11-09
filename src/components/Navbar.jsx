@@ -6,11 +6,9 @@ import DecryptedText from './reactbits/DecryptedText'
 import './Navbar.css'
 
 const navLinks = [
-  { id: 'sobre-mi',    labelKey: 'about' },
-  { id: 'habilidades', labelKey: 'skills' },
   { id: 'proyectos',   labelKey: 'projects' },
-  { id: 'experiencia', labelKey: 'exp' },
-  { id: 'estudios',    labelKey: 'education' },
+  { id: 'habilidades', labelKey: 'skills' },
+  { id: 'trayectoria', labelKey: 'journey' },
   { id: 'contacto',    labelKey: 'contact' },
 ]
 
@@ -42,19 +40,14 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
   const themeLabel = theme === 'dark' ? t.nav.toLight : t.nav.toDark
 
   return (
-    <m.header
-      className={`navbar ${scrolled ? 'is-scrolled' : ''}`}
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <header className={`navbar ${scrolled || open ? 'is-scrolled' : ''}`}>
       <div className="container navbar-inner">
         <a href="#inicio" className="navbar-brand" onClick={() => setOpen(false)}>
           <DecryptedText text="dantrottel" speed={30} maxIterations={6} animateOn="hover" />
-          <span className="navbar-brand-cursor">_</span>
+          <span className="navbar-brand-cursor" aria-hidden="true">_</span>
         </a>
 
-        <nav className="navbar-links" aria-label="Principal">
+        <nav className="navbar-links" aria-label={t.nav.main}>
           {navLinks.map(({ id, labelKey }) => (
             <a
               key={id}
@@ -63,13 +56,6 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
               aria-current={active === id ? 'true' : undefined}
             >
               {t.nav[labelKey]}
-              {active === id && (
-                <m.span
-                  layoutId="navbar-underline"
-                  className="navbar-underline"
-                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-                />
-              )}
             </a>
           ))}
         </nav>
@@ -96,17 +82,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             aria-label={themeLabel}
             title={themeLabel}
           >
-            <AnimatePresence mode="wait" initial={false}>
-              <m.span
-                key={theme}
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-              >
-                {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
-              </m.span>
-            </AnimatePresence>
+            {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
           </button>
 
           <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary btn-sm navbar-cv">
@@ -132,26 +108,23 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
           <m.nav
             id="mobile-menu"
             className="mobile-menu"
-            aria-label="Principal"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            aria-label={t.nav.main}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="container mobile-menu-inner">
               {navLinks.map(({ id, labelKey }, i) => (
-                <m.a
+                <a
                   key={id}
                   href={`#${id}`}
                   className={`mobile-menu-link ${active === id ? 'is-active' : ''}`}
                   onClick={() => setOpen(false)}
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * i, duration: 0.3 }}
                 >
-                  <span className="mobile-menu-index">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="mobile-menu-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                   {t.nav[labelKey]}
-                </m.a>
+                </a>
               ))}
               <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary mobile-menu-cv">
                 <FiDownload size={15} aria-hidden="true" />
@@ -161,6 +134,6 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
           </m.nav>
         )}
       </AnimatePresence>
-    </m.header>
+    </header>
   )
 }

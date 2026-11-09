@@ -29,6 +29,12 @@ export default function DecryptedText({
 
   const triggerAnimation = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current)
+    // Con movimiento reducido el texto se muestra tal cual, sin mezclar caracteres
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setDisplayText(text)
+      setIsDecrypted(true)
+      return
+    }
 
     const textLength = text.length
     let iteration = 0
@@ -145,9 +151,10 @@ export default function DecryptedText({
       ref={containerRef}
       className={`decrypted-text-container ${parentClassName}`}
       onMouseEnter={handleMouseEnter}
-      aria-label={text}
     >
-      <span className={className}>
+      {/* El texto real queda para lectores de pantalla; el efecto es solo visual */}
+      <span className="sr-only">{text}</span>
+      <span className={className} aria-hidden="true">
         {displayText.split('').map((char, index) => {
           const isOriginal = char === text[index]
           return (

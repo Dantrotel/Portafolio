@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { LazyMotion, MotionConfig, m, useScroll, useSpring } from 'framer-motion'
+import { LazyMotion, MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import About from './components/About'
@@ -33,9 +33,6 @@ function App() {
   const [lang, setLang] = useState(initialLang)
   const t = STRINGS[lang]
 
-  const { scrollYProgress } = useScroll()
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 })
-
   useEffect(() => {
     document.documentElement.dataset.theme = theme
     writeStorage('theme', theme)
@@ -50,7 +47,6 @@ function App() {
     <LazyMotion features={loadMotionFeatures}>
       <MotionConfig reducedMotion="user">
         <a href="#main" className="skip-link">{t.nav.skip}</a>
-        <m.div className="scroll-progress" style={{ scaleX: progress }} aria-hidden="true" />
 
         <Navbar
           t={t}
