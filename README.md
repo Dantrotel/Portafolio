@@ -56,3 +56,15 @@ src/
 ## Licencia
 
 MIT
+
+## Capturas de proyectos
+
+Las capturas se publican como WebP en dos tamaños (1200 y 640 px) para el `srcset`. El PNG original va en `capturas/`, que no se publica.
+
+```bash
+# Requiere ffmpeg con libwebp en el PATH
+npm run capturas -- capturas/comision.png
+# → public/projects/comision-1200.webp y public/projects/comision-640.webp
+```
+
+Luego, en `src/data/projectsData.js`, apunta `image` e `imageSmall` a los archivos nuevos y actualiza `imageWidth` / `imageHeight` con el tamaño que imprime el script (cambian si la captura nueva tiene otra proporción).

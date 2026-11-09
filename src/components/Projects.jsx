@@ -85,6 +85,7 @@ function ProjectTags({ tags }) {
 }
 
 function FeaturedProject({ project, index, t, isEn }) {
+  const base = import.meta.env.BASE_URL
   const title = pick(project, 'title', isEn)
   const decisions = pick(project, 'decisions', isEn)
 
@@ -105,11 +106,14 @@ function FeaturedProject({ project, index, t, isEn }) {
               <span className="project-frame-address">{pick(project, 'frameLabel', isEn)}</span>
             </div>
             <img
-              src={`${import.meta.env.BASE_URL}${project.image}`}
+              src={`${base}${project.image}`}
+              srcSet={project.imageSmall && `${base}${project.imageSmall} 640w, ${base}${project.image} 1200w`}
+              sizes="(max-width: 980px) calc(100vw - 5rem), 620px"
               alt={pick(project, 'imageAlt', isEn) || `${t.projects.screenshotOf} ${title}`}
               loading="lazy"
-              width="1866"
-              height="939"
+              decoding="async"
+              width={project.imageWidth}
+              height={project.imageHeight}
             />
           </div>
         )}

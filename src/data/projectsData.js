@@ -1,7 +1,8 @@
 // Cada objeto es una tarjeta, en este orden. Para agregar un proyecto basta sumar un objeto.
 // Obligatorios: title, description, descriptionEn, tags.
 // Opcionales: titleEn, featured, problem/problemEn, decisions/decisionsEn,
-//             code (sin él no se muestra "Ver código"), live, image,
+//             code (sin él no se muestra "Ver código"), live,
+//             image + imageSmall + imageWidth/imageHeight (WebP de 1200 y 640 px: npm run capturas -- capturas/<archivo>.png),
 //             imageAlt/imageAltEn (qué muestra la captura; sin él se usa "Captura de <título>"),
 //             frameLabel/frameLabelEn (texto del marco de navegador del destacado),
 //             draft (true = no se renderiza hasta tener contenido real).
@@ -35,7 +36,10 @@ export const projectsData = [
     ],
     code: 'https://github.com/Dantrotel/AcTitUBB',
     tags: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'JWT', 'Socket.io', 'Docker', 'AWS EC2'],
-    image: 'projects/comision.png',
+    image: 'projects/comision-1200.webp',
+    imageSmall: 'projects/comision-640.webp',
+    imageWidth: 1200,
+    imageHeight: 604,
     imageAlt:
       'Vista de administración de AcTitUBB: lista de proyectos con el estado de su comisión y, al lado, la comisión de titulación de un proyecto con su profesor guía y su profesor informante asignados.',
     imageAltEn:
