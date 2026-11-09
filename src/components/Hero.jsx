@@ -1,6 +1,6 @@
 import { m } from 'framer-motion'
 import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
-import WhoamiCard from './WhoamiCard'
+import ApiResponseCard from './ApiResponseCard'
 import './Hero.css'
 
 const container = {
@@ -72,7 +72,7 @@ export default function Hero({ t }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <WhoamiCard t={t} />
+          <ApiResponseCard t={t} />
         </m.div>
       </div>
     </section>

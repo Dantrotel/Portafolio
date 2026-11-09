@@ -22,16 +22,17 @@ export const STRINGS = {
     hero: {
       location: 'Concepción, Chile',
       role: 'Desarrollador Full Stack',
-      tagline: 'Desarrollo aplicaciones web de punta a punta, con foco en el backend: APIs, bases de datos bien diseñadas y productos que llegan a producción.',
+      tagline: 'Desarrollador full stack con foco en backend. En AcTitUBB, mi proyecto de título, diseñé la API, el modelo de datos y la seguridad de una plataforma para gestionar la titulación en la Universidad del Bío-Bío.',
       intro: 'Egresé de Ingeniería de Ejecución en Computación e Informática en la Universidad del Bío-Bío. Me muevo en todo el stack, pero donde más disfruto es en lo que funciona por detrás, y no paro hasta ver el proyecto andando de verdad.',
       ctaProjects: 'Ver proyectos',
       ctaCv: 'Descargar CV',
       socials: 'Perfiles y contacto',
     },
-    whoami: {
-      label: 'Resumen de perfil como respuesta de una API',
-      focus: ['APIs', 'bases de datos'],
-      offline: 'música',
+    apiCard: {
+      label: 'Resumen de AcTitUBB como respuesta de una API',
+      path: '/proyectos/actitubb',
+      keys: { tables: 'tablas', views: 'vistas_sql', roles: 'roles', auth: 'auth', realtime: 'tiempo_real', deploy: 'deploy' },
+      auth: 'JWT en cookies HttpOnly',
     },
     skills: {
       title: 'Habilidades',
@@ -96,16 +97,17 @@ export const STRINGS = {
     hero: {
       location: 'Concepción, Chile',
       role: 'Full Stack Developer',
-      tagline: 'I build web applications end to end, with a focus on the backend: APIs, well-designed databases and products that make it to production.',
+      tagline: 'Full stack developer focused on backend. For AcTitUBB, my capstone project, I designed the API, data model and security of a platform that manages thesis workflows at Universidad del Bío-Bío.',
       intro: "I graduated in Computer Science and Informatics Engineering from Universidad del Bío-Bío. I work across the whole stack, but I enjoy the parts that run behind the scenes the most, and I don't stop until the project is actually up and running.",
       ctaProjects: 'View projects',
       ctaCv: 'Download CV',
       socials: 'Profiles and contact',
     },
-    whoami: {
-      label: 'Profile summary as an API response',
-      focus: ['APIs', 'databases'],
-      offline: 'music',
+    apiCard: {
+      label: 'AcTitUBB summary as an API response',
+      path: '/projects/actitubb',
+      keys: { tables: 'tables', views: 'sql_views', roles: 'roles', auth: 'auth', realtime: 'realtime', deploy: 'deploy' },
+      auth: 'JWT in HttpOnly cookies',
     },
     skills: {
       title: 'Skills',

@@ -150,7 +150,7 @@ components:
 
 **Creative North Star: "La Hoja Técnica"**
 
-El portafolio se lee como una ficha de ingeniería impresa: papel cálido, tinta casi negra, reglas finas de 1px que ordenan cada bloque y un único acento óxido que marca lo que importa. La información manda; la decoración solo existe cuando cumple una función (numerar, separar, indicar estado). La voz técnica aparece en los detalles mono: índices `01`, etiquetas en mayúsculas, la tarjeta `GET /whoami` que resume el perfil como una respuesta de API.
+El portafolio se lee como una ficha de ingeniería impresa: papel cálido, tinta casi negra, reglas finas de 1px que ordenan cada bloque y un único acento óxido que marca lo que importa. La información manda; la decoración solo existe cuando cumple una función (numerar, separar, indicar estado). La voz técnica aparece en los detalles mono: índices `01`, etiquetas en mayúsculas, la tarjeta `GET /proyectos/actitubb` que resume el proyecto destacado como una respuesta de API.
 
 La densidad es media y el ritmo es de documento: secciones separadas por una regla superior, encabezados con índice mono y una línea que se extiende hasta el borde, contenido en filas tabulares (habilidades, proyectos, trayectoria, contacto) en lugar de rejillas de tarjetas iguales. Solo el proyecto destacado vive en una superficie elevada.
 
@@ -176,7 +176,7 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 
 ### Neutral
 - **Papel Cálido** (warm-paper): fondo de página y del navbar en reposo.
-- **Hoja** (paper-sheet): superficies que se apoyan sobre el papel: proyecto destacado, tarjeta /whoami, chips de habilidad.
+- **Hoja** (paper-sheet): superficies que se apoyan sobre el papel: proyecto destacado, tarjeta de respuesta API, chips de habilidad.
 - **Papel Sombreado** (paper-shade): fondos hundidos: marco de captura, barra de dirección, opción activa del selector de idioma.
 - **Tinta** (ink): títulos, texto principal y texto de peso (tagline, problema del destacado).
 - **Grafito** (graphite): texto de párrafo por defecto, etiquetas y metadatos.
@@ -184,7 +184,7 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 - Modo oscuro: **Tinta Nocturna** (night-ink), **Hoja Nocturna** (night-sheet), **Sombra Nocturna** (night-shade), **Hueso** (bone), **Ceniza** (ash), **Regla Nocturna** (night-rule / night-rule-strong) toman los mismos roles.
 
 ### Semantic
-- **Verde Estado** (status-ok / night-status-ok): token `--status-ok`, solo el punto de "200 OK" en la tarjeta /whoami. No es un segundo acento.
+- **Verde Estado** (status-ok / night-status-ok): token `--status-ok`, solo el punto de "200 OK" en la tarjeta de respuesta API. No es un segundo acento.
 
 ### Named Rules
 **La Regla del Acento Único.** Óxido es el único color con saturación en la página. Marca índices, la acción primaria y el estado activo; nunca rellena áreas grandes ni aparece como gradiente.
@@ -208,11 +208,11 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 - **Body** (400, 1rem, 1.6): párrafos en Grafito, `text-wrap: pretty`; descripciones de proyecto a 0.975rem.
 - **Body Compact** (400, 0.95rem, 1.6): texto de botones, decisiones del destacado, descripciones de trayectoria y problema de proyecto.
 - **Body Small** (400, 0.925rem, 1.6): links del navbar, chips de habilidad y decisiones de las filas de proyecto.
-- **Label Large** (Plex Mono 400–500, 0.8rem, tracking 0.04em): eyebrows de sección, kicker del hero, categorías de habilidades, encabezados de trayectoria, barra de /whoami.
+- **Label Large** (Plex Mono 400–500, 0.8rem, tracking 0.04em): eyebrows de sección, kicker del hero, categorías de habilidades, encabezados de trayectoria, barra de la tarjeta de respuesta API.
 - **Label** (Plex Mono 400–500, 0.72–0.78rem, tracking 0.04–0.06em, mayúsculas en rótulos): índices, períodos, tags, rótulos de tabla.
 
 **Escala de cuerpo:** 1.15 · 1.05 · 1 · 0.95 · 0.925rem en Grotesk; 0.8 · 0.75rem en Plex Mono. Un tamaño nuevo entra a la escala solo si se repite en más de un componente.
-- **Code** (Plex Mono 400, 0.875rem, 1.75): el cuerpo JSON de /whoami, con `white-space: pre`.
+- **Code** (Plex Mono 400, 0.875rem, 1.75): el cuerpo JSON de la tarjeta de respuesta API, con `white-space: pre`.
 
 ### Named Rules
 **La Regla del Rotulador.** La mono nunca lleva párrafos. Se usa para lo que una ficha técnica imprimiría en un rótulo: números, fechas, categorías, tags, endpoints.
@@ -225,23 +225,23 @@ Columna central de 1200px con gutter fluido (clamp(16px, 4vw, 40px)). Página ú
 
 Cada sección tiene 6rem de padding vertical (4.5rem bajo 820px) y una regla superior de 1px. El encabezado de sección es un eyebrow mono con índice (`01`) seguido de una línea que corre hasta el borde, luego el título y un subtítulo de hasta 560px; 3.5rem de separación hasta el contenido (2.5rem en móvil).
 
-El contenido se organiza como tablas de documento: habilidades en filas categoría / lista (260px + resto), proyectos secundarios en filas índice / cuerpo / aside (4rem + 1fr + 300px), trayectoria en dos columnas 1.5fr / 1fr, contacto como lista de definiciones con rótulo de 7.5rem. Hero en dos columnas 1.1fr / 0.9fr con la tarjeta /whoami a la derecha.
+El contenido se organiza como tablas de documento: habilidades en filas categoría / lista (260px + resto), proyectos secundarios en filas índice / cuerpo / aside (4rem + 1fr + 300px), trayectoria en dos columnas 1.5fr / 1fr, contacto como lista de definiciones con rótulo de 7.5rem. Hero en dos columnas 1.1fr / 0.9fr con la tarjeta de respuesta API a la derecha.
 
 Puntos de quiebre observados: 980px (hero y destacado a una columna), 860px (navbar a menú móvil), 760px (filas a una columna), 480px (botones del hero a ancho completo). Objetivos táctiles de 44px mínimo en todos los controles.
 
 ## Elevation & Depth
 
-El sistema es plano por defecto y construye profundidad con tono y reglas: Hoja sobre Papel Cálido, Papel Sombreado para lo hundido, bordes de 1px para separar. La única sombra (`--shadow`, difusa y desplazada hacia abajo) aparece solo en la tarjeta /whoami. El navbar gana un fondo translúcido con desenfoque de 10px únicamente cuando hay scroll.
+El sistema es plano por defecto y construye profundidad con tono y reglas: Hoja sobre Papel Cálido, Papel Sombreado para lo hundido, bordes de 1px para separar. La única sombra (`--shadow`, difusa y desplazada hacia abajo) aparece solo en la tarjeta de respuesta API. El navbar gana un fondo translúcido con desenfoque de 10px únicamente cuando hay scroll.
 
 ### Shadow Vocabulary
-- **Sombra de Hoja** (`box-shadow: 0 10px 30px -12px rgba(21, 23, 28, 0.18)`; en oscuro `rgba(0, 0, 0, 0.6)`): la hoja que se levanta del papel. Solo la tarjeta /whoami.
+- **Sombra de Hoja** (`box-shadow: 0 10px 30px -12px rgba(21, 23, 28, 0.18)`; en oscuro `rgba(0, 0, 0, 0.6)`): la hoja que se levanta del papel. Solo la tarjeta de respuesta API.
 
 ### Named Rules
 **La Regla de la Hoja Plana.** Las superficies descansan planas. La sombra marca solo el único objeto "impreso" del hero; nunca se usa para separar filas o tarjetas en serie, ni para simular que un contenedor es un link.
 
 ## Shapes
 
-Formas casi rectas. 4px para todo lo interactivo y lo pequeño (botones, icon buttons, tags, chips, selector de idioma, anillo de foco); 8px solo para superficies contenedoras (destacado, /whoami, marco de captura). Lo circular se reserva para indicadores: los puntos del marco de navegador y el punto de estado. Las líneas de 1px son el elemento formal dominante: reglas de sección, el remate del eyebrow, el subrayado del link activo y la viñeta corta (6px × 1px) de las listas de decisiones.
+Formas casi rectas. 4px para todo lo interactivo y lo pequeño (botones, icon buttons, tags, chips, selector de idioma, anillo de foco); 8px solo para superficies contenedoras (destacado, tarjeta de respuesta API, marco de captura). Lo circular se reserva para indicadores: los puntos del marco de navegador y el punto de estado. Las líneas de 1px son el elemento formal dominante: reglas de sección, el remate del eyebrow, el subrayado del link activo y la viñeta corta (6px × 1px) de las listas de decisiones.
 
 ## Components
 
@@ -273,11 +273,11 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 - Selector ES / EN segmentado en mono 0.75rem; la opción activa sobre Papel Sombreado.
 - Bajo 860px: menú a pantalla completa con links de 1.75rem, índice mono en Óxido y reglas entre filas.
 
-### Tarjeta /whoami (signature)
-Resumen del perfil como respuesta HTTP: barra con método `GET` en pastilla Óxido, ruta, y `200 OK` con punto Verde Estado; cuerpo JSON en Plex Mono con claves en Tinta, strings en Óxido y puntuación en Grafito. Sobre Hoja, 8px, con Sombra de Hoja. Las líneas nunca se cortan (`white-space: pre`); en pantallas pequeñas la fuente escala para que la línea más larga quepa.
+### Tarjeta de respuesta API (signature)
+La evidencia de AcTitUBB en la portada, como respuesta HTTP: barra con método `GET` en pastilla Óxido, ruta `/proyectos/actitubb` (`/projects/actitubb` en EN) y `200 OK` con punto Verde Estado; cuerpo JSON en Plex Mono con claves en Tinta (traducidas en EN), strings y números en Óxido y puntuación en Grafito. Los números van sin comillas, como en JSON real. Solo lleva datos verificables del proyecto, nunca datos de perfil que ya dice el hero. Sobre Hoja, 8px, con Sombra de Hoja. Las líneas nunca se cortan (`white-space: pre`); en pantallas pequeñas la fuente escala para que la línea más larga quepa.
 
 ### Proyecto destacado (signature)
-Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema en Tinta y la captura dentro de un marco de navegador mínimo (tres puntos y barra de dirección en mono). Las decisiones técnicas van debajo, tras una regla, en una lista numerada `01`–`05` de dos columnas con números mono en Óxido. Cierra con una fila tras otra regla: "Ver código" como botón primario a la izquierda, justo después de las decisiones que respalda, y los tags del stack alineados a la derecha. Es la única tarjeta donde el código es la acción principal.
+Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema en Tinta y la captura dentro de un marco de navegador mínimo (tres puntos y barra de dirección en mono). Las decisiones técnicas van debajo, tras una regla, en una lista numerada `01`–`05` de dos columnas con números mono en Óxido. Cada decisión sigue el formato "decisión: razón": la decisión en Tinta 600 y la razón en Grafito. Cierra con una fila tras otra regla: "Ver código" como botón primario a la izquierda, justo después de las decisiones que respalda, y los tags del stack alineados a la derecha. Es la única tarjeta donde el código es la acción principal.
 
 ## Do's and Don'ts
 

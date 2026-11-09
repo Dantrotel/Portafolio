@@ -11,29 +11,30 @@ export const projectsData = [
     titleEn: 'AcTitUBB — Thesis Tracking',
     featured: true,
     problem:
-      'Coordinar a la vez el proceso de titulación de muchos estudiantes (propuestas, profesores guía, comisiones evaluadoras y plazos) con tres tipos de usuario que necesitan permisos distintos.',
+      'Coordinar a la vez la titulación de muchos estudiantes (propuestas, profesores guía, comisiones y plazos) con cuatro roles que necesitan permisos distintos.',
     problemEn:
-      'Coordinating the degree-completion process for many students at once (proposals, thesis advisors, review committees and deadlines) across three user types that need different permissions.',
+      'Coordinating many students’ thesis processes at once (proposals, advisors, committees and deadlines) across four roles with different permissions.',
     description:
-      'Proyecto de título aprobado. Plataforma full stack con API REST en Node.js/Express, frontend en Angular + TypeScript y una base MySQL de 62 tablas relacionales y 7 vistas SQL, con flujos para estudiante, profesor guía y jefe de carrera. Desplegada en AWS EC2 durante el proyecto.',
+      'Proyecto de título aprobado. API REST en Node.js/Express, frontend en Angular + TypeScript y una base MySQL de 64 tablas y 6 vistas, con flujos para estudiante, profesor, jefe de carrera y superadmin. Desplegada en AWS EC2 durante el proyecto.',
     descriptionEn:
-      'Approved capstone project. Full stack platform with a REST API in Node.js/Express, an Angular + TypeScript frontend and a MySQL database with 62 relational tables and 7 SQL views, with workflows for students, thesis advisors and the program coordinator. Deployed on AWS EC2 during the project.',
+      'Approved capstone project. REST API in Node.js/Express, Angular + TypeScript frontend and a MySQL database with 64 tables and 6 views, with flows for students, advisors, program heads and a superadmin. Deployed on AWS EC2 during the project.',
+    // Formato "decisión: razón"; el destacado resalta lo que va antes de los dos puntos
     decisions: [
-      'Autenticación JWT con blacklist de tokens: cerrar sesión invalida el token en el servidor, no solo lo borra del navegador.',
-      'Permisos por rol en dos capas: middlewares en la API y guards + interceptor HTTP en Angular.',
-      '7 vistas SQL que encapsulan las consultas de seguimiento y reportes, para no repetir joins complejos en el backend.',
-      'Entregas de archivos con Multer validando tipo y tamaño, y avisos por email con Nodemailer.',
-      'Todo el stack (Nginx + Angular, API y MySQL) se levanta con un solo docker compose up.',
+      'Sesiones revocables: el JWT viaja en cookies HttpOnly, así que el JavaScript de la página no puede leerlo. Al cerrar sesión, su hash SHA-256 entra a una blacklist en MySQL: un token robado deja de servir aunque no haya expirado.',
+      'Acceso por rol y por proyecto: el rol no basta, porque un estudiante no debe ver los documentos de otro. Cada ruta valida el rol y además que el usuario pertenezca a ese proyecto; los guards de Angular solo deciden qué pantalla mostrar.',
+      'Archivos acotados: al descargar, la ruta se resuelve y se rechaza si sale de la carpeta de subidas (path traversal). Multer valida tipo y tamaño al subir.',
+      'Tiempo real con la misma autenticación: Socket.io usa el JWT de la API y separa salas por usuario, rol y proyecto, así el chat y los avisos llegan solo a quien corresponde.',
+      'Un solo docker compose up: Nginx, Angular, la API y MySQL se levantan igual en local y en el servidor, y el despliegue en EC2 es un comando.',
     ],
     decisionsEn: [
-      'JWT authentication with a token blacklist: logging out invalidates the token on the server, not just in the browser.',
-      'Role-based permissions in two layers: API middlewares plus guards and an HTTP interceptor in Angular.',
-      '7 SQL views that encapsulate tracking and reporting queries, so complex joins are not repeated in the backend.',
-      'File submissions through Multer with type and size validation, plus email notifications with Nodemailer.',
-      'The whole stack (Nginx + Angular, API and MySQL) starts with a single docker compose up.',
+      'Revocable sessions: the JWT travels in HttpOnly cookies, so page JavaScript can’t read it. On logout its SHA-256 hash goes into a MySQL blacklist, so a stolen token stops working before it expires.',
+      'Access by role and by project: role alone isn’t enough, since a student must not see another student’s documents. Each route checks the role and that the user belongs to that project; Angular guards only decide which screen to show.',
+      'Contained file access: download paths are resolved and rejected if they leave the uploads folder (path traversal). Multer validates type and size on upload.',
+      'Real time with the same auth: Socket.io reuses the API’s JWT and splits rooms by user, role and project, so chat and notifications only reach the right people.',
+      'One docker compose up: Nginx, Angular, the API and MySQL run the same locally and on the server, and deploying to EC2 is one command.',
     ],
     code: 'https://github.com/Dantrotel/AcTitUBB',
-    tags: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'JWT', 'Docker', 'AWS EC2'],
+    tags: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'JWT', 'Socket.io', 'Docker', 'AWS EC2'],
     image: 'projects/comision.png',
     imageAlt:
       'Vista de administración de AcTitUBB: lista de proyectos con el estado de su comisión y, al lado, la comisión de titulación de un proyecto con su profesor guía y su profesor informante asignados.',

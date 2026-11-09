@@ -55,6 +55,26 @@ function ProjectProblem({ project, t, isEn }) {
   )
 }
 
+// Identificadores como SHA-256 no se cortan en el guion
+function KeepTogether({ text }) {
+  return text.split(/(\b[A-Z]+-\d+\b)/).map((part, i) =>
+    i % 2 ? <span key={i} className="project-nowrap">{part}</span> : part
+  )
+}
+
+// "Decisión: razón" → la decisión en tinta y la razón como texto corrido
+function Decision({ text }) {
+  const cut = text.indexOf(': ')
+  if (cut === -1) return <span><KeepTogether text={text} /></span>
+
+  return (
+    <span>
+      <strong className="project-decision-lead">{text.slice(0, cut)}:</strong>{' '}
+      <KeepTogether text={text.slice(cut + 2)} />
+    </span>
+  )
+}
+
 function ProjectTags({ tags }) {
   return (
     <ul className="tag-list project-tags">
@@ -101,7 +121,7 @@ function FeaturedProject({ project, index, t, isEn }) {
           <span className="project-label">{t.projects.decisions}</span>
           <ol>
             {decisions.map((decision) => (
-              <li key={decision}>{decision}</li>
+              <li key={decision}><Decision text={decision} /></li>
             ))}
           </ol>
         </div>

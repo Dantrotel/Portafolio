@@ -103,6 +103,13 @@
   counter-increment: decision;
 }
 
+.project-decision-lead {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.project-nowrap { white-space: nowrap; }
+
 .project-decisions--featured li::before {
   content: counter(decision, decimal-leading-zero);
   font-family: var(--font-mono);
