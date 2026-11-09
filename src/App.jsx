@@ -41,6 +41,12 @@ function App() {
     writeStorage('lang', lang)
   }, [lang])
 
+  // Título y descripción siguen al idioma; index.html trae la versión en español
+  useEffect(() => {
+    document.title = t.meta.title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', t.meta.description)
+  }, [t])
+
   return (
     <LazyMotion features={loadMotionFeatures}>
       <MotionConfig reducedMotion="user">

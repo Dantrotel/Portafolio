@@ -156,7 +156,7 @@ El sistema rechaza explícitamente el look "dev oscuro neón" (negros con gradie
 
 **Key Characteristics:**
 - Papel cálido y tinta, con un solo acento óxido (ámbar en modo oscuro).
-- Reglas de 1px como estructura principal; sombra solo en dos lugares.
+- Reglas de 1px como estructura principal; sombra en un solo lugar.
 - Grotesca para leer, Plex Mono para etiquetar, numerar y mostrar datos.
 - Esquinas casi rectas (4px), 8px solo para superficies.
 - Movimiento mínimo y funcional; nada con `prefers-reduced-motion`.
@@ -229,13 +229,13 @@ Puntos de quiebre observados: 980px (hero y destacado a una columna), 860px (nav
 
 ## Elevation & Depth
 
-El sistema es plano por defecto y construye profundidad con tono y reglas: Hoja sobre Papel Cálido, Papel Sombreado para lo hundido, bordes de 1px para separar. La única sombra (`--shadow`, difusa y desplazada hacia abajo) aparece en la tarjeta /whoami en reposo y en el proyecto destacado solo al pasar el cursor. El navbar gana un fondo translúcido con desenfoque de 10px únicamente cuando hay scroll.
+El sistema es plano por defecto y construye profundidad con tono y reglas: Hoja sobre Papel Cálido, Papel Sombreado para lo hundido, bordes de 1px para separar. La única sombra (`--shadow`, difusa y desplazada hacia abajo) aparece solo en la tarjeta /whoami. El navbar gana un fondo translúcido con desenfoque de 10px únicamente cuando hay scroll.
 
 ### Shadow Vocabulary
-- **Sombra de Hoja** (`box-shadow: 0 10px 30px -12px rgba(21, 23, 28, 0.18)`; en oscuro `rgba(0, 0, 0, 0.6)`): la hoja que se levanta del papel. Tarjeta /whoami y hover del destacado.
+- **Sombra de Hoja** (`box-shadow: 0 10px 30px -12px rgba(21, 23, 28, 0.18)`; en oscuro `rgba(0, 0, 0, 0.6)`): la hoja que se levanta del papel. Solo la tarjeta /whoami.
 
 ### Named Rules
-**La Regla de la Hoja Plana.** Las superficies descansan planas. La sombra es una respuesta a la interacción o marca el único objeto "impreso" del hero; nunca se usa para separar filas o tarjetas en serie.
+**La Regla de la Hoja Plana.** Las superficies descansan planas. La sombra marca solo el único objeto "impreso" del hero; nunca se usa para separar filas o tarjetas en serie, ni para simular que un contenedor es un link.
 
 ## Shapes
 
@@ -260,7 +260,8 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 - **Corner Style:** 8px.
 - **Background:** Hoja sobre Papel Cálido.
 - **Shadow Strategy:** plana en reposo; ver Elevation & Depth.
-- **Border:** 1px Regla; Regla Fuerte al pasar el cursor.
+- **Border:** 1px Regla.
+- **Hover:** ninguno. El destacado no es un link, así que no se eleva ni hace zoom; solo el brillo de SpotlightCard sigue al puntero.
 - **Internal Padding:** 2.5rem (1.5rem bajo 760px).
 - Solo el proyecto destacado es una tarjeta. Los demás proyectos son filas separadas por reglas.
 
@@ -284,7 +285,7 @@ Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema
 - **Do** etiquetar con Plex Mono (índices `01`, períodos, categorías, tags) y escribir en Schibsted Grotesk.
 - **Do** mantener 4px en lo interactivo y 8px en las superficies, y 44px como objetivo táctil mínimo.
 - **Do** definir cada color nuevo en ambos temas con el mismo rol.
-- **Do** limitar el movimiento a respuestas de interacción (subir 1–2px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, desactivado con `prefers-reduced-motion` y en `hover: none`.
+- **Do** limitar el movimiento a respuestas de interacción (subir 1px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, desactivado con `prefers-reduced-motion` y en `hover: none`.
 
 ### Don't:
 - **Don't** usar el look "dev oscuro neón": fondos negros con gradientes morado/cian, glow ni glassmorphism.

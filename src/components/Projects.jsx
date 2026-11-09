@@ -79,7 +79,7 @@ function FeaturedProject({ project, index, t, isEn }) {
             </div>
             <img
               src={`${import.meta.env.BASE_URL}${project.image}`}
-              alt={`${t.projects.screenshotOf} ${title}`}
+              alt={pick(project, 'imageAlt', isEn) || `${t.projects.screenshotOf} ${title}`}
               loading="lazy"
               width="1866"
               height="939"

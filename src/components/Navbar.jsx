@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection'
@@ -12,11 +12,14 @@ const navLinks = [
   { id: 'contacto',    labelKey: 'contact' },
 ]
 
-const sectionIds = navLinks.map((link) => link.id)
+// El hero también se observa: al volver arriba ningún link queda activo
+const sectionIds = ['inicio', ...navLinks.map((link) => link.id)]
 
 export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const menuRef = useRef(null)
+  const toggleRef = useRef(null)
   const active = useActiveSection(sectionIds)
   const cvUrl = `${import.meta.env.BASE_URL}CV.pdf`
 
@@ -28,12 +31,34 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false) }
+    if (!open) return
+
+    // Con el menú abierto, lo que queda detrás no recibe foco ni clics
+    const behind = [
+      document.querySelector('.skip-link'),
+      document.getElementById('main'),
+      document.querySelector('.footer'),
+    ].filter(Boolean)
+    behind.forEach((el) => { el.inert = true })
+    document.body.style.overflow = 'hidden'
+    menuRef.current?.querySelector('a')?.focus()
+
+    const onKey = (e) => {
+      if (e.key !== 'Escape') return
+      setOpen(false)
+      toggleRef.current?.focus()
+    }
+    // Si la ventana pasa a escritorio el menú se oculta por CSS: se cierra también aquí
+    const desktop = window.matchMedia('(min-width: 861px)')
+    const onDesktop = (e) => { if (e.matches) setOpen(false) }
+
     window.addEventListener('keydown', onKey)
+    desktop.addEventListener('change', onDesktop)
     return () => {
+      behind.forEach((el) => { el.inert = false })
       document.body.style.overflow = ''
       window.removeEventListener('keydown', onKey)
+      desktop.removeEventListener('change', onDesktop)
     }
   }, [open])
 
@@ -91,6 +116,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
           </a>
 
           <button
+            ref={toggleRef}
             type="button"
             className="icon-btn navbar-toggle"
             onClick={() => setOpen((o) => !o)}
@@ -106,6 +132,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
       <AnimatePresence>
         {open && (
           <m.nav
+            ref={menuRef}
             id="mobile-menu"
             className="mobile-menu"
             aria-label={t.nav.main}
@@ -120,6 +147,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
                   key={id}
                   href={`#${id}`}
                   className={`mobile-menu-link ${active === id ? 'is-active' : ''}`}
+                  aria-current={active === id ? 'true' : undefined}
                   onClick={() => setOpen(false)}
                 >
                   <span className="mobile-menu-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>

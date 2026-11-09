@@ -2,6 +2,7 @@
 // Obligatorios: title, description, descriptionEn, tags.
 // Opcionales: titleEn, featured, problem/problemEn, decisions/decisionsEn,
 //             code (sin él no se muestra "Ver código"), live, image,
+//             imageAlt/imageAltEn (qué muestra la captura; sin él se usa "Captura de <título>"),
 //             frameLabel/frameLabelEn (texto del marco de navegador del destacado),
 //             draft (true = no se renderiza hasta tener contenido real).
 export const projectsData = [
@@ -34,6 +35,10 @@ export const projectsData = [
     code: 'https://github.com/Dantrotel/AcTitUBB',
     tags: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'JWT', 'Docker', 'AWS EC2'],
     image: 'projects/comision.png',
+    imageAlt:
+      'Vista de administración de AcTitUBB: lista de proyectos con el estado de su comisión y, al lado, la comisión de titulación de un proyecto con su profesor guía y su profesor informante asignados.',
+    imageAltEn:
+      'AcTitUBB admin view: a list of projects with the status of each review committee and, beside it, one project’s committee with its thesis advisor and second reader assigned.',
     frameLabel: 'AcTitUBB · plataforma',
     frameLabelEn: 'AcTitUBB · platform',
   },

@@ -7,13 +7,6 @@
   background: var(--bg-surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: transform 0.25s var(--ease-out), border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-.project-featured:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow);
 }
 
 /* El contenido queda sobre el brillo de SpotlightCard */
@@ -87,10 +80,7 @@
 .project-frame img {
   width: 100%;
   height: auto;
-  transition: transform 0.5s var(--ease-out);
 }
-
-.project-featured:hover .project-frame img { transform: scale(1.02); }
 
 .project-decisions--featured {
   margin-top: 2.5rem;
@@ -233,9 +223,4 @@
   .project-row .project-index { line-height: 1; }
   .project-row-aside { grid-column: auto; }
   .project-decisions--featured ol { grid-template-columns: minmax(0, 1fr); }
-}
-
-@media (hover: none) {
-  .project-featured:hover { transform: none; box-shadow: none; }
-  .project-featured:hover .project-frame img { transform: none; }
 }

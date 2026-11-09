@@ -55,6 +55,7 @@
 }
 
 .journey-desc {
+  max-width: 65ch;
   margin-top: 1rem;
   font-size: 0.95rem;
 }

@@ -41,7 +41,7 @@
       "code":      { "displayName": "Code", "purpose": "Cuerpo JSON de la tarjeta /whoami." }
     },
     "shadows": [
-      { "name": "sheet", "value": "0 10px 30px -12px rgba(21, 23, 28, 0.18)", "purpose": "La hoja que se levanta del papel: /whoami en reposo y hover del proyecto destacado. En oscuro usa rgba(0, 0, 0, 0.6)." }
+      { "name": "sheet", "value": "0 10px 30px -12px rgba(21, 23, 28, 0.18)", "purpose": "La hoja que se levanta del papel: solo la tarjeta /whoami. En oscuro usa rgba(0, 0, 0, 0.6)." }
     ],
     "motion": [
       { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Curva por defecto para transforms, subrayados y entradas." },
@@ -128,9 +128,9 @@
       "name": "Featured Project Card",
       "kind": "card",
       "refersTo": "card-featured",
-      "description": "Única tarjeta del sistema: plana en reposo, se levanta 2px con Sombra de Hoja al pasar.",
+      "description": "Única tarjeta del sistema: plana, sin hover de link.",
       "html": "<article class=\"ds-featured\"><p class=\"ds-featured-index\">01 · Proyecto destacado</p><h3 class=\"ds-featured-title\">AcTitUBB</h3><p class=\"ds-featured-problem\">Coordinar el proceso de titulación de muchos estudiantes con tres tipos de usuario.</p><ol class=\"ds-featured-decisions\"><li>Autenticación JWT con blacklist de tokens.</li><li>Permisos por rol en dos capas.</li></ol></article>",
-      "css": ".ds-featured { padding: 2.5rem; background: var(--bg-surface, #FBFAF7); border: 1px solid var(--border, #DAD5CA); border-radius: var(--radius, 8px); transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.25s ease, box-shadow 0.25s ease; } .ds-featured:hover { transform: translateY(-2px); border-color: var(--border-strong, #C2BCAE); box-shadow: var(--shadow, 0 10px 30px -12px rgba(21, 23, 28, 0.18)); } .ds-featured-index { margin: 0 0 0.75rem; font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--accent, #B8410E); } .ds-featured-title { margin: 0; font-family: var(--font-body, 'Schibsted Grotesk', system-ui, sans-serif); font-size: clamp(1.75rem, 3vw, 2.4rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; color: var(--text, #15171C); } .ds-featured-problem { margin: 1.25rem 0 0; color: var(--text, #15171C); } .ds-featured-decisions { margin: 2rem 0 0; padding: 2rem 0 0; border-top: 1px solid var(--border, #DAD5CA); list-style: none; counter-reset: d; display: grid; gap: 1rem; } .ds-featured-decisions li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); font-size: 0.95rem; color: var(--text-muted, #545861); counter-increment: d; } .ds-featured-decisions li::before { content: counter(d, decimal-leading-zero); font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); font-size: 0.75rem; line-height: 1.9; color: var(--accent, #B8410E); }"
+      "css": ".ds-featured { padding: 2.5rem; background: var(--bg-surface, #FBFAF7); border: 1px solid var(--border, #DAD5CA); border-radius: var(--radius, 8px); } .ds-featured-index { margin: 0 0 0.75rem; font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--accent, #B8410E); } .ds-featured-title { margin: 0; font-family: var(--font-body, 'Schibsted Grotesk', system-ui, sans-serif); font-size: clamp(1.75rem, 3vw, 2.4rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; color: var(--text, #15171C); } .ds-featured-problem { margin: 1.25rem 0 0; color: var(--text, #15171C); } .ds-featured-decisions { margin: 2rem 0 0; padding: 2rem 0 0; border-top: 1px solid var(--border, #DAD5CA); list-style: none; counter-reset: d; display: grid; gap: 1rem; } .ds-featured-decisions li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); font-size: 0.95rem; color: var(--text-muted, #545861); counter-increment: d; } .ds-featured-decisions li::before { content: counter(d, decimal-leading-zero); font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); font-size: 0.75rem; line-height: 1.9; color: var(--accent, #B8410E); }"
     }
   ],
   "narrative": {
@@ -138,7 +138,7 @@
     "overview": "El portafolio se lee como una ficha de ingeniería impresa: papel cálido, tinta casi negra, reglas finas de 1px que ordenan cada bloque y un único acento óxido que marca lo que importa. La información manda; la decoración solo existe cuando cumple una función (numerar, separar, indicar estado). La voz técnica aparece en los detalles mono: índices `01`, etiquetas en mayúsculas, la tarjeta `GET /whoami` que resume el perfil como una respuesta de API.\n\nLa densidad es media y el ritmo es de documento: secciones separadas por una regla superior, encabezados con índice mono y una línea que se extiende hasta el borde, contenido en filas tabulares (habilidades, proyectos, trayectoria, contacto) en lugar de rejillas de tarjetas iguales. Solo el proyecto destacado vive en una superficie elevada.\n\nEl sistema rechaza explícitamente el look \"dev oscuro neón\" (negros con gradientes morado/cian, glow, glassmorphism), la plantilla genérica de portafolio (foto centrada, tarjetas con sombra idénticas, barras de porcentaje) y los efectos decorativos sin función.",
     "keyCharacteristics": [
       "Papel cálido y tinta, con un solo acento óxido (ámbar en modo oscuro).",
-      "Reglas de 1px como estructura principal; sombra solo en dos lugares.",
+      "Reglas de 1px como estructura principal; sombra en un solo lugar.",
       "Grotesca para leer, Plex Mono para etiquetar, numerar y mostrar datos.",
       "Esquinas casi rectas (4px), 8px solo para superficies.",
       "Movimiento mínimo y funcional; nada con `prefers-reduced-motion`."
@@ -148,7 +148,7 @@
       { "name": "La Regla de los Roles Gemelos", "body": "Todo token claro tiene su par oscuro con el mismo rol. No se introduce un color en un tema sin su contraparte en el otro.", "section": "colors" },
       { "name": "La Regla del Rotulador", "body": "La mono nunca lleva párrafos. Se usa para lo que una ficha técnica imprimiría en un rótulo: números, fechas, categorías, tags, endpoints.", "section": "typography" },
       { "name": "La Regla del Tracking Negativo", "body": "Los títulos se cierran con tracking negativo (−0.02em a −0.045em, más apretado cuanto más grande) y `text-wrap: balance`.", "section": "typography" },
-      { "name": "La Regla de la Hoja Plana", "body": "Las superficies descansan planas. La sombra es una respuesta a la interacción o marca el único objeto \"impreso\" del hero; nunca se usa para separar filas o tarjetas en serie.", "section": "elevation" }
+      { "name": "La Regla de la Hoja Plana", "body": "Las superficies descansan planas. La sombra marca solo el único objeto \"impreso\" del hero; nunca se usa para separar filas o tarjetas en serie, ni para simular que un contenedor es un link.", "section": "elevation" }
     ],
     "dos": [
       "**Do** usar reglas de 1px (Regla / Regla Fuerte) para estructurar contenido antes de recurrir a una superficie o una sombra.",
@@ -156,7 +156,7 @@
       "**Do** etiquetar con Plex Mono (índices `01`, períodos, categorías, tags) y escribir en Schibsted Grotesk.",
       "**Do** mantener 4px en lo interactivo y 8px en las superficies, y 44px como objetivo táctil mínimo.",
       "**Do** definir cada color nuevo en ambos temas con el mismo rol.",
-      "**Do** limitar el movimiento a respuestas de interacción (subir 1–2px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, desactivado con `prefers-reduced-motion` y en `hover: none`."
+      "**Do** limitar el movimiento a respuestas de interacción (subir 1px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, desactivado con `prefers-reduced-motion` y en `hover: none`."
     ],
     "donts": [
       "**Don't** usar el look \"dev oscuro neón\": fondos negros con gradientes morado/cian, glow ni glassmorphism.",

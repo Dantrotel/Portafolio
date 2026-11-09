@@ -87,6 +87,8 @@ h1, h2, h3, h4 {
 
 p { color: var(--text-muted); text-wrap: pretty; }
 
+li { text-wrap: pretty; }
+
 a { color: var(--accent); text-decoration: none; }
 
 ul, ol { list-style: none; }
