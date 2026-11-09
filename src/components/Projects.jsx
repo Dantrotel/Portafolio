@@ -12,19 +12,30 @@ function pick(project, field, isEn) {
   return (isEn && project[`${field}En`]) || project[field]
 }
 
-function ProjectLinks({ project, t }) {
+// codePrimary: en el destacado el código es la acción principal (la demo pasa a secundaria)
+function ProjectLinks({ project, t, codePrimary = false }) {
   if (!project.live && !project.code) return null
 
   return (
     <div className="project-links">
       {project.live && (
-        <a className="btn btn-primary btn-sm" href={project.live} target="_blank" rel="noopener noreferrer">
+        <a
+          className={`btn ${codePrimary ? 'btn-secondary' : 'btn-primary'} btn-sm`}
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FiExternalLink size={14} aria-hidden="true" />
           {t.projects.viewDemo}
         </a>
       )}
       {project.code && (
-        <a className="btn btn-secondary btn-sm" href={project.code} target="_blank" rel="noopener noreferrer">
+        <a
+          className={`btn ${codePrimary ? 'btn-primary' : 'btn-secondary btn-sm'}`}
+          href={project.code}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <FiGithub size={14} aria-hidden="true" />
           {t.projects.viewCode}
         </a>
@@ -66,7 +77,6 @@ function FeaturedProject({ project, index, t, isEn }) {
           <h3 className="project-title project-title--featured">{title}</h3>
           <ProjectProblem project={project} t={t} isEn={isEn} />
           <p className="project-desc">{pick(project, 'description', isEn)}</p>
-          <ProjectLinks project={project} t={t} />
         </div>
 
         {project.image && (
@@ -97,7 +107,11 @@ function FeaturedProject({ project, index, t, isEn }) {
         </div>
       )}
 
-      <ProjectTags tags={project.tags} />
+      {/* El código va después de las decisiones: se lee la afirmación y enseguida se puede comprobar */}
+      <div className="project-featured-footer">
+        <ProjectLinks project={project} t={t} codePrimary />
+        <ProjectTags tags={project.tags} />
+      </div>
     </SpotlightCard>
   )
 }

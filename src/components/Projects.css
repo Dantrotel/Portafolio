@@ -111,7 +111,22 @@
   color: var(--accent);
 }
 
-.project-featured > .project-tags { margin-top: 2rem; }
+/* Cierre del destacado: acción principal a la izquierda, stack a la derecha */
+.project-featured-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.project-featured-footer .project-tags {
+  flex: 1 1 20rem;
+  justify-content: flex-end;
+}
 
 /* ---------- Índice de proyectos ---------- */
 
@@ -208,7 +223,6 @@
   gap: 0.6rem;
 }
 
-.project-featured .project-links { margin-top: 1.75rem; }
 
 @media (max-width: 980px) {
   .project-row { grid-template-columns: 3rem minmax(0, 1fr); }
@@ -219,6 +233,7 @@
 
 @media (max-width: 760px) {
   .project-featured { padding: 1.5rem; }
+  .project-featured-footer .project-tags { justify-content: flex-start; }
   .project-row { grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding: 2rem 0; }
   .project-row .project-index { line-height: 1; }
   .project-row-aside { grid-column: auto; }

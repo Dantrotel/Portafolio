@@ -277,7 +277,7 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 Resumen del perfil como respuesta HTTP: barra con método `GET` en pastilla Óxido, ruta, y `200 OK` con punto Verde Estado; cuerpo JSON en Plex Mono con claves en Tinta, strings en Óxido y puntuación en Grafito. Sobre Hoja, 8px, con Sombra de Hoja. Las líneas nunca se cortan (`white-space: pre`); en pantallas pequeñas la fuente escala para que la línea más larga quepa.
 
 ### Proyecto destacado (signature)
-Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema en Tinta y la captura dentro de un marco de navegador mínimo (tres puntos y barra de dirección en mono). Las decisiones técnicas van debajo, tras una regla, en una lista numerada `01`–`05` de dos columnas con números mono en Óxido.
+Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema en Tinta y la captura dentro de un marco de navegador mínimo (tres puntos y barra de dirección en mono). Las decisiones técnicas van debajo, tras una regla, en una lista numerada `01`–`05` de dos columnas con números mono en Óxido. Cierra con una fila tras otra regla: "Ver código" como botón primario a la izquierda, justo después de las decisiones que respalda, y los tags del stack alineados a la derecha. Es la única tarjeta donde el código es la acción principal.
 
 ## Do's and Don'ts
 
