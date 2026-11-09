@@ -1,9 +1,12 @@
-import { SiCplusplus, SiPython } from 'react-icons/si'
-
+// Cada objeto es una tarjeta, en este orden. Para agregar un proyecto basta sumar un objeto.
+// Obligatorios: title, description, descriptionEn, tags.
+// Opcionales: titleEn, featured, problem/problemEn, decisions/decisionsEn,
+//             code (sin él no se muestra "Ver código"), live, image,
+//             frameLabel/frameLabelEn (texto del marco de navegador del destacado).
 export const projectsData = [
   {
     title: 'AcTitUBB — Seguimiento de Tesistas',
-    category: 'fullstack',
+    titleEn: 'AcTitUBB — Thesis Tracking',
     featured: true,
     problem:
       'Coordinar a la vez el proceso de titulación de muchos estudiantes (propuestas, profesores guía, comisiones evaluadoras y plazos) con tres tipos de usuario que necesitan permisos distintos.',
@@ -27,14 +30,14 @@ export const projectsData = [
       'File submissions through Multer with type and size validation, plus email notifications with Nodemailer.',
       'The whole stack (Nginx + Angular, API and MySQL) starts with a single docker compose up.',
     ],
-    live: null,
     code: 'https://github.com/Dantrotel/AcTitUBB',
     tags: ['Angular', 'TypeScript', 'Node.js', 'Express', 'MySQL', 'JWT', 'Docker', 'AWS EC2'],
     image: 'projects/comision.png',
+    frameLabel: 'AcTitUBB · plataforma',
+    frameLabelEn: 'AcTitUBB · platform',
   },
   {
     title: 'MusicClassifier',
-    category: 'ai',
     problem:
       'Clasificar el género de una canción a partir de su audio y, además, explicar la predicción en lenguaje natural en lugar de devolver solo una etiqueta.',
     problemEn:
@@ -53,16 +56,34 @@ export const projectsData = [
       'RAG layer with LangChain and ChromaDB using Wikipedia as context, so Gemini explains with verifiable information.',
       'API split by responsibility: /predict, /explain, /chat and /recommend.',
     ],
-    live: null,
     code: 'https://github.com/Dantrotel/MusicClassifier',
     tags: ['Python', 'FastAPI', 'React', 'scikit-learn', 'LangChain', 'RAG'],
-    image: null,
-    icon: SiPython,
+  },
+  {
+    title: 'Bot DJ para Discord',
+    titleEn: 'DJ Bot for Discord',
+    description:
+      'Bot de música para Discord con mezcla tipo DJ: transiciones entre canciones, beatmatching y cambio de tempo sin alterar el tono.',
+    descriptionEn:
+      'Music bot for Discord with DJ-style mixing: transitions between tracks, beatmatching and tempo changes without altering pitch.',
+    tags: ['discord.js', 'Node.js'],
+  },
+  {
+    title: 'La Pirámide',
+    description: '[DESCRIPCIÓN PENDIENTE]',
+    descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
+    tags: ['[STACK]'],
+  },
+  {
+    title: 'Calculadora de costos',
+    titleEn: 'Cost calculator',
+    description: '[DESCRIPCIÓN PENDIENTE]',
+    descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
+    tags: ['[STACK]'],
   },
   {
     title: 'Simulación de Carrera Multihilo',
     titleEn: 'Multithreaded Race Simulation',
-    category: 'academic',
     problem:
       'Poner en práctica la programación concurrente: varios hilos compitiendo por recursos compartidos sin condiciones de carrera.',
     problemEn:
@@ -79,10 +100,7 @@ export const projectsData = [
       'One std::thread per car, with random pauses so the finishing order is non-deterministic.',
       'Mutexes on shared resources and console output to avoid race conditions and interleaved lines.',
     ],
-    live: null,
     code: 'https://github.com/Dantrotel/Race_SSOO',
     tags: ['C++', 'std::thread', 'Mutex', 'Linux'],
-    image: null,
-    icon: SiCplusplus,
   },
 ]
