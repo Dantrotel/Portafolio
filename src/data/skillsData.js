@@ -22,8 +22,13 @@ import {
   SiSocketdotio,
   SiMongodb,
   SiTailwindcss,
+  SiScikitlearn,
+  SiTensorflow,
+  SiLangchain,
+  SiPandas,
 } from 'react-icons/si'
 import { FaDatabase, FaAws, FaJava } from 'react-icons/fa'
+import { FiActivity } from 'react-icons/fi'
 
 export const skillCategories = [
   {
@@ -50,6 +55,18 @@ export const skillCategories = [
       { name: 'PostgreSQL', Icon: SiPostgresql },
       { name: 'MongoDB', Icon: SiMongodb },
       { name: 'Firebase', Icon: SiFirebase },
+    ]
+  },
+  {
+    key: 'ai',
+    skills: [
+      { name: 'Python', Icon: SiPython },
+      { name: 'scikit-learn', Icon: SiScikitlearn },
+      { name: 'TensorFlow / Keras', Icon: SiTensorflow },
+      { name: 'LangChain', Icon: SiLangchain },
+      // librosa no tiene ícono propio: se usa una forma de onda genérica
+      { name: 'librosa', Icon: FiActivity },
+      { name: 'pandas', Icon: SiPandas },
     ]
   },
   {
