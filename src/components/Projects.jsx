@@ -6,6 +6,9 @@ import './Projects.css'
 
 const spotlight = 'rgba(184, 65, 14, 0.06)'
 
+// Los borradores no se muestran; se filtran antes para que la numeración siga correlativa
+const visibleProjects = projectsData.filter((project) => !project.draft)
+
 // Elige el campo en inglés cuando existe y el idioma es inglés
 function pick(project, field, isEn) {
   return (isEn && project[`${field}En`]) || project[field]
@@ -142,7 +145,7 @@ export default function Projects({ t, lang }) {
         <SectionHeader index="01" title={t.projects.title} subtitle={t.projects.subtitle} />
 
         <div className="projects-list">
-          {projectsData.map((project, i) =>
+          {visibleProjects.map((project, i) =>
             project.featured ? (
               <FeaturedProject key={project.title} project={project} index={i} t={t} isEn={isEn} />
             ) : (

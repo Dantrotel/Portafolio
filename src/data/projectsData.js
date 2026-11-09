@@ -2,7 +2,8 @@
 // Obligatorios: title, description, descriptionEn, tags.
 // Opcionales: titleEn, featured, problem/problemEn, decisions/decisionsEn,
 //             code (sin él no se muestra "Ver código"), live, image,
-//             frameLabel/frameLabelEn (texto del marco de navegador del destacado).
+//             frameLabel/frameLabelEn (texto del marco de navegador del destacado),
+//             draft (true = no se renderiza hasta tener contenido real).
 export const projectsData = [
   {
     title: 'AcTitUBB — Seguimiento de Tesistas',
@@ -70,6 +71,7 @@ export const projectsData = [
   },
   {
     title: 'La Pirámide',
+    draft: true,
     description: '[DESCRIPCIÓN PENDIENTE]',
     descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
     tags: ['[STACK]'],
@@ -77,6 +79,7 @@ export const projectsData = [
   {
     title: 'Calculadora de costos',
     titleEn: 'Cost calculator',
+    draft: true,
     description: '[DESCRIPCIÓN PENDIENTE]',
     descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
     tags: ['[STACK]'],
