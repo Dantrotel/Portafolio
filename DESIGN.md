@@ -12,9 +12,11 @@ colors:
   graphite: "#545861"
   rule: "#DAD5CA"
   rule-strong: "#C2BCAE"
-  grid-line: "rgba(21, 23, 28, 0.05)"
+  rust-glow: "rgba(184, 65, 14, 0.06)"
   on-rust: "#FFFFFF"
   status-ok: "#2F9E6A"
+  night-status-ok: "#45B884"
+  ember-glow: "rgba(242, 137, 79, 0.08)"
   night-ink: "#101215"
   night-sheet: "#171A1F"
   night-shade: "#1F2329"
@@ -168,7 +170,8 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 ### Primary
 - **Óxido** (rust): acción primaria, índices mono, eyebrows de sección, línea activa del navbar, strings del JSON, selección de texto y anillo de foco.
 - **Óxido Profundo** (rust-deep): hover de la acción primaria.
-- **Lavado Óxido** (rust-wash): fondo tenue del acento; también el color del brillo de SpotlightCard en el destacado.
+- **Lavado Óxido** (rust-wash): fondo tenue del acento.
+- **Brillo Óxido** (rust-glow) / **Brillo Ámbar** (ember-glow): el brillo de SpotlightCard que sigue al puntero en el destacado, token `--spotlight` en cada tema.
 - **Ámbar Brasa** (ember) / **Ámbar Claro** (ember-light): el mismo rol que Óxido y su hover en modo oscuro; el texto sobre ellos es Tinta Nocturna.
 
 ### Neutral
@@ -178,11 +181,10 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 - **Tinta** (ink): títulos, texto principal y texto de peso (tagline, problema del destacado).
 - **Grafito** (graphite): texto de párrafo por defecto, etiquetas y metadatos.
 - **Regla** (rule) / **Regla Fuerte** (rule-strong): divisores de 1px; la fuerte abre tablas (habilidades, contacto, encabezados de trayectoria) y bordea el botón secundario.
-- **Cuadrícula** (grid-line): la retícula de 48px del hero.
 - Modo oscuro: **Tinta Nocturna** (night-ink), **Hoja Nocturna** (night-sheet), **Sombra Nocturna** (night-shade), **Hueso** (bone), **Ceniza** (ash), **Regla Nocturna** (night-rule / night-rule-strong) toman los mismos roles.
 
 ### Semantic
-- **Verde Estado** (status-ok): solo el punto de "200 OK" en la tarjeta /whoami. No es un segundo acento.
+- **Verde Estado** (status-ok / night-status-ok): token `--status-ok`, solo el punto de "200 OK" en la tarjeta /whoami. No es un segundo acento.
 
 ### Named Rules
 **La Regla del Acento Único.** Óxido es el único color con saturación en la página. Marca índices, la acción primaria y el estado activo; nunca rellena áreas grandes ni aparece como gradiente.
@@ -266,7 +268,7 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 - Solo el proyecto destacado es una tarjeta. Los demás proyectos son filas separadas por reglas.
 
 ### Navigation
-- Marca `dantrottel_` en Plex Mono 500 con el guion bajo en Óxido parpadeando como cursor.
+- Marca `dantrottel_` en Plex Mono 500 con el guion bajo fijo en Óxido. Sin parpadeo ni texto que se revuelve.
 - Links en Grotesk 0.925rem, Grafito; hover y activo en Tinta. El activo se subraya con una línea Óxido de 1px que crece desde la izquierda.
 - Selector ES / EN segmentado en mono 0.75rem; la opción activa sobre Papel Sombreado.
 - Bajo 860px: menú a pantalla completa con links de 1.75rem, índice mono en Óxido y reglas entre filas.

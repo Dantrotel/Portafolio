@@ -1,4 +1,3 @@
-import DecryptedText from './reactbits/DecryptedText'
 import './WhoamiCard.css'
 
 // Los arreglos van en una sola línea: cada línea del JSON cabe sin cortarse a 320 px
@@ -37,9 +36,7 @@ export default function WhoamiCard({ t }) {
     <figure className="whoami-card" aria-label={w.label}>
       <div className="whoami-bar">
         <span className="whoami-method">GET</span>
-        <span className="whoami-path">
-          <DecryptedText text="/whoami" speed={40} maxIterations={10} animateOn="view" />
-        </span>
+        <span className="whoami-path">/whoami</span>
         <span className="whoami-status">200 OK</span>
       </div>
 

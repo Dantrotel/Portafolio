@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, m } from 'framer-motion'
 import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection'
-import DecryptedText from './reactbits/DecryptedText'
 import './Navbar.css'
 
 const navLinks = [
@@ -68,7 +67,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
     <header className={`navbar ${scrolled || open ? 'is-scrolled' : ''}`}>
       <div className="container navbar-inner">
         <a href="#inicio" className="navbar-brand" onClick={() => setOpen(false)}>
-          <DecryptedText text="dantrottel" speed={30} maxIterations={6} animateOn="hover" />
+          dantrottel
           <span className="navbar-brand-cursor" aria-hidden="true">_</span>
         </a>
 

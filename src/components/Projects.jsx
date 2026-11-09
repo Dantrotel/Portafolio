@@ -4,8 +4,6 @@ import SectionHeader from './SectionHeader'
 import SpotlightCard from './reactbits/SpotlightCard'
 import './Projects.css'
 
-const spotlight = 'rgba(184, 65, 14, 0.06)'
-
 // Los borradores no se muestran; se filtran antes para que la numeración siga correlativa
 const visibleProjects = projectsData.filter((project) => !project.draft)
 
@@ -61,7 +59,7 @@ function FeaturedProject({ project, index, t, isEn }) {
   const decisions = pick(project, 'decisions', isEn)
 
   return (
-    <SpotlightCard as="article" className="project-featured" spotlightColor={spotlight}>
+    <SpotlightCard as="article" className="project-featured">
       <div className="project-featured-top">
         <div className="project-featured-text">
           <p className="project-index">{String(index + 1).padStart(2, '0')} · {t.projects.featured}</p>
