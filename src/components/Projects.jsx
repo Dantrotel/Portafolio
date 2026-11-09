@@ -1,7 +1,6 @@
 import { FiGithub, FiExternalLink } from 'react-icons/fi'
 import { projectsData } from '../data/projectsData'
 import SectionHeader from './SectionHeader'
-import SpotlightCard from './reactbits/SpotlightCard'
 import './Projects.css'
 
 // Los borradores no se muestran; se filtran antes para que la numeración siga correlativa
@@ -90,7 +89,7 @@ function FeaturedProject({ project, index, t, isEn }) {
   const decisions = pick(project, 'decisions', isEn)
 
   return (
-    <SpotlightCard as="article" className="project-featured">
+    <article className="project-featured">
       <div className="project-featured-top">
         <div className="project-featured-text">
           <p className="project-index">{String(index + 1).padStart(2, '0')} · {t.projects.featured}</p>
@@ -132,7 +131,7 @@ function FeaturedProject({ project, index, t, isEn }) {
         <ProjectLinks project={project} t={t} codePrimary />
         <ProjectTags tags={project.tags} />
       </div>
-    </SpotlightCard>
+    </article>
   )
 }
 

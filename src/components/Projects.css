@@ -9,12 +9,6 @@
   border-radius: var(--radius);
 }
 
-/* El contenido queda sobre el brillo de SpotlightCard */
-.project-featured > * {
-  position: relative;
-  z-index: 2;
-}
-
 /* ---------- Destacado ---------- */
 
 .project-featured {

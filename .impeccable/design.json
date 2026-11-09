@@ -16,8 +16,6 @@
       "graphite":    { "role": "neutral", "displayName": "Grafito", "canonical": "#545861", "tonalRamp": ["#090B0F", "#1F2228", "#393D46", "#575B64", "#767A84", "#9A9EA8", "#C1C4CB", "#EDEEF1"] },
       "rule":        { "role": "neutral", "displayName": "Regla", "canonical": "#DAD5CA", "tonalRamp": ["#0D0B07", "#24211B", "#413D34", "#5F5A51", "#7E7A70", "#A29E94", "#C7C4BD", "#EFEEEC"] },
       "rule-strong": { "role": "neutral", "displayName": "Regla Fuerte", "canonical": "#C2BCAE", "tonalRamp": ["#0D0B06", "#252118", "#423D31", "#605A4E", "#7F7A6D", "#A39E91", "#C8C4BB", "#F0EEEB"] },
-      "rust-glow":   { "role": "primary", "displayName": "Brillo Óxido", "canonical": "rgba(184, 65, 14, 0.06)" },
-      "ember-glow":  { "role": "primary", "displayName": "Brillo Ámbar (oscuro)", "canonical": "rgba(242, 137, 79, 0.08)" },
       "night-status-ok": { "role": "semantic", "displayName": "Verde Estado (oscuro)", "canonical": "#45B884" },
       "on-rust":     { "role": "neutral", "displayName": "Sobre Óxido", "canonical": "#FFFFFF" },
       "night-ink":   { "role": "neutral", "displayName": "Tinta Nocturna (oscuro)", "canonical": "#101215", "tonalRamp": ["#0A0B0D", "#202224", "#3B3D41", "#585B5F", "#787A7E", "#9C9FA2", "#C2C4C7", "#EEEEEF"] },

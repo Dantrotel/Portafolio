@@ -15,7 +15,6 @@
   --on-accent:     #FFFFFF;
   --border:        #DAD5CA;
   --border-strong: #C2BCAE;
-  --spotlight:     rgba(184, 65, 14, 0.06);
   --status-ok:     #2F9E6A;
   --shadow:        0 10px 30px -12px rgba(21, 23, 28, 0.18);
   --nav-bg:        rgba(243, 241, 236, 0.86);
@@ -44,7 +43,6 @@
   --on-accent:     #101215;
   --border:        #262A31;
   --border-strong: #363B44;
-  --spotlight:     rgba(242, 137, 79, 0.08);
   --status-ok:     #45B884;
   --shadow:        0 10px 30px -12px rgba(0, 0, 0, 0.6);
   --nav-bg:        rgba(16, 18, 21, 0.86);

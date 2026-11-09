@@ -12,11 +12,9 @@ colors:
   graphite: "#545861"
   rule: "#DAD5CA"
   rule-strong: "#C2BCAE"
-  rust-glow: "rgba(184, 65, 14, 0.06)"
   on-rust: "#FFFFFF"
   status-ok: "#2F9E6A"
   night-status-ok: "#45B884"
-  ember-glow: "rgba(242, 137, 79, 0.08)"
   night-ink: "#101215"
   night-sheet: "#171A1F"
   night-shade: "#1F2329"
@@ -171,7 +169,6 @@ Paleta de papel y tinta con un acento óxido escaso; el modo oscuro invierte a t
 - **Óxido** (rust): acción primaria, índices mono, eyebrows de sección, línea activa del navbar, strings del JSON, selección de texto y anillo de foco.
 - **Óxido Profundo** (rust-deep): hover de la acción primaria.
 - **Lavado Óxido** (rust-wash): fondo tenue del acento.
-- **Brillo Óxido** (rust-glow) / **Brillo Ámbar** (ember-glow): el brillo de SpotlightCard que sigue al puntero en el destacado, token `--spotlight` en cada tema.
 - **Ámbar Brasa** (ember) / **Ámbar Claro** (ember-light): el mismo rol que Óxido y su hover en modo oscuro; el texto sobre ellos es Tinta Nocturna.
 
 ### Neutral
@@ -263,7 +260,7 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 - **Background:** Hoja sobre Papel Cálido.
 - **Shadow Strategy:** plana en reposo; ver Elevation & Depth.
 - **Border:** 1px Regla.
-- **Hover:** ninguno. El destacado no es un link, así que no se eleva ni hace zoom; solo el brillo de SpotlightCard sigue al puntero.
+- **Hover:** ninguno. El destacado no es un link: es una superficie estática, sin elevación, zoom ni brillo.
 - **Internal Padding:** 2.5rem (1.5rem bajo 760px).
 - Solo el proyecto destacado es una tarjeta. Los demás proyectos son filas separadas por reglas.
 
