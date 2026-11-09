@@ -53,6 +53,28 @@
   gap: 0.75rem;
 }
 
+/* Copiar → check: un ícono se va y el otro llega, opacidad + escala leve en 160ms */
+.copy-btn { display: inline-grid; place-items: center; }
+
+.copy-icon {
+  grid-area: 1 / 1;
+  transition: opacity 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.copy-icon--done {
+  color: var(--accent);
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+.copy-btn[data-copied='true'] .copy-icon--idle { opacity: 0; transform: scale(0.85); }
+.copy-btn[data-copied='true'] .copy-icon--done { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-icon,
+  .copy-btn[data-copied='true'] .copy-icon--idle { transform: none; }
+}
+
 .contact-email,
 .contact-link {
   display: inline-flex;

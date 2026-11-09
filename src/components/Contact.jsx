@@ -44,8 +44,17 @@ export default function Contact({ t }) {
               <dt>{t.contact.email}</dt>
               <dd className="contact-email-row">
                 <a href={`mailto:${EMAIL}`} className="text-link contact-email">{EMAIL}</a>
-                <button type="button" className="icon-btn" onClick={copyEmail} aria-label={t.contact.copy} title={t.contact.copy}>
-                  {copied ? <FiCheck size={16} aria-hidden="true" /> : <FiCopy size={16} aria-hidden="true" />}
+                {/* Los dos íconos están siempre montados: el cambio a check es una transición de CSS */}
+                <button
+                  type="button"
+                  className="icon-btn copy-btn"
+                  data-copied={copied}
+                  onClick={copyEmail}
+                  aria-label={t.contact.copy}
+                  title={t.contact.copy}
+                >
+                  <FiCopy className="copy-icon copy-icon--idle" size={16} aria-hidden="true" />
+                  <FiCheck className="copy-icon copy-icon--done" size={16} aria-hidden="true" />
                 </button>
                 <span className="sr-only" role="status">{copied ? t.contact.copied : ''}</span>
               </dd>
