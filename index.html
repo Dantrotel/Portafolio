@@ -35,6 +35,12 @@
           theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         }
         document.documentElement.dataset.theme = theme
+        // La barra del navegador sigue el tema elegido, no solo el del sistema (mismos valores que --bg)
+        var bar = theme === 'dark' ? '#101215' : '#F3F1EC'
+        document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+          meta.setAttribute('content', bar)
+          meta.removeAttribute('media')
+        })
       })()
     </script>
   </head>

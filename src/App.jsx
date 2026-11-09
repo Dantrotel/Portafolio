@@ -31,6 +31,9 @@ function App() {
   useEffect(() => {
     document.documentElement.dataset.theme = theme
     writeStorage('theme', theme)
+    // La barra del navegador toma el fondo del tema activo (el script de index.html ya quitó el media)
+    const bar = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim()
+    document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => meta.setAttribute('content', bar))
   }, [theme])
 
   useEffect(() => {
