@@ -1,3 +1,4 @@
+import DecryptedText from './reactbits/DecryptedText'
 import './WhoamiCard.css'
 
 function JsonValue({ value }) {
@@ -38,12 +39,26 @@ export default function WhoamiCard({ t }) {
         <span className="whoami-dot" />
         <span className="whoami-dot" />
         <span className="whoami-dot" />
-        <span className="whoami-title">dantrottel@portfolio: ~</span>
+        <span className="whoami-title">
+          <DecryptedText
+            text="dantrottel@portfolio: ~"
+            speed={30}
+            maxIterations={8}
+            animateOn="hover"
+          />
+        </span>
       </div>
 
       <pre className="whoami-body">
         <code>
-          <span className="json-prompt">$</span> whoami --json{'\n'}
+          <span className="json-prompt">$</span>{' '}
+          <DecryptedText
+            text="whoami --json"
+            speed={35}
+            maxIterations={10}
+            animateOn="view"
+          />
+          {'\n'}
           <span className="json-punct">{'{'}</span>{'\n'}
           {entries.map(([key, value], i) => (
             <span key={key}>

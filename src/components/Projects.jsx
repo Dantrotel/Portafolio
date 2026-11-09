@@ -4,17 +4,40 @@ import { FiGithub, FiExternalLink } from 'react-icons/fi'
 import { projectsData } from '../data/projectsData'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
+import SpotlightCard from './reactbits/SpotlightCard'
+import StarBorder from './reactbits/StarBorder'
+import ShinyText from './reactbits/ShinyText'
 import './Projects.css'
 
 function ProjectMedia({ project, alt }) {
   if (project.image) {
     return (
-      <div className="project-media">
-        <img
-          src={`${import.meta.env.BASE_URL}${project.image}`}
-          alt={alt}
-          loading="lazy"
-        />
+      <div className={`project-media ${project.featured ? 'project-media--featured' : ''}`}>
+        {project.featured ? (
+          <div className="project-mockup">
+            <div className="project-mockup-bar" aria-hidden="true">
+              <div className="mockup-dots">
+                <span className="mockup-dot mockup-dot--red" />
+                <span className="mockup-dot mockup-dot--yellow" />
+                <span className="mockup-dot mockup-dot--green" />
+              </div>
+              <span className="mockup-address">actitubb.ubiobio.cl &bull; plataforma</span>
+            </div>
+            <div className="project-mockup-viewport">
+              <img
+                src={`${import.meta.env.BASE_URL}${project.image}`}
+                alt={alt}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        ) : (
+          <img
+            src={`${import.meta.env.BASE_URL}${project.image}`}
+            alt={alt}
+            loading="lazy"
+          />
+        )}
       </div>
     )
   }
@@ -72,10 +95,12 @@ export default function Projects({ t, lang }) {
         <m.div className="projects-grid" layout>
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project) => (
-              <m.article
+              <SpotlightCard
+                as={m.article}
                 key={project.title}
                 layout
                 className={`project-card ${project.featured ? 'project-card--featured' : ''}`}
+                spotlightColor="rgba(143, 179, 238, 0.14)"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.15 }}
@@ -85,57 +110,117 @@ export default function Projects({ t, lang }) {
                 <ProjectMedia project={project} alt={`${t.projects.screenshotOf} ${project.title}`} />
 
                 <div className="project-body">
-                  {project.featured && (
-                    <span className="project-featured">{t.projects.featured}</span>
+                  {project.featured ? (
+                    <div className="project-featured-grid">
+                      <div className="project-featured-main">
+                        <StarBorder className="project-featured-star" speed="5s" color="var(--accent)">
+                          <span className="project-featured">
+                            <ShinyText text={t.projects.featured} speed={2.5} />
+                          </span>
+                        </StarBorder>
+
+                        <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
+
+                        <p className="project-problem">
+                          <span className="project-label">{t.projects.problem}</span>
+                          {isEn ? project.problemEn : project.problem}
+                        </p>
+
+                        <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
+
+                        <div className="project-links">
+                          {project.live && (
+                            <a
+                              className="btn btn-primary btn-sm"
+                              href={project.live}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <FiExternalLink size={14} aria-hidden="true" />
+                              {t.projects.viewDemo}
+                            </a>
+                          )}
+                          <a
+                            className="btn btn-secondary btn-sm"
+                            href={project.code}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FiGithub size={14} aria-hidden="true" />
+                            {t.projects.viewCode}
+                          </a>
+                        </div>
+                      </div>
+
+                      <div className="project-featured-aside">
+                        <div className="project-decisions">
+                          <span className="project-label">{t.projects.decisions}</span>
+                          <ul>
+                            {(isEn ? project.decisionsEn : project.decisions).map((decision) => (
+                              <li key={decision}>{decision}</li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <ul className="project-tags">
+                          {project.tags.map((tag) => (
+                            <li key={tag} className="tag">{tag}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
+
+                      <p className="project-problem">
+                        <span className="project-label">{t.projects.problem}</span>
+                        {isEn ? project.problemEn : project.problem}
+                      </p>
+
+                      <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
+
+                      <div className="project-decisions">
+                        <span className="project-label">{t.projects.decisions}</span>
+                        <ul>
+                          {(isEn ? project.decisionsEn : project.decisions).map((decision) => (
+                            <li key={decision}>{decision}</li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <ul className="project-tags">
+                        {project.tags.map((tag) => (
+                          <li key={tag} className="tag">{tag}</li>
+                        ))}
+                      </ul>
+
+                      <div className="project-links">
+                        {project.live && (
+                          <a
+                            className="btn btn-primary btn-sm"
+                            href={project.live}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <FiExternalLink size={14} aria-hidden="true" />
+                            {t.projects.viewDemo}
+                          </a>
+                        )}
+                        <a
+                          className="btn btn-secondary btn-sm"
+                          href={project.code}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <FiGithub size={14} aria-hidden="true" />
+                          {t.projects.viewCode}
+                        </a>
+                      </div>
+                    </>
                   )}
-                  <h3 className="project-title">{(isEn && project.titleEn) || project.title}</h3>
-
-                  <p className="project-problem">
-                    <span className="project-label">{t.projects.problem}</span>
-                    {isEn ? project.problemEn : project.problem}
-                  </p>
-
-                  <p className="project-desc">{isEn ? project.descriptionEn : project.description}</p>
-
-                  <div className="project-decisions">
-                    <span className="project-label">{t.projects.decisions}</span>
-                    <ul>
-                      {(isEn ? project.decisionsEn : project.decisions).map((decision) => (
-                        <li key={decision}>{decision}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <ul className="project-tags">
-                    {project.tags.map((tag) => (
-                      <li key={tag} className="tag">{tag}</li>
-                    ))}
-                  </ul>
-
-                  <div className="project-links">
-                    {project.live && (
-                      <a
-                        className="btn btn-primary btn-sm"
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FiExternalLink size={14} aria-hidden="true" />
-                        {t.projects.viewDemo}
-                      </a>
-                    )}
-                    <a
-                      className="btn btn-secondary btn-sm"
-                      href={project.code}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <FiGithub size={14} aria-hidden="true" />
-                      {t.projects.viewCode}
-                    </a>
-                  </div>
                 </div>
-              </m.article>
+              </SpotlightCard>
             ))}
           </AnimatePresence>
         </m.div>

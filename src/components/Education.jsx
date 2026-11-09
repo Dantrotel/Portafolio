@@ -2,6 +2,7 @@ import { FiMapPin, FiAward } from 'react-icons/fi'
 import { educationData } from '../data/educationData'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
+import SpotlightCard from './reactbits/SpotlightCard'
 
 export default function Education({ t, lang }) {
   const isEn = lang === 'en'
@@ -14,7 +15,7 @@ export default function Education({ t, lang }) {
         <ol className="timeline">
           {educationData.map((item, i) => (
             <Reveal as="li" key={item.id} className="timeline-item" delay={0.1 * i}>
-              <article className="timeline-card">
+              <SpotlightCard as="article" className="timeline-card" spotlightColor="rgba(143, 179, 238, 0.12)">
                 <span className="timeline-period">{item.period}</span>
                 <h3 className="timeline-title">{isEn ? item.degreeEn : item.degree}</h3>
                 <p className="timeline-org">{item.institution}</p>
@@ -23,7 +24,7 @@ export default function Education({ t, lang }) {
                   <span><FiAward size={13} aria-hidden="true" /> {isEn ? item.statusEn : item.status}</span>
                 </div>
                 <p className="timeline-desc">{isEn ? item.descriptionEn : item.description}</p>
-              </article>
+              </SpotlightCard>
             </Reveal>
           ))}
         </ol>

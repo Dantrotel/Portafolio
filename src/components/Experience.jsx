@@ -2,6 +2,7 @@ import { FiMapPin } from 'react-icons/fi'
 import { experienceData } from '../data/experienceData'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
+import SpotlightCard from './reactbits/SpotlightCard'
 
 export default function Experience({ t, lang }) {
   const isEn = lang === 'en'
@@ -14,7 +15,7 @@ export default function Experience({ t, lang }) {
         <ol className="timeline">
           {experienceData.map((exp, i) => (
             <Reveal as="li" key={exp.id} className="timeline-item" delay={0.1 * i}>
-              <article className="timeline-card">
+              <SpotlightCard as="article" className="timeline-card" spotlightColor="rgba(143, 179, 238, 0.12)">
                 <span className="timeline-period">{isEn ? exp.periodEn : exp.period}</span>
                 <h3 className="timeline-title">{isEn ? exp.positionEn : exp.position}</h3>
                 <p className="timeline-org">{exp.company}</p>
@@ -27,7 +28,7 @@ export default function Experience({ t, lang }) {
                     <li key={tech} className="tag">{tech}</li>
                   ))}
                 </ul>
-              </article>
+              </SpotlightCard>
             </Reveal>
           ))}
         </ol>

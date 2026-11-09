@@ -1,0 +1,10 @@
+.magnet-wrapper {
+  display: inline-flex;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .magnet-wrapper {
+    transform: none !important;
+    transition: none !important;
+  }
+}

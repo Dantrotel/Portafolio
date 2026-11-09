@@ -1,6 +1,10 @@
 import { m } from 'framer-motion'
 import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import WhoamiCard from './WhoamiCard'
+import BlurText from './reactbits/BlurText'
+import ShinyText from './reactbits/ShinyText'
+import TiltedCard from './reactbits/TiltedCard'
+import DotGrid from './reactbits/DotGrid'
 import './Hero.css'
 
 const container = {
@@ -22,19 +26,34 @@ const socials = [
 export default function Hero({ t }) {
   return (
     <section className="hero" id="inicio">
-      <div className="hero-backdrop" aria-hidden="true" />
+      <div className="hero-backdrop" aria-hidden="true">
+        <DotGrid
+          dotColor="rgba(143, 179, 238, 0.28)"
+          activeColor="var(--accent)"
+          spacing={28}
+          dotRadius={1.2}
+          activeRadius={3.5}
+          proximity={110}
+        />
+      </div>
 
       <div className="container hero-inner">
         <m.div className="hero-content" variants={container} initial="hidden" animate="visible">
           <m.span className="hero-status" variants={item}>
             <span className="hero-status-dot" aria-hidden="true" />
-            {t.hero.available}
+            <ShinyText text={t.hero.available} speed={3.5} />
           </m.span>
 
           <m.p className="hero-greeting" variants={item}>{t.hero.greeting}</m.p>
 
           <m.h1 className="hero-name" variants={item}>
-            Daniel Aguayo<span className="hero-name-dot">.</span>
+            <BlurText
+              text="Daniel Aguayo"
+              delay={55}
+              animateBy="letters"
+              direction="top"
+            />
+            <span className="hero-name-dot">.</span>
           </m.h1>
 
           <m.p className="hero-role" variants={item}>{t.hero.role}</m.p>
@@ -78,7 +97,9 @@ export default function Hero({ t }) {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
-          <WhoamiCard t={t} />
+          <TiltedCard maxTilt={6} scale={1.01} glare={true} glareMaxOpacity={0.12}>
+            <WhoamiCard t={t} />
+          </TiltedCard>
         </m.div>
       </div>
     </section>

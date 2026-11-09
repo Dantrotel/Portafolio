@@ -3,6 +3,7 @@ import { AnimatePresence, m } from 'framer-motion'
 import { FiArrowUpRight, FiGithub, FiLinkedin, FiSend } from 'react-icons/fi'
 import SectionHeader from './SectionHeader'
 import Reveal from './Reveal'
+import ClickSpark from './reactbits/ClickSpark'
 import './Contact.css'
 
 const EMAIL = 'dantrottel@gmail.com'
@@ -56,95 +57,97 @@ export default function Contact({ t }) {
   const feedback = status === 'sent' || status.startsWith('error') ? status : null
 
   return (
-    <section className="section" id="contacto">
-      <div className="container">
-        <SectionHeader index="06" title={t.contact.title} />
+    <ClickSpark sparkColor="var(--accent)" sparkRadius={28} sparkCount={10} duration={500}>
+      <section className="section" id="contacto">
+        <div className="container">
+          <SectionHeader index="06" title={t.contact.title} />
 
-        <div className="contact-grid">
-          <Reveal className="contact-info">
-            <h3 className="contact-heading">{t.contact.heading}</h3>
-            <p className="contact-intro">{t.contact.intro}</p>
+          <div className="contact-grid">
+            <Reveal className="contact-info">
+              <h3 className="contact-heading">{t.contact.heading}</h3>
+              <p className="contact-intro">{t.contact.intro}</p>
 
-            <p className="contact-label">{t.contact.emailLabel}</p>
-            <a href={`mailto:${EMAIL}`} className="contact-email">
-              {EMAIL}
-              <FiArrowUpRight aria-hidden="true" />
-            </a>
+              <p className="contact-label">{t.contact.emailLabel}</p>
+              <a href={`mailto:${EMAIL}`} className="contact-email">
+                {EMAIL}
+                <FiArrowUpRight aria-hidden="true" />
+              </a>
 
-            <p className="contact-label">{t.contact.social}</p>
-            <ul className="contact-socials">
-              {socials.map(({ href, label, Icon }) => (
-                <li key={label}>
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="contact-social">
-                    <Icon size={16} aria-hidden="true" />
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+              <p className="contact-label">{t.contact.social}</p>
+              <ul className="contact-socials">
+                {socials.map(({ href, label, Icon }) => (
+                  <li key={label}>
+                    <a href={href} target="_blank" rel="noopener noreferrer" className="contact-social">
+                      <Icon size={16} aria-hidden="true" />
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
 
-          <Reveal className="contact-form-wrap" delay={0.15}>
-            <form onSubmit={handleSubmit} className="contact-form">
-              <label className="form-field">
-                <span>{t.contact.name}</span>
-                <input
-                  required
-                  type="text"
-                  name="name"
-                  autoComplete="name"
-                  placeholder={t.contact.namePlaceholder}
-                  value={form.name}
-                  onChange={update('name')}
-                />
-              </label>
-              <label className="form-field">
-                <span>{t.contact.email}</span>
-                <input
-                  required
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  placeholder={t.contact.emailPlaceholder}
-                  value={form.email}
-                  onChange={update('email')}
-                />
-              </label>
-              <label className="form-field">
-                <span>{t.contact.message}</span>
-                <textarea
-                  required
-                  name="message"
-                  rows="5"
-                  placeholder={t.contact.messagePlaceholder}
-                  value={form.message}
-                  onChange={update('message')}
-                />
-              </label>
+            <Reveal className="contact-form-wrap" delay={0.15}>
+              <form onSubmit={handleSubmit} className="contact-form">
+                <label className="form-field">
+                  <span>{t.contact.name}</span>
+                  <input
+                    required
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    placeholder={t.contact.namePlaceholder}
+                    value={form.name}
+                    onChange={update('name')}
+                  />
+                </label>
+                <label className="form-field">
+                  <span>{t.contact.email}</span>
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder={t.contact.emailPlaceholder}
+                    value={form.email}
+                    onChange={update('email')}
+                  />
+                </label>
+                <label className="form-field">
+                  <span>{t.contact.message}</span>
+                  <textarea
+                    required
+                    name="message"
+                    rows="5"
+                    placeholder={t.contact.messagePlaceholder}
+                    value={form.message}
+                    onChange={update('message')}
+                  />
+                </label>
 
-              <button className="btn btn-primary contact-submit" type="submit" disabled={status === 'sending'}>
-                <FiSend size={15} aria-hidden="true" />
-                {status === 'sending' ? t.contact.sending : t.contact.send}
-              </button>
+                <button className="btn btn-primary contact-submit" type="submit" disabled={status === 'sending'}>
+                  <FiSend size={15} aria-hidden="true" />
+                  {status === 'sending' ? t.contact.sending : t.contact.send}
+                </button>
 
-              <AnimatePresence>
-                {feedback && (
-                  <m.p
-                    key={feedback}
-                    role={feedback === 'sent' ? 'status' : 'alert'}
-                    className={`form-feedback ${feedback === 'sent' ? 'is-success' : 'is-error'}`}
-                    initial={{ opacity: 0, y: -6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    {feedback === 'sent' ? t.contact.thankYou : t.contact[feedback]}
-                  </m.p>
-                )}
-              </AnimatePresence>
-            </form>
-          </Reveal>
+                <AnimatePresence>
+                  {feedback && (
+                    <m.p
+                      key={feedback}
+                      role={feedback === 'sent' ? 'status' : 'alert'}
+                      className={`form-feedback ${feedback === 'sent' ? 'is-success' : 'is-error'}`}
+                      initial={{ opacity: 0, y: -6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {feedback === 'sent' ? t.contact.thankYou : t.contact[feedback]}
+                    </m.p>
+                  )}
+                </AnimatePresence>
+              </form>
+            </Reveal>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ClickSpark>
   )
 }

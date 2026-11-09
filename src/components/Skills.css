@@ -5,11 +5,19 @@
 }
 
 /* backend y lenguajes pesan más: ocupan la mitad cada uno */
-.skills-card { grid-column: span 2; }
+.skills-card,
+.skills-grid-item { grid-column: span 2; }
 .skills-card--backend,
-.skills-card--languages { grid-column: span 3; }
+.skills-card--languages,
+.skills-grid-item.skills-card--backend,
+.skills-grid-item.skills-card--languages { grid-column: span 3; }
+
+.skills-grid-item {
+  display: flex;
+}
 
 .skills-card {
+  width: 100%;
   padding: 1.6rem;
   background: var(--bg-surface);
   border: 1px solid var(--border);
@@ -20,6 +28,10 @@
 .skills-card:hover {
   border-color: var(--border-strong);
   box-shadow: var(--shadow);
+}
+
+.skills-marquee {
+  margin-top: 3.5rem;
 }
 
 .skills-card-title {
@@ -68,8 +80,11 @@
 @media (max-width: 960px) {
   .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .skills-card,
+  .skills-grid-item,
   .skills-card--backend,
-  .skills-card--languages { grid-column: span 1; }
+  .skills-card--languages,
+  .skills-grid-item.skills-card--backend,
+  .skills-grid-item.skills-card--languages { grid-column: span 1; }
 }
 
 @media (max-width: 640px) {
