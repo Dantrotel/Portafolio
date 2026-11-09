@@ -1,17 +1,6 @@
-import { m } from 'framer-motion'
 import { FiArrowRight, FiDownload, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import ApiResponseCard from './ApiResponseCard'
 import './Hero.css'
-
-const container = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 8 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
-}
 
 const socials = [
   { href: 'https://github.com/Dantrotel', label: 'GitHub', Icon: FiGithub, external: true },
@@ -23,19 +12,19 @@ export default function Hero({ t }) {
   return (
     <section className="hero" id="inicio">
       <div className="container hero-inner">
-        <m.div className="hero-content" variants={container} initial="hidden" animate="visible">
-          <m.p className="hero-kicker" variants={item}>{t.hero.location}</m.p>
+        <div className="hero-content">
+          <p className="hero-kicker">{t.hero.location}</p>
 
-          <m.h1 className="hero-title" variants={item}>
+          <h1 className="hero-title">
             <span className="hero-name">Daniel Aguayo<span className="hero-name-dot" aria-hidden="true">.</span></span>
             <span className="hero-role">{t.hero.role}</span>
-          </m.h1>
+          </h1>
 
-          <m.p className="hero-tagline" variants={item}>{t.hero.tagline}</m.p>
+          <p className="hero-tagline">{t.hero.tagline}</p>
 
-          <m.p className="hero-intro" variants={item}>{t.hero.intro}</m.p>
+          <p className="hero-intro">{t.hero.intro}</p>
 
-          <m.div className="hero-actions" variants={item}>
+          <div className="hero-actions">
             <a href="#proyectos" className="btn btn-primary">
               {t.hero.ctaProjects}
               <FiArrowRight size={16} aria-hidden="true" />
@@ -48,9 +37,9 @@ export default function Hero({ t }) {
               <FiDownload size={15} aria-hidden="true" />
               {t.hero.ctaCv}
             </a>
-          </m.div>
+          </div>
 
-          <m.ul className="hero-socials" variants={item} aria-label={t.hero.socials}>
+          <ul className="hero-socials" aria-label={t.hero.socials}>
             {socials.map(({ href, label, Icon, external }) => (
               <li key={label}>
                 <a
@@ -63,17 +52,12 @@ export default function Hero({ t }) {
                 </a>
               </li>
             ))}
-          </m.ul>
-        </m.div>
+          </ul>
+        </div>
 
-        <m.div
-          className="hero-visual"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        >
+        <div className="hero-visual">
           <ApiResponseCard t={t} />
-        </m.div>
+        </div>
       </div>
     </section>
   )
