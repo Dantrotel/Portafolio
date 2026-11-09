@@ -13,21 +13,18 @@ import {
   SiGit,
   SiGithub,
   SiDocker,
-  SiGooglecloud,
   SiPostgresql,
   SiSass,
   SiExpress,
   SiMysql,
   SiFastapi,
   SiSocketdotio,
-  SiMongodb,
   SiTailwindcss,
   SiScikitlearn,
-  SiTensorflow,
   SiLangchain,
   SiPandas,
 } from 'react-icons/si'
-import { FaDatabase, FaAws, FaJava } from 'react-icons/fa'
+import { FaDatabase, FaAws } from 'react-icons/fa'
 import { FiActivity } from 'react-icons/fi'
 
 export const skillCategories = [
@@ -38,7 +35,6 @@ export const skillCategories = [
       { name: 'Express', Icon: SiExpress },
       { name: 'FastAPI', Icon: SiFastapi },
       { name: 'Socket.io', Icon: SiSocketdotio },
-      { name: 'Google Cloud', Icon: SiGooglecloud },
       { name: 'AWS EC2', Icon: FaAws },
     ]
   },
@@ -48,21 +44,17 @@ export const skillCategories = [
       { name: 'JavaScript', Icon: SiJavascript },
       { name: 'TypeScript', Icon: SiTypescript },
       { name: 'Python', Icon: SiPython },
-      { name: 'Java', Icon: FaJava },
       { name: 'C++', Icon: SiCplusplus },
       { name: 'SQL', Icon: FaDatabase },
       { name: 'MySQL', Icon: SiMysql },
       { name: 'PostgreSQL', Icon: SiPostgresql },
-      { name: 'MongoDB', Icon: SiMongodb },
       { name: 'Firebase', Icon: SiFirebase },
     ]
   },
   {
     key: 'ai',
     skills: [
-      { name: 'Python', Icon: SiPython },
       { name: 'scikit-learn', Icon: SiScikitlearn },
-      { name: 'TensorFlow / Keras', Icon: SiTensorflow },
       { name: 'LangChain', Icon: SiLangchain },
       // librosa no tiene ícono propio: se usa una forma de onda genérica
       { name: 'librosa', Icon: FiActivity },
