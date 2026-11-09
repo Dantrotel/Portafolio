@@ -7,7 +7,7 @@ Portafolio personal como Desarrollador Full Stack. Página única con secciones 
 ## Stack
 
 - **React 19** + **Vite**
-- **Framer Motion** — animaciones y transiciones
+- Animaciones en CSS, sin librerías de animación
 - **React Icons** — iconografía
 - Soporte bilingüe (ES / EN) con detección del idioma del navegador
 - Tema claro / oscuro con paleta azul marino, persistido y sin flash al cargar

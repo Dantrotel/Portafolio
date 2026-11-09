@@ -115,6 +115,27 @@
   border-top: 1px solid var(--border);
 }
 
+/* Entra bajando 8px desde la barra y sale igual; la duración coincide con MENU_EXIT_MS en Navbar.jsx */
+.mobile-menu[data-state='open'] { animation: menuIn 220ms var(--ease-out) both; }
+.mobile-menu[data-state='closing'] { animation: menuOut 220ms var(--ease-out) both; }
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-8px); }
+}
+
+@keyframes menuOut {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+
+/* Con movimiento reducido el menú solo hace fundido, sin desplazarse */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu[data-state='open'] { animation-name: menuFadeIn; }
+  .mobile-menu[data-state='closing'] { animation-name: menuFadeOut; }
+}
+
+@keyframes menuFadeIn { from { opacity: 0; } }
+@keyframes menuFadeOut { to { opacity: 0; } }
+
 .mobile-menu-inner {
   display: flex;
   flex-direction: column;

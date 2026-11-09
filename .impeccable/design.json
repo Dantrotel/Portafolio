@@ -47,7 +47,7 @@
       { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Curva por defecto para transforms, subrayados y entradas." },
       { "name": "state-color", "value": "0.2s ease", "purpose": "Cambios de color y borde en hover." },
       { "name": "press", "value": "transform 0.15s, translateY(1px) scale(0.98)", "purpose": "Presión de botones; icon buttons escalan a 0.94." },
-      { "name": "hero-entrance", "value": "stagger 0.07s, delay 0.05s", "purpose": "Única entrada orquestada: los bloques del hero al cargar." },
+      { "name": "menu", "value": "220ms ease-out, translateY(-8px) + opacity", "purpose": "Entrada y salida del menú móvil, en CSS. Con movimiento reducido solo fundido." },
       { "name": "reduced-motion", "value": "transition-duration: 0.01ms; animation: none", "purpose": "Todo movimiento se apaga con prefers-reduced-motion." }
     ],
     "breakpoints": [

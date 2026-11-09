@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { LazyMotion, MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Skills from './components/Skills'
@@ -8,8 +7,6 @@ import Journey from './components/Journey'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import { STRINGS } from './i18n'
-
-const loadMotionFeatures = () => import('./motionFeatures').then((mod) => mod.default)
 
 function readStorage(key) {
   try { return localStorage.getItem(key) } catch { return null }
@@ -48,29 +45,27 @@ function App() {
   }, [t])
 
   return (
-    <LazyMotion features={loadMotionFeatures}>
-      <MotionConfig reducedMotion="user">
-        <a href="#main" className="skip-link">{t.nav.skip}</a>
+    <>
+      <a href="#main" className="skip-link">{t.nav.skip}</a>
 
-        <Navbar
-          t={t}
-          theme={theme}
-          onThemeToggle={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
-          lang={lang}
-          onLangChange={setLang}
-        />
+      <Navbar
+        t={t}
+        theme={theme}
+        onThemeToggle={() => setTheme((current) => (current === 'dark' ? 'light' : 'dark'))}
+        lang={lang}
+        onLangChange={setLang}
+      />
 
-        <main id="main">
-          <Hero t={t} />
-          <Projects t={t} lang={lang} />
-          <Skills t={t} />
-          <Journey t={t} lang={lang} />
-          <Contact t={t} />
-        </main>
+      <main id="main">
+        <Hero t={t} />
+        <Projects t={t} lang={lang} />
+        <Skills t={t} />
+        <Journey t={t} lang={lang} />
+        <Contact t={t} />
+      </main>
 
-        <Footer t={t} />
-      </MotionConfig>
-    </LazyMotion>
+      <Footer t={t} />
+    </>
   )
 }
 

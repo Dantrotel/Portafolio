@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, m } from 'framer-motion'
 import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection'
 import './Navbar.css'
@@ -14,8 +13,13 @@ const navLinks = [
 // El hero también se observa: al volver arriba ningún link queda activo
 const sectionIds = ['inicio', ...navLinks.map((link) => link.id)]
 
+// Igual que la duración de menuOut en Navbar.css: el menú se desmonta al terminar la salida
+const MENU_EXIT_MS = 220
+
 export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) {
   const [open, setOpen] = useState(false)
+  // closing: el menú ya está cerrado pero sigue montado mientras corre la animación de salida
+  const [closing, setClosing] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const menuRef = useRef(null)
   const toggleRef = useRef(null)
@@ -28,6 +32,12 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!closing || open) return
+    const id = setTimeout(() => setClosing(false), MENU_EXIT_MS)
+    return () => clearTimeout(id)
+  }, [closing, open])
 
   useEffect(() => {
     if (!open) return
@@ -45,11 +55,16 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
     const onKey = (e) => {
       if (e.key !== 'Escape') return
       setOpen(false)
+      setClosing(true)
       toggleRef.current?.focus()
     }
     // Si la ventana pasa a escritorio el menú se oculta por CSS: se cierra también aquí
     const desktop = window.matchMedia('(min-width: 861px)')
-    const onDesktop = (e) => { if (e.matches) setOpen(false) }
+    const onDesktop = (e) => {
+      if (!e.matches) return
+      setOpen(false)
+      setClosing(true)
+    }
 
     window.addEventListener('keydown', onKey)
     desktop.addEventListener('change', onDesktop)
@@ -61,12 +76,18 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
     }
   }, [open])
 
+  const closeMenu = () => {
+    if (!open) return
+    setOpen(false)
+    setClosing(true)
+  }
+
   const themeLabel = theme === 'dark' ? t.nav.toLight : t.nav.toDark
 
   return (
     <header className={`navbar ${scrolled || open ? 'is-scrolled' : ''}`}>
       <div className="container navbar-inner">
-        <a href="#inicio" className="navbar-brand" onClick={() => setOpen(false)}>
+        <a href="#inicio" className="navbar-brand" onClick={closeMenu}>
           dantrottel
           <span className="navbar-brand-cursor" aria-hidden="true">_</span>
         </a>
@@ -118,7 +139,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             ref={toggleRef}
             type="button"
             className="icon-btn navbar-toggle"
-            onClick={() => setOpen((o) => !o)}
+            onClick={() => (open ? closeMenu() : setOpen(true))}
             aria-label={open ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={open}
             aria-controls="mobile-menu"
@@ -128,39 +149,35 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
         </div>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <m.nav
-            ref={menuRef}
-            id="mobile-menu"
-            className="mobile-menu"
-            aria-label={t.nav.main}
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div className="container mobile-menu-inner">
-              {navLinks.map(({ id, labelKey }, i) => (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  className={`mobile-menu-link ${active === id ? 'is-active' : ''}`}
-                  aria-current={active === id ? 'true' : undefined}
-                  onClick={() => setOpen(false)}
-                >
-                  <span className="mobile-menu-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                  {t.nav[labelKey]}
-                </a>
-              ))}
-              <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary mobile-menu-cv">
-                <FiDownload size={15} aria-hidden="true" />
-                {t.hero.ctaCv}
+      {(open || closing) && (
+        <nav
+          ref={menuRef}
+          id="mobile-menu"
+          className="mobile-menu"
+          data-state={open ? 'open' : 'closing'}
+          inert={!open}
+          aria-label={t.nav.main}
+        >
+          <div className="container mobile-menu-inner">
+            {navLinks.map(({ id, labelKey }, i) => (
+              <a
+                key={id}
+                href={`#${id}`}
+                className={`mobile-menu-link ${active === id ? 'is-active' : ''}`}
+                aria-current={active === id ? 'true' : undefined}
+                onClick={closeMenu}
+              >
+                <span className="mobile-menu-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                {t.nav[labelKey]}
               </a>
-            </div>
-          </m.nav>
-        )}
-      </AnimatePresence>
+            ))}
+            <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary mobile-menu-cv">
+              <FiDownload size={15} aria-hidden="true" />
+              {t.hero.ctaCv}
+            </a>
+          </div>
+        </nav>
+      )}
     </header>
   )
 }

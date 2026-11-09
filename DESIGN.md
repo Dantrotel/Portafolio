@@ -268,7 +268,7 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 - Marca `dantrottel_` en Plex Mono 500 con el guion bajo fijo en Óxido. Sin parpadeo ni texto que se revuelve.
 - Links en Grotesk 0.925rem, Grafito; hover y activo en Tinta. El activo se subraya con una línea Óxido de 1px que crece desde la izquierda.
 - Selector ES / EN segmentado en mono 0.75rem; la opción activa sobre Papel Sombreado.
-- Bajo 860px: menú a pantalla completa con links de 1.75rem, índice mono en Óxido y reglas entre filas.
+- Bajo 860px: menú a pantalla completa con links de 1.75rem, índice mono en Óxido y reglas entre filas. Entra y sale bajando 8px con fundido en 220ms (CSS, sin librería); con movimiento reducido solo hace fundido. Es la única animación de aparición del sitio: el hero se ve completo desde el primer render.
 
 ### Tarjeta de respuesta API (signature)
 La evidencia de AcTitUBB en la portada, como respuesta HTTP: barra con método `GET` en pastilla Óxido, ruta `/proyectos/actitubb` (`/projects/actitubb` en EN) y `200 OK` con punto Verde Estado; cuerpo JSON en Plex Mono con claves en Tinta (traducidas en EN), strings y números en Óxido y puntuación en Grafito. Los números van sin comillas, como en JSON real. Solo lleva datos verificables del proyecto, nunca datos de perfil que ya dice el hero. Sobre Hoja, 8px, con Sombra de Hoja. Las líneas nunca se cortan (`white-space: pre`); en pantallas pequeñas la fuente escala para que la línea más larga quepa.
