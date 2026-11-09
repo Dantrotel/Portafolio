@@ -4,6 +4,9 @@ export const STRINGS = {
       title: 'Daniel Aguayo (dantrottel) — Desarrollador Full Stack',
       description: 'Portafolio de Daniel Aguayo (dantrottel), Desarrollador Full Stack con foco en backend (Node.js, APIs, bases de datos). Proyectos, experiencia y contacto.',
     },
+    a11y: {
+      newTab: '(se abre en una pestaña nueva)',
+    },
     nav: {
       skills: 'Habilidades',
       projects: 'Proyectos',
@@ -78,6 +81,9 @@ export const STRINGS = {
     meta: {
       title: 'Daniel Aguayo (dantrottel) — Full Stack Developer',
       description: 'Portfolio of Daniel Aguayo (dantrottel), Full Stack Developer focused on the backend (Node.js, APIs, databases). Projects, experience and contact.',
+    },
+    a11y: {
+      newTab: '(opens in a new tab)',
     },
     nav: {
       skills: 'Skills',

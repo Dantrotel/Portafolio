@@ -57,6 +57,7 @@ export default function Contact({ t }) {
                 <dd>
                   <a href={href} target="_blank" rel="noopener noreferrer" className="text-link contact-link">
                     {text}
+                    <span className="sr-only"> {t.a11y.newTab}</span>
                     <FiArrowUpRight size={16} aria-hidden="true" />
                   </a>
                 </dd>

@@ -45,7 +45,7 @@ export default function Hero({ t }) {
                 <a
                   href={href}
                   className="icon-btn"
-                  aria-label={label}
+                  aria-label={external ? `${label} ${t.a11y.newTab}` : label}
                   {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
                 >
                   <Icon size={17} aria-hidden="true" />

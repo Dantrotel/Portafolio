@@ -159,7 +159,7 @@ El sistema rechaza explícitamente el look "dev oscuro neón" (negros con gradie
 - Reglas de 1px como estructura principal; sombra en un solo lugar.
 - Grotesca para leer, Plex Mono para etiquetar, numerar y mostrar datos.
 - Esquinas casi rectas (4px), 8px solo para superficies.
-- Movimiento mínimo y funcional; nada con `prefers-reduced-motion`.
+- Movimiento mínimo y funcional; con `prefers-reduced-motion` no hay desplazamientos, solo cambios de color y fundidos.
 
 ## Colors
 
@@ -242,14 +242,14 @@ Formas casi rectas. 4px para todo lo interactivo y lo pequeño (botones, icon bu
 
 ## Components
 
-Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción primaria, plano en reposo. La respuesta al interactuar es mínima y funcional: una leve elevación al pasar el cursor, una leve presión al hacer clic, y nada con `prefers-reduced-motion` ni en dispositivos sin hover.
+Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción primaria, plano en reposo. La respuesta al interactuar es mínima y funcional: una leve elevación al pasar el cursor, una leve presión al hacer clic. El hover solo existe con puntero fino (mouse o trackpad); con `prefers-reduced-motion` se mantienen los cambios de color y desaparecen los desplazamientos.
 
 ### Buttons
 - **Shape:** esquinas casi rectas (4px), altura mínima de 44px (40px en la variante pequeña).
 - **Primary:** fondo Óxido, texto blanco (Tinta Nocturna en oscuro), Grotesk 500 a 0.95rem, padding 0.7rem × 1.25rem; con icono a 0.55rem de separación.
 - **Hover / Focus:** el fondo pasa a Óxido Profundo y el botón sube 1px; al presionar baja 1px y escala a 0.98. Foco: anillo Óxido de 2px con 3px de separación.
 - **Secondary:** transparente con borde Regla Fuerte y texto Tinta; al pasar el cursor, texto y borde a Óxido.
-- **Icon button:** cuadrado de 44px, borde Regla, icono Grafito; hover a Óxido, presión a escala 0.94.
+- **Icon button:** cuadrado de 44px, borde Regla, icono Grafito; hover a Óxido, presión a escala 0.96.
 
 ### Chips
 - **Tag:** borde Regla de 1px, texto Grafito en Plex Mono 0.75rem, sin fondo. Solo informativo.
@@ -267,7 +267,7 @@ Carácter general: preciso y sobrio. Bordes de 1px, acento solo en la acción pr
 ### Navigation
 - Marca `dantrottel_` en Plex Mono 500 con el guion bajo fijo en Óxido. Sin parpadeo ni texto que se revuelve.
 - Links en Grotesk 0.925rem, Grafito; hover y activo en Tinta. El activo se subraya con una línea Óxido de 1px que crece desde la izquierda.
-- Selector ES / EN segmentado en mono 0.75rem; la opción activa sobre Papel Sombreado.
+- Selector ES / EN segmentado en mono 0.75rem; la opción activa sobre Papel Sombreado. Cada opción mide 44px de ancho y su área de toque llega a 44px de alto aunque el fondo activo se vea inset.
 - Bajo 860px: menú a pantalla completa con links de 1.75rem, índice mono en Óxido y reglas entre filas. Entra y sale bajando 8px con fundido en 220ms (CSS, sin librería); con movimiento reducido solo hace fundido. Es la única animación de aparición del sitio: el hero se ve completo desde el primer render.
 
 ### Tarjeta de respuesta API (signature)
@@ -284,7 +284,7 @@ Tarjeta con índice mono "01 · Proyecto destacado", título grande, el problema
 - **Do** etiquetar con Plex Mono (índices `01`, períodos, categorías, tags) y escribir en Schibsted Grotesk.
 - **Do** mantener 4px en lo interactivo y 8px en las superficies, y 44px como objetivo táctil mínimo.
 - **Do** definir cada color nuevo en ambos temas con el mismo rol.
-- **Do** limitar el movimiento a respuestas de interacción (subir 1px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, desactivado con `prefers-reduced-motion` y en `hover: none`.
+- **Do** limitar el movimiento a respuestas de interacción (subir 1px, presión a 0.98) con `cubic-bezier(0.22, 1, 0.36, 1)`, con el hover dentro de `@media (hover: hover) and (pointer: fine)`. Con `prefers-reduced-motion` se anulan los transforms y se conservan las transiciones de color, borde y opacidad.
 
 ### Don't:
 - **Don't** usar el look "dev oscuro neón": fondos negros con gradientes morado/cian, glow ni glassmorphism.

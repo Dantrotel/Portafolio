@@ -35,10 +35,16 @@
   transition: color 0.2s ease;
 }
 
-.footer-top:hover { color: var(--text); }
-
 .footer-top svg { transition: transform 0.3s var(--ease-out); }
-.footer-top:hover svg { transform: translateY(-3px); }
+
+@media (hover: hover) and (pointer: fine) {
+  .footer-top:hover { color: var(--text); }
+  .footer-top:hover svg { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-top:hover svg { transform: none; }
+}
 
 @media (max-width: 640px) {
   .footer-inner {

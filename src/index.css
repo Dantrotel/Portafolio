@@ -137,9 +137,11 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   transition: background-size 0.3s var(--ease-out), color 0.2s ease;
 }
 
-.text-link:hover {
-  color: var(--accent);
-  background-size: 100% 1px;
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    color: var(--accent);
+    background-size: 100% 1px;
+  }
 }
 
 /* ============================================================
@@ -212,7 +214,6 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
               transform 0.15s var(--ease-out);
 }
 
-.btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(1px) scale(0.98); }
 
 .btn-primary {
@@ -220,7 +221,6 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   color: var(--on-accent);
 }
 
-.btn-primary:hover { background: var(--accent-hover); }
 
 .btn-secondary {
   background: transparent;
@@ -228,10 +228,6 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   border-color: var(--border-strong);
 }
 
-.btn-secondary:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
 
 .btn-sm { min-height: 40px; padding: 0.5rem 0.9rem; font-size: 0.875rem; }
 
@@ -247,12 +243,23 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   transition: color 0.2s ease, border-color 0.2s ease, transform 0.15s var(--ease-out);
 }
 
-.icon-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
+.icon-btn:active { transform: scale(0.96); }
 
-.icon-btn:active { transform: scale(0.94); }
+/* Hover solo con puntero fino: en táctil el toque no deja estados pegados */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary:hover { background: var(--accent-hover); }
+
+  .btn-secondary:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .icon-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+}
 
 /* ============================================================
    TAGS
@@ -285,14 +292,9 @@ button { font: inherit; color: inherit; cursor: pointer; background: none; borde
   .section-header { margin-bottom: 2.5rem; }
 }
 
-@media (hover: none) {
-  .btn:hover, .icon-btn:hover { transform: none; }
-}
-
+/* Movimiento reducido: se anulan los desplazamientos y escalas de interacción;
+   color, borde y opacidad conservan su transición. Cada componente anula los suyos. */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after {
-    animation: none !important;
-    transition-duration: 0.01ms !important;
-  }
+  .btn:hover, .btn:active, .icon-btn:active { transform: none; }
 }

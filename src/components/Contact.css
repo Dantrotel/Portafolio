@@ -72,9 +72,15 @@
   transition: transform 0.25s var(--ease-out), color 0.2s ease;
 }
 
-.contact-link:hover svg {
-  color: var(--accent);
-  transform: translate(2px, -2px);
+@media (hover: hover) and (pointer: fine) {
+  .contact-link:hover svg {
+    color: var(--accent);
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-link:hover svg { transform: none; }
 }
 
 @media (max-width: 900px) {

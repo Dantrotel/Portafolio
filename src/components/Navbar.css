@@ -65,7 +65,6 @@
   transition: transform 0.3s var(--ease-out);
 }
 
-.navbar-link:hover { color: var(--text); }
 
 .navbar-link.is-active { color: var(--text); }
 
@@ -85,8 +84,10 @@
   border-radius: var(--radius-sm);
 }
 
+/* El fondo activo se ve inset (3px); el área de toque llega al borde: 44 × 44px */
 .lang-switch button {
-  min-width: 36px;
+  position: relative;
+  min-width: 44px;
   padding: 0 0.4rem;
   border-radius: 3px;
   font-family: var(--font-mono);
@@ -95,7 +96,16 @@
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 
-.lang-switch button:hover { color: var(--text); }
+.lang-switch button::before {
+  content: '';
+  position: absolute;
+  inset: -4px 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navbar-link:hover { color: var(--text); }
+  .lang-switch button:hover { color: var(--text); }
+}
 
 .lang-switch button.is-active {
   background: var(--bg-elevated);
@@ -131,6 +141,7 @@
 @media (prefers-reduced-motion: reduce) {
   .mobile-menu[data-state='open'] { animation-name: menuFadeIn; }
   .mobile-menu[data-state='closing'] { animation-name: menuFadeOut; }
+  .navbar-link::after { transition: none; }
 }
 
 @keyframes menuFadeIn { from { opacity: 0; } }
@@ -179,7 +190,12 @@
   .mobile-menu { display: none; }
 }
 
+/* 320–360px: la barra entra completa sin bajar las áreas de toque de 44px */
 @media (max-width: 360px) {
-  .navbar-controls { gap: 0.35rem; }
-  .lang-switch button { min-width: 32px; }
+  .navbar-inner { gap: 0.5rem; }
+  .navbar-brand { font-size: 0.875rem; }
+  .navbar-controls { gap: 0.25rem; }
+  .lang-switch { padding: 0; }
+  .lang-switch button { border-radius: 0; }
+  .lang-switch button::before { inset: -1px 0; }
 }

@@ -47,8 +47,10 @@
   transition: color 0.2s ease;
 }
 
-.skills-item:hover { border-color: var(--border-strong); }
-.skills-item:hover .skills-icon { color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .skills-item:hover { border-color: var(--border-strong); }
+  .skills-item:hover .skills-icon { color: var(--accent); }
+}
 
 @media (max-width: 760px) {
   .skills-row { grid-template-columns: minmax(0, 1fr); gap: 0.85rem; }

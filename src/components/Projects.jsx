@@ -26,6 +26,7 @@ function ProjectLinks({ project, t, codePrimary = false }) {
         >
           <FiExternalLink size={14} aria-hidden="true" />
           {t.projects.viewDemo}
+          <span className="sr-only"> {t.a11y.newTab}</span>
         </a>
       )}
       {project.code && (
@@ -37,6 +38,7 @@ function ProjectLinks({ project, t, codePrimary = false }) {
         >
           <FiGithub size={14} aria-hidden="true" />
           {t.projects.viewCode}
+          <span className="sr-only"> {t.a11y.newTab}</span>
         </a>
       )}
     </div>
