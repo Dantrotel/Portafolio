@@ -22,7 +22,7 @@ export const STRINGS = {
     hero: {
       location: 'Concepción, Chile',
       role: 'Desarrollador Full Stack',
-      tagline: 'Desarrollador full stack con foco en backend. En AcTitUBB, mi proyecto de título, diseñé la API, el modelo de datos y la seguridad de una plataforma para gestionar la titulación en la Universidad del Bío-Bío.',
+      tagline: 'Me enfoco en el backend. En AcTitUBB, mi proyecto de título, diseñé la API, el modelo de datos y la seguridad de una plataforma para gestionar la titulación en la Universidad del Bío-Bío.',
       intro: 'Egresé de Ingeniería de Ejecución en Computación e Informática en la Universidad del Bío-Bío. Me muevo en todo el stack, pero donde más disfruto es en lo que funciona por detrás, y no paro hasta ver el proyecto andando de verdad.',
       ctaProjects: 'Ver proyectos',
       ctaCv: 'Descargar CV',
@@ -97,7 +97,7 @@ export const STRINGS = {
     hero: {
       location: 'Concepción, Chile',
       role: 'Full Stack Developer',
-      tagline: 'Full stack developer focused on backend. For AcTitUBB, my capstone project, I designed the API, data model and security of a platform that manages thesis workflows at Universidad del Bío-Bío.',
+      tagline: 'My focus is the backend. For AcTitUBB, my capstone project, I designed the API, data model and security of a platform that manages thesis workflows at Universidad del Bío-Bío.',
       intro: "I graduated in Computer Science and Informatics Engineering from Universidad del Bío-Bío. I work across the whole stack, but I enjoy the parts that run behind the scenes the most, and I don't stop until the project is actually up and running.",
       ctaProjects: 'View projects',
       ctaCv: 'Download CV',
