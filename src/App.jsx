@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { LazyMotion, MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
 import Experience from './components/Experience'
@@ -58,9 +57,8 @@ function App() {
 
         <main id="main">
           <Hero t={t} />
-          <About t={t} />
-          <Skills t={t} />
           <Projects t={t} lang={lang} />
+          <Skills t={t} />
           <Experience t={t} lang={lang} />
           <Education t={t} lang={lang} />
           <Contact t={t} />

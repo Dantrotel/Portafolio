@@ -1,75 +1,71 @@
 .whoami-card {
-  width: min(100%, 460px);
-  margin: 0;
-  border-radius: var(--radius);
+  overflow: hidden;
   background: var(--bg-surface);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  text-align: left;
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-family: var(--font-mono);
 }
 
-.whoami-card:hover {
-  transform: translateY(-4px);
-}
-
-.whoami-titlebar {
+.whoami-bar {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.75rem 1rem;
-  background: var(--bg-elevated);
+  gap: 0.75rem;
+  padding: 0.8rem 1.25rem;
   border-bottom: 1px solid var(--border);
+  font-size: 0.8rem;
 }
 
-.whoami-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--border-strong);
+.whoami-method {
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 500;
 }
 
-.whoami-dot:first-child { background: var(--accent); opacity: 0.85; }
+.whoami-path { color: var(--text); }
 
-.whoami-title {
+.whoami-status {
   margin-left: auto;
-  margin-right: auto;
-  padding-right: 2.2rem; /* compensa los dots para centrar el título */
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: var(--text-subtle);
+  color: var(--text-muted);
 }
 
+.whoami-status::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: #2F9E6A;
+  vertical-align: 1px;
+}
+
+/* white-space: pre — una línea del JSON nunca se corta a mitad de un valor */
 .whoami-body {
   margin: 0;
-  padding: 1.35rem 1.4rem 1.6rem;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  line-height: 1.8;
+  padding: 1.25rem 1.25rem 1.5rem;
+  overflow-x: auto;
+  white-space: pre;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.75;
   color: var(--text);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
 }
 
-.json-prompt { color: var(--accent); font-weight: 500; }
-.json-key    { color: var(--accent); }
-.json-string { color: var(--text); }
-.json-punct  { color: var(--text-subtle); }
+.whoami-body code { font-family: inherit; }
 
-.whoami-cursor {
-  display: inline-block;
-  width: 0.55em;
-  height: 1.1em;
-  vertical-align: text-bottom;
-  background: var(--accent);
-  animation: whoamiBlink 1s steps(1) infinite;
-}
+.json-header { color: var(--text-muted); }
+.json-key    { color: var(--text); }
+.json-string { color: var(--accent); }
+.json-punct  { color: var(--text-muted); }
 
-@keyframes whoamiBlink {
-  50% { opacity: 0; }
-}
-
-@media (max-width: 768px) {
-  .whoami-body { font-size: 0.74rem; padding: 1.1rem; }
+@media (max-width: 480px) {
+  .whoami-bar { padding: 0.7rem 1rem; }
+  .whoami-body {
+    padding: 1rem 1rem 1.25rem;
+    /* la línea más larga tiene 41 caracteres (0,6em cada uno en Plex Mono) */
+    font-size: clamp(10px, calc((100vw - 4rem) / 26), 0.875rem);
+  }
 }

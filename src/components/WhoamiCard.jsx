@@ -1,6 +1,7 @@
 import DecryptedText from './reactbits/DecryptedText'
 import './WhoamiCard.css'
 
+// Los arreglos van en una sola línea: cada línea del JSON cabe sin cortarse a 320 px
 function JsonValue({ value }) {
   if (Array.isArray(value)) {
     return (
@@ -20,45 +21,32 @@ function JsonValue({ value }) {
 }
 
 export default function WhoamiCard({ t }) {
-  const w = t.about.whoami
+  const w = t.whoami
 
   const entries = [
     ['name',     'Daniel Aguayo'],
     ['handle',   'dantrottel'],
     ['role',     t.hero.role],
     ['focus',    w.focus],
-    ['stack',    ['Node.js', 'Express', 'FastAPI', 'MySQL', 'Docker']],
+    ['stack',    ['Node.js', 'MySQL', 'Docker']],
     ['location', 'Concepción, Chile'],
-    ['status',   'open_to_work'],
     ['offline',  w.offline],
   ]
 
   return (
     <figure className="whoami-card" aria-label={w.label}>
-      <div className="whoami-titlebar" aria-hidden="true">
-        <span className="whoami-dot" />
-        <span className="whoami-dot" />
-        <span className="whoami-dot" />
-        <span className="whoami-title">
-          <DecryptedText
-            text="dantrottel@portfolio: ~"
-            speed={30}
-            maxIterations={8}
-            animateOn="hover"
-          />
+      <div className="whoami-bar">
+        <span className="whoami-method">GET</span>
+        <span className="whoami-path">
+          <DecryptedText text="/whoami" speed={40} maxIterations={10} animateOn="view" />
         </span>
+        <span className="whoami-status">200 OK</span>
       </div>
 
       <pre className="whoami-body">
         <code>
-          <span className="json-prompt">$</span>{' '}
-          <DecryptedText
-            text="whoami --json"
-            speed={35}
-            maxIterations={10}
-            animateOn="view"
-          />
-          {'\n'}
+          <span className="json-header">content-type: application/json</span>
+          {'\n\n'}
           <span className="json-punct">{'{'}</span>{'\n'}
           {entries.map(([key, value], i) => (
             <span key={key}>
@@ -69,8 +57,7 @@ export default function WhoamiCard({ t }) {
               {'\n'}
             </span>
           ))}
-          <span className="json-punct">{'}'}</span>{'\n'}
-          <span className="json-prompt">$</span> <span className="whoami-cursor" aria-hidden="true" />
+          <span className="json-punct">{'}'}</span>
         </code>
       </pre>
     </figure>
