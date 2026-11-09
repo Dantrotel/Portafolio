@@ -59,7 +59,7 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
       toggleRef.current?.focus()
     }
     // Si la ventana pasa a escritorio el menú se oculta por CSS: se cierra también aquí
-    const desktop = window.matchMedia('(min-width: 861px)')
+    const desktop = window.matchMedia('(min-width: 53.8125em)')
     const onDesktop = (e) => {
       if (!e.matches) return
       setOpen(false)

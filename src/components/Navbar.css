@@ -166,14 +166,16 @@
 
 .mobile-menu-cv { margin-top: 2rem; }
 
-@media (max-width: 860px) {
+/* Cortes en em: siguen el tamaño de letra del navegador, así con texto al 200 %
+   el navbar pasa al menú móvil antes de desbordarse (860px a 16px = 53.75em) */
+@media (max-width: 53.75em) {
   .navbar-links,
   .navbar-cv { display: none; }
 
   .navbar-toggle { display: inline-flex; }
 }
 
-@media (min-width: 861px) {
+@media (min-width: 53.8125em) {
   .mobile-menu { display: none; }
 }
 
