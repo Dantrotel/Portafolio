@@ -1,4 +1,4 @@
-// Mismos datos que Contact.jsx de la vista simple
+// Mismos datos que Contact.jsx de la vista simple; los usa el escritorio (fs, terminal, editor)
 export const EMAIL = 'dantrottel@gmail.com'
 
 export const PROFILES = [

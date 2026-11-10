@@ -4,7 +4,7 @@ import { skillCategories } from '../data/skillsData'
 import { experienceData } from '../data/experienceData'
 import { educationData } from '../data/educationData'
 import { visibleProjects, pick, findProject } from './projects'
-import { EMAIL, PROFILES } from './contactInfo'
+import { EMAIL, PROFILES } from '../data/contactData'
 import { Cmd, Rich, ExternalLink, ProjectPrint, Neofetch } from './TermParts'
 
 // Nombre interno de cada app → nombres que acepta `open`. El primero de cada idioma es el que muestra `ls`.

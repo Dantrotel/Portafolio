@@ -6,7 +6,7 @@
 //             imageAlt/imageAltEn (qué muestra la captura; sin él se usa "Captura de <título>"),
 //             frameLabel/frameLabelEn (texto del marco de navegador del destacado),
 //             draft (true = no se renderiza hasta tener contenido real),
-//             slug + aliases (nombre de la carpeta en el escritorio y en la terminal: cat <slug>).
+//             slug + aliases (nombre de la carpeta en ~/Proyectos y alias que acepta la terminal).
 export const projectsData = [
   {
     title: 'AcTitUBB — Seguimiento de Tesistas',
@@ -75,8 +75,8 @@ export const projectsData = [
   },
   {
     title: 'Bot DJ para Discord',
-    slug: 'djbot',
-    aliases: ['bot-dj'],
+    slug: 'bot-dj',
+    aliases: ['djbot'],
     titleEn: 'DJ Bot for Discord',
     description:
       'Bot de música para Discord con mezcla tipo DJ: transiciones entre canciones, beatmatching y cambio de tempo sin alterar el tono.',
@@ -103,8 +103,8 @@ export const projectsData = [
   },
   {
     title: 'Simulación de Carrera Multihilo',
-    slug: 'carrera',
-    aliases: ['race'],
+    slug: 'carrera-multihilo',
+    aliases: ['carrera', 'race'],
     titleEn: 'Multithreaded Race Simulation',
     problem:
       'Poner en práctica la programación concurrente: varios hilos compitiendo por recursos compartidos sin condiciones de carrera.',

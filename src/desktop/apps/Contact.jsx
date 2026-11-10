@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { FiArrowUpRight, FiCheck, FiCopy, FiDownload } from 'react-icons/fi'
-import { EMAIL, PROFILES } from '../contactInfo'
+import { EMAIL, PROFILES } from '../../data/contactData'
 
 const base = import.meta.env.BASE_URL
 
