@@ -120,6 +120,7 @@ export const DESKTOP_STRINGS = {
     },
     mobile: {
       shortcuts: 'Accesos directos',
+      viewCase: 'Ver caso de estudio',
     },
   },
   en: {
@@ -241,6 +242,7 @@ export const DESKTOP_STRINGS = {
     },
     mobile: {
       shortcuts: 'Shortcuts',
+      viewCase: 'View case study',
     },
   },
 }

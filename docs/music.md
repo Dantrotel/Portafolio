@@ -1,6 +1,6 @@
 # Música del reproductor
 
-Esta carpeta guarda las pistas del reproductor del escritorio. Viene vacía a propósito: agrega solo música propia o con una licencia que permita publicarla (por ejemplo CC BY, citando al autor).
+La carpeta `public/music/` guarda las pistas del reproductor del escritorio. Viene vacía a propósito (solo con un `.gitkeep`): agrega solo música propia o con una licencia que permita publicarla (por ejemplo CC BY, citando al autor).
 
 ## Formato
 

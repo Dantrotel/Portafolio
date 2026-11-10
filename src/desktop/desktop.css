@@ -1268,6 +1268,41 @@ code { font-family: var(--font-mono); }
 
 .phone-icon-label { font-size: 0.75rem; line-height: 1.25; overflow-wrap: anywhere; }
 
+/* Proyectos bajo la grilla: título, una línea de descripción y el acceso al caso */
+.phone-projects { margin-top: 2.25rem; }
+
+.phone-section-title { font-size: 1.15rem; letter-spacing: -0.025em; }
+
+.phone-cards { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.75rem; }
+
+.phone-card {
+  padding: 0.9rem 1rem 0.4rem;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+}
+
+.phone-card-title { font-size: 1rem; letter-spacing: -0.015em; }
+
+/* El texto completo queda en el DOM; a la vista, una sola línea */
+.phone-card-desc {
+  margin-top: 0.2rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.phone-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
 .phone-app {
   flex: 1;
   min-height: 0;

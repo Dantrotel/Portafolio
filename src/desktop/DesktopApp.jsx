@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from 'react'
 import {
-  FiTerminal, FiFolder, FiUser, FiLayers, FiMail, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft,
+  FiTerminal, FiFolder, FiUser, FiLayers, FiMail, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft, FiArrowRight,
 } from 'react-icons/fi'
 import { STRINGS } from '../i18n'
 import { tracks } from '../data/tracks'
 import { DESKTOP_STRINGS } from './strings'
 import { APP_IDS, runCommand, commandExamples } from './commands'
-import { visibleProjects } from './projects'
+import { visibleProjects, pick } from './projects'
 import { usePlayer } from './usePlayer'
 import { Rich } from './TermParts'
 import Window, { TOP_BAR } from './Window'
@@ -420,7 +420,7 @@ export default function DesktopApp() {
 
       {isMobile ? (
         <MobileShell
-          t={t} d={d} controls={controls} view={mobileView} setView={setMobileView}
+          t={t} d={d} isEn={isEn} controls={controls} view={mobileView} setView={setMobileView}
           renderApp={renderApp} openProject={openProject}
         />
       ) : (
@@ -513,18 +513,23 @@ export default function DesktopApp() {
 
 // ---------- celular ----------
 
-function MobileShell({ t, d, controls, view, setView, renderApp, openProject }) {
-  const lastView = useRef(null)
+function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProject }) {
+  const returnTo = useRef(null)
   const appRef = useRef(null)
 
-  // Al abrir una app el foco entra en ella; al volver, regresa a su ícono
+  // Recuerda qué control abrió la app para devolverle el foco (y el scroll) al volver
+  const openFrom = (selector, open) => {
+    returnTo.current = selector
+    open()
+  }
+
+  // Al abrir una app el foco entra en ella; al volver, regresa al control que la abrió
   useEffect(() => {
     if (view) {
-      lastView.current = view
       const el = appRef.current
       ;(el?.querySelector('[data-autofocus]') || el?.querySelector('.phone-back'))?.focus({ preventScroll: true })
-    } else if (lastView.current) {
-      document.querySelector(`[data-launch="${lastView.current}"]`)?.focus({ preventScroll: true })
+    } else if (returnTo.current) {
+      document.querySelector(returnTo.current)?.focus()
     }
   }, [view])
 
@@ -562,7 +567,12 @@ function MobileShell({ t, d, controls, view, setView, renderApp, openProject }) 
               Daniel Aguayo <span className="phone-role">{t.hero.role}</span>
             </h1>
             <div className="phone-shortcuts" role="group" aria-label={d.mobile.shortcuts}>
-              <button type="button" className="btn btn-primary btn-sm" onClick={() => openProject(visibleProjects[0]?.slug)}>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                data-shortcut="projects"
+                onClick={() => openFrom('[data-shortcut="projects"]', () => openProject(visibleProjects[0]?.slug))}
+              >
                 <FiFolder size={15} aria-hidden="true" />
                 {d.apps.projects}
               </button>
@@ -579,7 +589,12 @@ function MobileShell({ t, d, controls, view, setView, renderApp, openProject }) 
                 const { Icon } = APPS[id]
                 return (
                   <li key={id}>
-                    <button type="button" className="phone-icon" data-launch={id} onClick={() => setView(id)}>
+                    <button
+                      type="button"
+                      className="phone-icon"
+                      data-launch={id}
+                      onClick={() => openFrom(`[data-launch="${id}"]`, () => setView(id))}
+                    >
                       <span className="phone-icon-tile"><Icon size={24} aria-hidden="true" /></span>
                       <span className="phone-icon-label">{d.apps[id]}</span>
                     </button>
@@ -594,6 +609,31 @@ function MobileShell({ t, d, controls, view, setView, renderApp, openProject }) 
               </li>
             </ul>
           </nav>
+
+          {/* Los proyectos también viven en la pantalla de inicio: se leen sin abrir ninguna app */}
+          <section className="phone-projects" aria-labelledby="phone-projects-title">
+            <h2 className="phone-section-title" id="phone-projects-title">{d.apps.projects}</h2>
+            <ul className="phone-cards">
+              {visibleProjects.map((project) => (
+                <li key={project.slug}>
+                  <article className="phone-card">
+                    <h3 className="phone-card-title">{pick(project, 'title', isEn)}</h3>
+                    <p className="phone-card-desc">{pick(project, 'description', isEn)}</p>
+                    <button
+                      type="button"
+                      className="phone-card-link"
+                      data-case={project.slug}
+                      onClick={() => openFrom(`[data-case="${project.slug}"]`, () => openProject(project.slug))}
+                    >
+                      {d.mobile.viewCase}
+                      <FiArrowRight size={15} aria-hidden="true" />
+                      <span className="sr-only">: {pick(project, 'title', isEn)}</span>
+                    </button>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </section>
         </main>
       )}
     </div>
