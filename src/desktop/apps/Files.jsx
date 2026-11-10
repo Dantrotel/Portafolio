@@ -24,6 +24,59 @@ const PLACES = [
 
 export const DRAG_TYPE = 'application/x-desk-ids'
 
+const LONG_PRESS_MS = 500
+
+// Mantener presionado abre el menú (iOS no dispara contextmenu; Android sí: se usa el primero que llegue)
+function longPress(onLong) {
+  let timer = null
+  let fired = false
+  const cancel = () => { clearTimeout(timer); timer = null }
+  return {
+    onPointerDown: (e) => {
+      if (e.pointerType === 'mouse') return
+      fired = false
+      const target = e.currentTarget
+      timer = setTimeout(() => { fired = true; onLong(target) }, LONG_PRESS_MS)
+    },
+    onPointerMove: cancel,
+    onPointerUp: cancel,
+    onPointerCancel: cancel,
+    onContextMenu: (e) => {
+      e.preventDefault()
+      e.stopPropagation() // si no, el panel abriría encima el menú del fondo
+      cancel()
+      if (!fired) { fired = true; onLong(e.currentTarget) }
+    },
+    onClickCapture: (e) => {
+      // El toque que terminó una pulsación larga no abre el archivo
+      if (fired) { e.preventDefault(); e.stopPropagation(); fired = false }
+    },
+  }
+}
+
+// Celular: lista simple. Tocar abre; "⋯" o mantener presionado abre el menú como hoja inferior.
+function MobileItems({ nodes, items, lang, d, onOpen, onContextMenu, cwd, label }) {
+  return (
+    <ul className="fm-mlist" aria-label={label}>
+      {items.map((node) => {
+        const name = displayName(node, lang)
+        const menu = (el) => onContextMenu({ id: node.id, x: 0, y: 0, returnFocus: el, dir: cwd })
+        return (
+          <li key={node.id} className="fm-mrow">
+            <button type="button" className="fm-mopen" onClick={() => onOpen(node.id)} {...longPress(menu)}>
+              <FileIcon nodes={nodes} node={node} size={32} />
+              <span className="fm-mname">{name}</span>
+            </button>
+            <button type="button" className="fm-more" aria-label={d.menu.more(name)} onClick={(e) => menu(e.currentTarget)}>
+              <FiMoreHorizontal size={18} aria-hidden="true" />
+            </button>
+          </li>
+        )
+      })}
+    </ul>
+  )
+}
+
 function dropIds(e) {
   try { return JSON.parse(e.dataTransfer.getData(DRAG_TYPE) || '[]') } catch { return [] }
 }
@@ -263,7 +316,7 @@ export default function Files({
           editing={editingPath}
           setEditing={setEditingPath}
         />
-        <div className="fm-views" role="group" aria-label={d.files.viewLabel}>
+        <div className="fm-views" role="group" aria-label={d.files.viewLabel} hidden={mobile}>
           <button type="button" className="fm-tool" aria-pressed={view === 'icons'} onClick={() => setView('icons')} aria-label={d.files.iconView}>
             <FiGrid size={15} aria-hidden="true" />
           </button>
@@ -321,6 +374,12 @@ export default function Files({
           >
             {items.length === 0 ? (
               <p className="fm-empty">{cwd === 'music' ? d.files.emptyMusic : inTrash ? d.files.emptyTrash : d.files.empty}</p>
+            ) : mobile ? (
+              <MobileItems
+                nodes={nodes} items={items} lang={lang} d={d} cwd={cwd}
+                label={d.files.contentsOf(displayName(nodes[cwd], lang))}
+                onOpen={onOpen} onContextMenu={onContextMenu}
+              />
             ) : (
               <div
                 ref={listRef}
@@ -370,20 +429,6 @@ export default function Files({
                           <span className="fm-meta">{dirLike ? d.types.dir : d.types[nodes[resolveTarget(nodes, node.id)]?.type] || d.types.link}</span>
                           <span className="fm-meta fm-size">{dirLike ? d.props.items(children(nodes, resolveTarget(nodes, node.id)).length) : size || '—'}</span>
                         </>
-                      )}
-                      {mobile && (
-                        <button
-                          type="button"
-                          className="fm-more"
-                          aria-label={d.menu.more(name)}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setSelection([node.id])
-                            onContextMenu({ id: node.id, x: 0, y: 0, returnFocus: e.currentTarget, dir: cwd })
-                          }}
-                        >
-                          <FiMoreHorizontal size={18} aria-hidden="true" />
-                        </button>
                       )}
                     </div>
                   )

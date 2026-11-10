@@ -5,11 +5,12 @@ import {
 import { STRINGS } from '../i18n'
 import { tracks } from '../data/tracks'
 import { DESKTOP_STRINGS } from './strings'
-import { APP_IDS, runCommand, commandExamples, complete } from './commands'
+import { runCommand, commandExamples, complete } from './commands'
 import { visibleProjects, pick } from './projects'
 import { usePlayer } from './usePlayer'
 import { Rich } from './TermParts'
 import Window, { TOP_BAR } from './Window'
+import FileIcon from './FileIcon'
 import Terminal from './apps/Terminal'
 import Files from './apps/Files'
 import Editor from './apps/Editor'
@@ -796,6 +797,8 @@ export default function DesktopApp() {
         <MobileShell
           t={t} d={d} isEn={isEn} controls={controls} view={mobileView} setView={setMobileView}
           renderApp={renderApp} openProject={openProject} windowTitle={windowTitle}
+          nodes={nodes} openNode={openNode}
+          openFiles={(dirId) => { navigateFm(dirId); openApp('files') }}
         />
       ) : (
         <div className="desk" data-wallpaper={wallpaper}>
@@ -965,7 +968,7 @@ export default function DesktopApp() {
 
 // ---------- celular ----------
 
-function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProject, windowTitle }) {
+function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProject, windowTitle, nodes, openNode, openFiles }) {
   const returnTo = useRef(null)
   const appRef = useRef(null)
 
@@ -1037,22 +1040,33 @@ function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProje
 
           <nav aria-label={d.launcher}>
             <ul className="phone-grid">
-              {APP_IDS.map((id) => {
-                const { Icon } = APPS[id]
-                return (
-                  <li key={id}>
-                    <button
-                      type="button"
-                      className="phone-icon"
-                      data-launch={id}
-                      onClick={() => openFrom(`[data-launch="${id}"]`, () => setView(id))}
-                    >
-                      <span className="phone-icon-tile"><Icon size={24} aria-hidden="true" /></span>
-                      <span className="phone-icon-label">{d.apps[id]}</span>
-                    </button>
-                  </li>
-                )
-              })}
+              {[
+                { key: 'terminal', label: d.apps.terminal, Icon: FiTerminal, open: () => setView('terminal') },
+                { key: 'files', label: d.apps.files, node: 'home', open: () => openFiles('home') },
+                { key: 'projects', label: d.apps.projects, node: 'projects', open: () => openFiles('projects') },
+                { key: 'contact', label: d.panel.contact, node: 'contact', open: () => openNode('contact') },
+                { key: 'cv', label: 'CV', node: 'doc-cv', open: () => openNode('doc-cv') },
+                { key: 'music', label: d.apps.music, Icon: FiMusic, open: () => setView('music') },
+                { key: 'commands', label: d.apps.commands, Icon: FiList, open: () => setView('commands') },
+                { key: 'settings', label: d.apps.settings, Icon: FiSliders, open: () => setView('settings') },
+                { key: 'trash', label: displayName(nodes.trash, isEn ? 'en' : 'es'), node: 'desk-trash', open: () => openFiles('trash') },
+              ].map(({ key, label, Icon, node, open }) => (
+                <li key={key}>
+                  <button
+                    type="button"
+                    className="phone-icon"
+                    data-launch={key}
+                    onClick={() => openFrom(`[data-launch="${key}"]`, open)}
+                  >
+                    <span className="phone-icon-tile">
+                      {node && nodes[node]
+                        ? <FileIcon nodes={nodes} node={nodes[node]} size={40} />
+                        : <Icon size={24} aria-hidden="true" />}
+                    </span>
+                    <span className="phone-icon-label">{label}</span>
+                  </button>
+                </li>
+              ))}
               <li>
                 <a className="phone-icon" href={SIMPLE_URL}>
                   <span className="phone-icon-tile"><FiFileText size={24} aria-hidden="true" /></span>

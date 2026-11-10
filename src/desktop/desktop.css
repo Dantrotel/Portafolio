@@ -1315,6 +1315,33 @@ form.fm-path:focus-within { outline: 2px solid var(--accent); outline-offset: -1
 
 .fm-empty { padding: 24px 12px; text-align: center; color: var(--text-muted); }
 
+.fm-views[hidden] { display: none; }
+
+/* Celular: filas grandes, tocar abre y "⋯" abre el menú */
+.fm-mlist { margin: -10px; }
+
+.fm-mrow { display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+
+.fm-mopen {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 12px;
+  text-align: left;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.fm-mopen:active { background: var(--sunken); }
+
+.fm-mname { overflow: hidden; font-size: 0.95rem; color: var(--text); white-space: nowrap; text-overflow: ellipsis; }
+
+.fm-mrow .fm-more { position: static; flex: none; width: 48px; height: 48px; margin-right: 4px; }
+
 .fm-preview { border-top: 1px solid var(--border); }
 
 .fm-doc { max-width: 46rem; padding: 1.25rem 1.5rem 2rem; }
@@ -1341,6 +1368,9 @@ form.fm-path:focus-within { outline: 2px solid var(--accent); outline-offset: -1
   .fm-side ul { flex-direction: row; overflow-x: auto; scrollbar-width: none; }
   .fm-place { width: auto; min-height: 40px; }
   .fm-items--icons { grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); }
+  /* Ruta corta: solo la carpeta actual y su padre */
+  .fm-crumbs li:not(:nth-last-child(-n + 2)) { display: none; }
+  .fm-crumbs li:nth-last-child(2) .fm-crumb-sep { display: none; }
   .fm-doc { padding: 1rem 1rem 2rem; }
 }
 
@@ -1848,6 +1878,9 @@ form.fm-path:focus-within { outline: 2px solid var(--accent); outline-offset: -1
 }
 
 .menu--sheet .menu-item { min-height: 48px; font-size: 1rem; }
+
+/* En la hoja táctil los atajos de teclado no aplican */
+.menu--sheet .menu-hint { display: none; }
 
 .menu-title {
   padding: 6px 10px 8px;
