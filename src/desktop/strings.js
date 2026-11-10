@@ -141,6 +141,17 @@ export const DESKTOP_STRINGS = {
       label: 'Escritorio',
     },
     newFolder: 'Nueva carpeta',
+    editor: {
+      readOnly: 'Solo lectura',
+      missing: 'Este archivo ya no existe.',
+      inTrash: (trash) => `Está en la ${trash.toLowerCase()}`,
+      pick: 'Elige un documento para abrirlo.',
+    },
+    viewer: {
+      openTab: 'Abrir en pestaña',
+      download: 'Descargar',
+      noEmbed: 'Este navegador no muestra PDF dentro de la página. Ábrelo en una pestaña o descárgalo.',
+    },
     panel: {
       apps: 'Aplicaciones',
       search: 'Buscar aplicaciones',
@@ -388,6 +399,17 @@ export const DESKTOP_STRINGS = {
       label: 'Desktop',
     },
     newFolder: 'New folder',
+    editor: {
+      readOnly: 'Read only',
+      missing: 'This file no longer exists.',
+      inTrash: (trash) => `It's in the ${trash.toLowerCase()}`,
+      pick: 'Pick a document to open it.',
+    },
+    viewer: {
+      openTab: 'Open in a tab',
+      download: 'Download',
+      noEmbed: "This browser doesn't show PDFs inside the page. Open it in a tab or download it.",
+    },
     panel: {
       apps: 'Applications',
       search: 'Search applications',

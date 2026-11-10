@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from 'react'
 import {
-  FiTerminal, FiFolder, FiUser, FiLayers, FiMail, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft, FiArrowRight, FiSliders,
+  FiTerminal, FiFolder, FiFile, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft, FiArrowRight, FiSliders,
 } from 'react-icons/fi'
 import { STRINGS } from '../i18n'
 import { tracks } from '../data/tracks'
@@ -12,9 +12,8 @@ import { Rich } from './TermParts'
 import Window, { TOP_BAR } from './Window'
 import Terminal from './apps/Terminal'
 import Files from './apps/Files'
-import About from './apps/About'
-import Skills from './apps/Skills'
-import Contact from './apps/Contact'
+import Editor from './apps/Editor'
+import Viewer from './apps/Viewer'
 import Music from './apps/Music'
 import Commands from './apps/Commands'
 import DesktopIcons from './DesktopIcons'
@@ -38,9 +37,8 @@ const SIMPLE_URL = `${base}simple/`
 const APPS = {
   terminal: { Icon: FiTerminal, w: 560, h: 420 },
   files: { Icon: FiFolder, w: 820, h: 580 },
-  about: { Icon: FiUser, w: 640, h: 580 },
-  skills: { Icon: FiLayers, w: 600, h: 500 },
-  contact: { Icon: FiMail, w: 540, h: 440 },
+  editor: { Icon: FiFileText, w: 660, h: 580 },
+  viewer: { Icon: FiFile, w: 720, h: 600 },
   music: { Icon: FiMusic, w: 380, h: 470 },
   commands: { Icon: FiList, w: 380, h: 540 },
   settings: { Icon: FiSliders, w: 520, h: 560 },
@@ -51,6 +49,12 @@ const EDGE = 24
 const AREA_TOP = TOP_BAR + 12
 const LAUNCHER_SPACE = 96
 const LEAVE_MS = 140
+
+// Las ventanas de documentos se llaman "editor:<id>" y "viewer:<id>": una por archivo
+const appKind = (id) => id.split(':')[0]
+
+// Nombres viejos que siguen funcionando (comandos, grilla del celular): ahora son archivos
+const ALIASES = { about: 'editor:doc-about', skills: 'editor:doc-skills', contact: 'editor:contact', projects: 'files' }
 
 // Favoritas del lanzador
 const DOCK_APPS = ['terminal', 'files', 'music', 'commands', 'settings']
@@ -134,7 +138,7 @@ function initialWindows(reserve) {
 
 function cascadeRect(id, count) {
   const { vw, bottom } = area()
-  const { w, h } = APPS[id]
+  const { w, h } = APPS[appKind(id)]
   const offset = (count % 5) * 28
   return clampRect({ x: (vw - w) / 2 + offset - 56, y: AREA_TOP + 24 + offset, w, h: Math.min(h, bottom - AREA_TOP - 24) })
 }
@@ -358,12 +362,9 @@ export default function DesktopApp() {
   }, [])
 
   const openApp = useCallback((rawId, { focus = true } = {}) => {
-    let id = rawId
     // "Proyectos" ya no es una ventana propia: es Archivos en ~/Proyectos
-    if (id === 'projects') {
-      navigateFm('projects')
-      id = 'files'
-    }
+    if (rawId === 'projects') navigateFm('projects')
+    const id = ALIASES[rawId] || rawId
     if (window.matchMedia(MOBILE_QUERY).matches) {
       setMobileView(id)
       return
@@ -406,7 +407,7 @@ export default function DesktopApp() {
     const target = nodes[targetId]
     if (!target) return
     if (target.type === 'url') return window.open(target.href, '_blank', 'noopener')
-    if (target.type === 'pdf') return window.open(`${base}${target.href}`, '_blank', 'noopener')
+    if (target.type === 'pdf') return openApp(`viewer:${targetId}`)
     // Si ya se está navegando dentro de Archivos, el foco se queda donde está
     const fromFiles = !!document.activeElement?.closest('.fm')
     if (target.kind === 'dir') {
@@ -417,9 +418,8 @@ export default function DesktopApp() {
       player.select(target.track)
       return openApp('music')
     }
-    // Documentos: se leen en la vista previa de Archivos
-    navigateFm(target.parent, [targetId])
-    openApp('files', { focus: !fromFiles })
+    // Documentos de texto: una ventana del editor por archivo
+    openApp(`editor:${targetId}`)
   }, [nodes, openApp, navigateFm, player])
 
   // Ruta escrita en la barra de Archivos: relativa a la carpeta actual o a la personal
@@ -529,10 +529,10 @@ export default function DesktopApp() {
   const launchApp = useCallback((id) => {
     if (id === 'simple') window.location.href = SIMPLE_URL
     else if (id === 'files') { navigateFm(HOME_ID); openApp('files') }
-    else if (id === 'editor') openNode('doc-about')
-    else if (id === 'viewer') openNode('doc-cv')
+    else if (id === 'editor') openApp('editor:')
+    else if (id === 'viewer') openApp('viewer:doc-cv')
     else openApp(id)
-  }, [openApp, openNode, navigateFm])
+  }, [openApp, navigateFm])
 
   // Menús contextuales: fondo (del escritorio o de una carpeta en Archivos), ícono o papelera
   const openContextMenu = useCallback(({ id, x, y, returnFocus, dir }) => {
@@ -698,7 +698,26 @@ export default function DesktopApp() {
 
   const examples = commandExamples({ isEn, theme, lang })
 
-  const renderApp = (id, mobile = false) => {
+  // Título y ruta de cada ventana: las de documentos llevan el nombre y la ruta del archivo
+  const windowTitle = (id) => {
+    const [kind, fileId] = id.split(':')
+    if ((kind === 'editor' || kind === 'viewer') && nodes[fileId]) return displayName(nodes[fileId], lang)
+    return kind === 'editor' ? d.panel.appNames.editor : kind === 'viewer' ? d.panel.appNames.viewer : d.apps[kind]
+  }
+  const windowPath = (id) => {
+    const [kind, fileId] = id.split(':')
+    if (kind === 'files') return shortPath(nodes, fmCwd)
+    if (nodes[fileId]) return shortPath(nodes, fileId)
+    return d.paths[kind] || ''
+  }
+
+  const renderApp = (rawId, mobile = false) => {
+    const id = ALIASES[rawId] || rawId
+    const [kind, fileId] = id.split(':')
+    if (kind === 'editor') {
+      return <Editor nodes={nodes} fileId={fileId} lang={lang} t={t} d={d} onOpen={(docId) => openApp(`editor:${docId}`)} />
+    }
+    if (kind === 'viewer') return <Viewer node={nodes[fileId]} d={d} mobile={mobile} />
     switch (id) {
       case 'terminal':
         return (
@@ -739,12 +758,6 @@ export default function DesktopApp() {
             mobile={mobile}
           />
         )
-      case 'about':
-        return <About t={t} d={d} isEn={isEn} />
-      case 'skills':
-        return <Skills t={t} />
-      case 'contact':
-        return <Contact t={t} />
       case 'music':
         return <Music d={d} player={player} />
       case 'commands':
@@ -774,7 +787,7 @@ export default function DesktopApp() {
       {isMobile ? (
         <MobileShell
           t={t} d={d} isEn={isEn} controls={controls} view={mobileView} setView={setMobileView}
-          renderApp={renderApp} openProject={openProject}
+          renderApp={renderApp} openProject={openProject} windowTitle={windowTitle}
         />
       ) : (
         <div className="desk" data-wallpaper={wallpaper}>
@@ -821,8 +834,8 @@ export default function DesktopApp() {
                 key={id}
                 id={id}
                 d={d}
-                title={d.apps[id]}
-                path={id === 'files' ? shortPath(nodes, fmCwd) : d.paths[id]}
+                title={windowTitle(id)}
+                path={windowPath(id)}
                 rect={win.rect}
                 z={10 + wm.order.indexOf(id)}
                 state={win.state}
@@ -856,6 +869,29 @@ export default function DesktopApp() {
                       <span className="launch-icon"><Icon size={19} aria-hidden="true" /></span>
                       <span className="launch-label">{d.apps[id]}</span>
                       {win && <span className="sr-only">, {d.open}</span>}
+                    </button>
+                  </li>
+                )
+              })}
+              {/* Ventanas abiertas que no son favoritas: documentos y PDF */}
+              {Object.keys(wm.wins).filter((id) => !DOCK_APPS.includes(id)).length > 0 && (
+                <li className="launcher-divider" aria-hidden="true" />
+              )}
+              {Object.entries(wm.wins).filter(([id]) => !DOCK_APPS.includes(id)).map(([id, win]) => {
+                const { Icon } = APPS[appKind(id)]
+                return (
+                  <li key={id}>
+                    <button
+                      type="button"
+                      className="launch"
+                      data-launch={id}
+                      data-open={win.state === 'minimized' ? 'min' : 'yes'}
+                      onClick={() => openApp(id)}
+                      title={windowPath(id)}
+                    >
+                      <span className="launch-icon"><Icon size={19} aria-hidden="true" /></span>
+                      <span className="launch-label launch-label--doc">{windowTitle(id)}</span>
+                      <span className="sr-only">, {d.open}</span>
                     </button>
                   </li>
                 )
@@ -921,7 +957,7 @@ export default function DesktopApp() {
 
 // ---------- celular ----------
 
-function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProject }) {
+function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProject, windowTitle }) {
   const returnTo = useRef(null)
   const appRef = useRef(null)
 
@@ -964,7 +1000,7 @@ function MobileShell({ t, d, isEn, controls, view, setView, renderApp, openProje
               <FiArrowLeft size={18} aria-hidden="true" />
               {d.home}
             </button>
-            <h2 className="phone-app-title" id="phone-app-title">{d.apps[view]}</h2>
+            <h2 className="phone-app-title" id="phone-app-title">{windowTitle(ALIASES[view] || view)}</h2>
           </div>
           <div className="phone-app-body">{renderApp(view, true)}</div>
         </section>
