@@ -472,6 +472,139 @@ code { font-family: var(--font-mono); }
   .lang-switch button:hover, .bar-btn:hover, .now-playing:hover { color: var(--text); background: var(--sunken); }
 }
 
+/* ----- panel: aplicaciones, reloj y bandeja ----- */
+
+.topbar-left { display: flex; align-items: center; gap: 6px; }
+
+.topbar-center { position: absolute; left: 50%; translate: -50% 0; }
+
+.panel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 9px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  transition: background-color 0.15s ease;
+}
+
+.panel-btn[aria-expanded='true'] { background: var(--sunken); }
+
+.panel-icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.panel-icon-btn[aria-expanded='true'] { background: var(--sunken); color: var(--text); }
+
+.panel-user img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; }
+
+.topbar .clock { gap: 0.6rem; padding: 0 10px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .panel-btn:hover, .panel-icon-btn:hover { background: var(--sunken); color: var(--text); }
+}
+
+.popover {
+  position: fixed;
+  z-index: 1900;
+  padding: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lift);
+  animation: menu-in 120ms var(--ease-out);
+}
+
+.apps-pop { width: 20rem; padding: 8px; }
+
+.apps-search {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.apps-search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+.apps-search::placeholder { color: var(--text-muted); }
+
+.apps-list { margin-top: 6px; }
+
+.apps-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.apps-item[aria-selected='true'] { background: var(--accent); color: var(--on-accent); }
+
+.apps-item[aria-selected='true'] .apps-hint,
+.apps-item[aria-selected='true'] .apps-icon { color: inherit; border-color: currentColor; }
+
+.apps-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+}
+
+.apps-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+
+.apps-name { font-size: 0.9rem; font-weight: 500; }
+
+.apps-hint { font-size: 0.78rem; color: var(--text-muted); }
+
+.apps-empty { padding: 10px 8px 4px; font-size: 0.875rem; }
+
+.calendar { width: 16.5rem; }
+
+.calendar-today { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Solo la primera letra en mayúscula: capitalize dejaría "Noviembre De 2026" */
+.calendar-today::first-letter,
+.calendar-title::first-letter { text-transform: uppercase; }
+
+.calendar-head { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; }
+
+.calendar-title { font-weight: 600; color: var(--text); }
+
+.calendar-grid { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.78rem; font-variant-numeric: tabular-nums; text-align: center; }
+
+.calendar-grid th { padding: 4px 0; font-weight: 500; color: var(--text-muted); text-transform: uppercase; }
+
+.calendar-grid td { height: 32px; color: var(--text); }
+
+.calendar-grid td[aria-current='date'] { background: var(--accent); color: var(--on-accent); border-radius: var(--radius-sm); font-weight: 500; }
+
+.volume-pop { width: 16rem; }
+
+.volume-row { display: flex; align-items: center; gap: 8px; }
+
+.volume-value { width: 2.2rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+.volume-track { margin-top: 8px; font-size: 0.8rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
 /* ----- lanzador: una regla de dibujo con las apps apoyadas encima ----- */
 
 .launcher {
@@ -1729,5 +1862,5 @@ code { font-family: var(--font-mono); }
   .copy-icon, .copy-btn[data-copied='true'] .copy-icon--idle { transform: none; }
 
   .desk-icon { transition: background-color 0.15s ease; }
-  .menu, .menu--sheet, .dialog { animation: none; }
+  .menu, .menu--sheet, .dialog, .popover { animation: none; }
 }

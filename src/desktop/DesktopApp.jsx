@@ -19,6 +19,7 @@ import Music from './apps/Music'
 import Commands from './apps/Commands'
 import DesktopIcons from './DesktopIcons'
 import Menu from './Menu'
+import Panel from './Panel'
 import Dialog from './Dialog'
 import Properties from './Properties'
 import Settings from './apps/Settings'
@@ -469,6 +470,15 @@ export default function DesktopApp() {
 
   const trashCount = children(nodes, TRASH_ID).length
 
+  // Lanzador de "Aplicaciones" del panel
+  const launchApp = useCallback((id) => {
+    if (id === 'simple') window.location.href = SIMPLE_URL
+    else if (id === 'files') openApp('projects')
+    else if (id === 'editor') openNode('doc-about')
+    else if (id === 'viewer') openNode('doc-cv')
+    else openApp(id)
+  }, [openApp, openNode])
+
   // Menús contextuales: fondo, ícono o papelera
   const openContextMenu = useCallback(({ id, x, y, returnFocus }) => {
     if (!id) {
@@ -661,26 +671,18 @@ export default function DesktopApp() {
         />
       ) : (
         <div className="desk" data-wallpaper={wallpaper}>
-          <header className="topbar">
-            <Brand />
-            <div className="topbar-center">
-              {player.playing && player.track && (
-                <button type="button" className="now-playing" onClick={() => openApp('music')}>
-                  <FiMusic size={13} aria-hidden="true" />
-                  <span className="sr-only">{d.nowPlaying}: </span>
-                  {player.track.title} — {player.track.artist}
-                </button>
-              )}
-            </div>
-            <div className="topbar-right">
-              <a className="simple-link" href={SIMPLE_URL} title={d.simpleViewHint}>
-                <FiFileText size={14} aria-hidden="true" />
-                {d.simpleView}
-              </a>
-              <span className="bar-sep" aria-hidden="true" />
-              <SystemControls {...controls} />
-            </div>
-          </header>
+          <Panel
+            t={t} d={d}
+            lang={lang} setLang={setLang}
+            theme={theme} setTheme={setTheme}
+            player={player}
+            onLaunch={launchApp}
+            onUserAction={(action) => {
+              if (action === 'contact') openNode('contact')
+              else if (action === 'cv') ctxRef.current.downloadCv()
+              else window.location.href = SIMPLE_URL
+            }}
+          />
 
           <main className="desk-surface" aria-label={d.windows}>
             <h1 className="desk-label">
