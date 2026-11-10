@@ -16,6 +16,7 @@ export const APP_NAMES = {
   contact: { es: ['contacto'], en: ['contact'], extra: [] },
   music: { es: ['musica'], en: ['music'], extra: ['música', 'reproductor', 'player'] },
   commands: { es: ['comandos'], en: ['commands'], extra: [] },
+  settings: { es: ['ajustes'], en: ['settings'], extra: ['configuracion', 'configuración'] },
 }
 
 export const APP_IDS = Object.keys(APP_NAMES)

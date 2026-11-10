@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState, useSyncExternalStore } from 'react'
 import {
-  FiTerminal, FiFolder, FiUser, FiLayers, FiMail, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft, FiArrowRight,
+  FiTerminal, FiFolder, FiUser, FiLayers, FiMail, FiMusic, FiList, FiFileText, FiSun, FiMoon, FiArrowLeft, FiArrowRight, FiSliders,
 } from 'react-icons/fi'
 import { STRINGS } from '../i18n'
 import { tracks } from '../data/tracks'
@@ -18,11 +18,17 @@ import Contact from './apps/Contact'
 import Music from './apps/Music'
 import Commands from './apps/Commands'
 import DesktopIcons from './DesktopIcons'
+import Menu from './Menu'
+import Dialog from './Dialog'
+import Properties from './Properties'
+import Settings from './apps/Settings'
+import { WALLPAPERS } from './wallpapers'
 import {
-  loadFs, saveFs, sortedChildren, resolveTarget, rename, move as moveNode, isDirLike, DESKTOP_ID, TRASH_ID,
+  loadFs, saveFs, resetFs, sortedChildren, children, resolveTarget, rename, move as moveNode, isDirLike, displayName,
+  moveToTrash, emptyTrash, makeDir, newFolderName, shortPath, DESKTOP_ID, TRASH_ID, HOME_ID,
 } from './fsOps'
 import {
-  CELL_W, ICONS_RIGHT, gridRows, layoutIcons, moveIcons, columnsUsed, loadIconPositions, saveIconPositions,
+  CELL_W, ICONS_RIGHT, gridRows, layoutIcons, moveIcons, columnsUsed, loadIconPositions, saveIconPositions, clearIconPositions,
 } from './iconLayout'
 
 const base = import.meta.env.BASE_URL
@@ -36,6 +42,7 @@ const APPS = {
   contact: { Icon: FiMail, w: 540, h: 440 },
   music: { Icon: FiMusic, w: 380, h: 470 },
   commands: { Icon: FiList, w: 380, h: 540 },
+  settings: { Icon: FiSliders, w: 520, h: 560 },
 }
 
 // Espacio que dejan libre la barra superior y el lanzador
@@ -277,6 +284,24 @@ export default function DesktopApp() {
   const [iconPos, setIconPos] = useState(loadIconPositions)
   const [selection, setSelection] = useState([])
   const [renaming, setRenaming] = useState(null)
+  const [menu, setMenu] = useState(null)
+  const [dialog, setDialog] = useState(null)
+  const [toast, setToast] = useState(null)
+  const [termCwd, setTermCwd] = useState(HOME_ID)
+  const [wallpaper, setWallpaper] = useState(() => {
+    const saved = readStorage('wallpaper')
+    return WALLPAPERS.includes(saved) ? saved : 'dots'
+  })
+
+  useEffect(() => { writeStorage('wallpaper', wallpaper) }, [wallpaper])
+
+  // Avisos breves (role="status"): se borran solos
+  useEffect(() => {
+    if (!toast) return
+    const id = setTimeout(() => setToast(null), 3800)
+    return () => clearTimeout(id)
+  }, [toast])
+  const notify = useCallback((text) => setToast({ text, key: Date.now() }), [])
 
   useEffect(() => { saveFs(nodes) }, [nodes])
   useEffect(() => { saveIconPositions(iconPos) }, [iconPos])
@@ -364,24 +389,144 @@ export default function DesktopApp() {
     if (app) openApp(app)
   }, [nodes, openApp, openProject])
 
+  // Papelera: nunca borra, mueve. Las carpetas del sistema se quedan donde están y se avisa.
+  const trashIds = useCallback((ids) => {
+    let next = nodes
+    const moved = []
+    let blocked = 0
+    for (const id of ids) {
+      const result = moveToTrash(next, id)
+      if (result.nodes) { next = result.nodes; moved.push(id) } else if (result.error === 'protected') blocked++
+    }
+    if (moved.length) {
+      setNodes(next)
+      setSelection((s) => s.filter((x) => !moved.includes(x)))
+    }
+    const parts = []
+    if (moved.length) parts.push(d.toast.trashed(moved.length, displayName(nodes[moved[0]], lang)))
+    if (blocked) parts.push(d.toast.protected)
+    if (parts.length) notify(parts.join(' '))
+  }, [nodes, d, lang, notify])
+
   const moveIntoFolder = useCallback((ids, folderId) => {
     const dirId = resolveTarget(nodes, folderId)
-    if (!dirId || dirId === TRASH_ID) return
+    if (!dirId) return
+    if (dirId === TRASH_ID) return trashIds(ids)
     let next = nodes
+    let moved = 0
+    let error = null
     for (const id of ids) {
       const result = moveNode(next, id, dirId)
-      if (result.nodes) next = result.nodes
+      if (result.nodes) { next = result.nodes; moved++ } else error = error || [result.error, id]
     }
     setNodes(next)
     setSelection([])
-  }, [nodes])
+    if (error?.[0] === 'protected') notify(d.toast.protected)
+    else if (error?.[0] === 'exists') notify(d.toast.exists(displayName(nodes[error[1]], lang)))
+    else if (error?.[0] === 'intoself') notify(d.toast.intoself)
+    else if (moved) notify(d.toast.moved(moved, shortPath(next, dirId)))
+  }, [nodes, d, lang, notify, trashIds])
 
   const renameNode = useCallback((id, value) => {
     setRenaming(null)
     if (value === null) return
     const result = rename(nodes, id, value)
     if (result.nodes) setNodes(result.nodes)
-  }, [nodes])
+    else if (result.error === 'exists') notify(d.toast.exists(value.trim()))
+    else if (result.error === 'invalid') notify(d.toast.invalid)
+    else if (result.error === 'protected') notify(d.toast.renameProtected)
+  }, [nodes, d, notify])
+
+  const startRename = useCallback((id) => {
+    if (nodes[id]?.system) notify(d.toast.renameProtected)
+    else setRenaming(id)
+  }, [nodes, d, notify])
+
+  const newFolder = useCallback((parentId = DESKTOP_ID) => {
+    const result = makeDir(nodes, parentId, newFolderName(nodes, parentId, d.newFolder))
+    if (!result.nodes) return
+    setNodes(result.nodes)
+    setSelection([result.id])
+    setRenaming(result.id)
+  }, [nodes, d])
+
+  // "Abrir terminal aquí" / "Abrir en terminal": la terminal queda en esa carpeta (o en la de ese archivo)
+  const openTerminalAt = useCallback((id) => {
+    const targetId = resolveTarget(nodes, id) || HOME_ID
+    const dir = nodes[targetId]?.kind === 'dir' ? targetId : nodes[targetId]?.parent || HOME_ID
+    setTermCwd(dir)
+    openApp('terminal')
+  }, [nodes, openApp])
+
+  const resetDesktop = useCallback(() => {
+    setNodes(resetFs())
+    clearIconPositions()
+    setIconPos({})
+    setWallpaper('dots')
+    setSelection([])
+    notify(d.toast.reset)
+  }, [d, notify])
+
+  const trashCount = children(nodes, TRASH_ID).length
+
+  // Menús contextuales: fondo, ícono o papelera
+  const openContextMenu = useCallback(({ id, x, y, returnFocus }) => {
+    if (!id) {
+      setMenu({
+        x, y, returnFocus, label: d.menu.desktop,
+        items: [
+          { label: d.menu.openTerminalHere, onSelect: () => openTerminalAt(DESKTOP_ID) },
+          { label: d.menu.newFolder, onSelect: () => newFolder(DESKTOP_ID) },
+          { label: d.menu.arrange, onSelect: () => setIconPos({}) },
+          { separator: true },
+          { label: d.menu.wallpaper, onSelect: () => openApp('settings') },
+          { label: d.menu.simple, onSelect: () => { window.location.href = SIMPLE_URL } },
+          { separator: true },
+          { label: d.menu.reset, onSelect: () => setDialog({ kind: 'reset' }) },
+        ],
+      })
+      return
+    }
+    const node = nodes[id]
+    const group = selection.includes(id) && selection.length > 1 ? selection : [id]
+    const name = displayName(node, lang)
+    if (resolveTarget(nodes, id) === TRASH_ID) {
+      setMenu({
+        x, y, returnFocus, label: name,
+        items: [
+          { label: d.menu.open, onSelect: () => openNode(id) },
+          { label: d.menu.emptyTrash, disabled: !trashCount, onSelect: () => setDialog({ kind: 'empty' }) },
+        ],
+      })
+      return
+    }
+    setMenu({
+      x, y, returnFocus, label: name,
+      items: [
+        { label: d.menu.open, hint: 'Enter', onSelect: () => group.forEach(openNode) },
+        { label: d.menu.openTerminal, onSelect: () => openTerminalAt(id) },
+        { separator: true },
+        { label: d.menu.rename, hint: 'F2', disabled: node.system || group.length > 1, onSelect: () => startRename(id) },
+        { label: d.menu.trash, hint: d.locale.startsWith('es') ? 'Supr' : 'Del', disabled: group.every((g) => nodes[g].system), onSelect: () => trashIds(group) },
+        { separator: true },
+        { label: d.menu.properties, onSelect: () => setDialog({ kind: 'props', id }) },
+      ],
+    })
+  }, [nodes, selection, lang, d, trashCount, openNode, openTerminalAt, newFolder, openApp, startRename, trashIds])
+
+  // Shift+F10 o la tecla de menú con el foco en el fondo abren el menú del escritorio
+  useEffect(() => {
+    if (isMobile) return
+    const onKey = (e) => {
+      if (!((e.key === 'F10' && e.shiftKey) || e.key === 'ContextMenu')) return
+      const el = document.activeElement
+      if (el && el !== document.body && !el.classList.contains('icons-bg')) return
+      e.preventDefault()
+      openContextMenu({ id: null, x: window.innerWidth / 2, y: window.innerHeight / 2, returnFocus: null })
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [isMobile, openContextMenu])
 
   // F6 / Shift+F6 recorren las ventanas abiertas
   useEffect(() => {
@@ -433,7 +578,7 @@ export default function DesktopApp() {
 
   useLayoutEffect(() => {
     ctxRef.current = {
-      t, d, isEn, lang, theme, player, strings: DESKTOP_STRINGS,
+      t, d, isEn, lang, theme, player, strings: DESKTOP_STRINGS, cwd: termCwd, setCwd: setTermCwd,
       run: (cmd) => run(cmd),
       openApp, openProject, setTheme, setLang,
       downloadCv: () => {
@@ -444,7 +589,7 @@ export default function DesktopApp() {
       },
       goSimple: () => { window.location.href = SIMPLE_URL },
     }
-  }, [t, d, isEn, lang, theme, player, openApp, openProject, run])
+  }, [t, d, isEn, lang, theme, player, openApp, openProject, run, termCwd])
 
   const shownLines = useMemo(() => lines.map((line) => (
     line.kind === 'welcome'
@@ -487,6 +632,16 @@ export default function DesktopApp() {
         return <Music d={d} player={player} />
       case 'commands':
         return <Commands d={d} examples={examples} onRun={runFromPanel} />
+      case 'settings':
+        return (
+          <Settings
+            d={d} t={t}
+            wallpaper={wallpaper} setWallpaper={setWallpaper}
+            theme={theme} setTheme={setTheme}
+            lang={lang} setLang={setLang}
+            onReset={() => setDialog({ kind: 'reset' })}
+          />
+        )
       default:
         return null
     }
@@ -505,7 +660,7 @@ export default function DesktopApp() {
           renderApp={renderApp} openProject={openProject}
         />
       ) : (
-        <div className="desk">
+        <div className="desk" data-wallpaper={wallpaper}>
           <header className="topbar">
             <Brand />
             <div className="topbar-center">
@@ -545,11 +700,11 @@ export default function DesktopApp() {
               renaming={renaming}
               onRename={renameNode}
               onOpen={(ids) => ids.forEach(openNode)}
-              onDelete={() => {}}
-              onStartRename={(id) => { if (!nodes[id].system) setRenaming(id) }}
+              onDelete={trashIds}
+              onStartRename={startRename}
               onMove={(ids, dCol, dRow) => setIconPos(moveIcons(iconLayout, ids, dCol, dRow, rows))}
               onDropInto={(ids, targetId) => { if (isDirLike(nodes, nodes[targetId])) moveIntoFolder(ids, targetId) }}
-              onContextMenu={() => {}}
+              onContextMenu={openContextMenu}
             />
 
             {Object.entries(wm.wins).map(([id, win]) => (
@@ -607,6 +762,50 @@ export default function DesktopApp() {
           </nav>
         </div>
       )}
+
+      {menu && <Menu {...menu} onClose={() => setMenu(null)} />}
+
+      {dialog?.kind === 'props' && (
+        <Properties nodes={nodes} id={dialog.id} lang={lang} d={d} onClose={() => setDialog(null)} />
+      )}
+      {dialog?.kind === 'empty' && (
+        <Dialog
+          title={d.dialog.emptyTitle}
+          onClose={() => setDialog(null)}
+          actions={(
+            <>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setDialog(null)} data-autofocus>{d.dialog.cancel}</button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm"
+                onClick={() => { setNodes(emptyTrash(nodes).nodes); setDialog(null); notify(d.toast.emptied) }}
+              >
+                {d.dialog.emptyConfirm}
+              </button>
+            </>
+          )}
+        >
+          <p>{d.dialog.emptyBody(trashCount)}</p>
+        </Dialog>
+      )}
+      {dialog?.kind === 'reset' && (
+        <Dialog
+          title={d.dialog.resetTitle}
+          onClose={() => setDialog(null)}
+          actions={(
+            <>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setDialog(null)} data-autofocus>{d.dialog.cancel}</button>
+              <button type="button" className="btn btn-primary btn-sm" onClick={() => { resetDesktop(); setDialog(null) }}>{d.dialog.resetConfirm}</button>
+            </>
+          )}
+        >
+          <p>{d.dialog.resetBody}</p>
+        </Dialog>
+      )}
+
+      <div className="toast" role="status" aria-live="polite" data-visible={toast ? 'true' : undefined}>
+        {toast?.text}
+      </div>
     </>
   )
 }
