@@ -5,10 +5,12 @@
 //             image + imageSmall + imageWidth/imageHeight (WebP de 1200 y 640 px: npm run capturas -- capturas/<archivo>.png),
 //             imageAlt/imageAltEn (qué muestra la captura; sin él se usa "Captura de <título>"),
 //             frameLabel/frameLabelEn (texto del marco de navegador del destacado),
-//             draft (true = no se renderiza hasta tener contenido real).
+//             draft (true = no se renderiza hasta tener contenido real),
+//             slug + aliases (nombre de la carpeta en el escritorio y en la terminal: cat <slug>).
 export const projectsData = [
   {
     title: 'AcTitUBB — Seguimiento de Tesistas',
+    slug: 'actitubb',
     titleEn: 'AcTitUBB — Thesis Tracking',
     featured: true,
     problem:
@@ -49,6 +51,7 @@ export const projectsData = [
   },
   {
     title: 'MusicClassifier',
+    slug: 'musicclassifier',
     problem:
       'Clasificar el género de una canción a partir de su audio y, además, explicar la predicción en lenguaje natural en lugar de devolver solo una etiqueta.',
     problemEn:
@@ -72,6 +75,8 @@ export const projectsData = [
   },
   {
     title: 'Bot DJ para Discord',
+    slug: 'djbot',
+    aliases: ['bot-dj'],
     titleEn: 'DJ Bot for Discord',
     description:
       'Bot de música para Discord con mezcla tipo DJ: transiciones entre canciones, beatmatching y cambio de tempo sin alterar el tono.',
@@ -81,6 +86,7 @@ export const projectsData = [
   },
   {
     title: 'La Pirámide',
+    slug: 'la-piramide',
     draft: true,
     description: '[DESCRIPCIÓN PENDIENTE]',
     descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
@@ -88,6 +94,7 @@ export const projectsData = [
   },
   {
     title: 'Calculadora de costos',
+    slug: 'calculadora',
     titleEn: 'Cost calculator',
     draft: true,
     description: '[DESCRIPCIÓN PENDIENTE]',
@@ -96,6 +103,8 @@ export const projectsData = [
   },
   {
     title: 'Simulación de Carrera Multihilo',
+    slug: 'carrera',
+    aliases: ['race'],
     titleEn: 'Multithreaded Race Simulation',
     problem:
       'Poner en práctica la programación concurrente: varios hilos compitiendo por recursos compartidos sin condiciones de carrera.',

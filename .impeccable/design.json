@@ -1,62 +1,341 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-09T00:00:00Z",
+  "generatedAt": "2026-11-10T00:50:49.880Z",
   "title": "Design System: dantrottel — Portafolio",
   "extensions": {
     "colorMeta": {
-      "rust":        { "role": "primary", "displayName": "Óxido", "canonical": "#B8410E", "tonalRamp": ["#260000", "#500000", "#7C0000", "#A12B00", "#C74F21", "#EB7952", "#FFAC90", "#FFE7DE"] },
-      "rust-deep":   { "role": "primary", "displayName": "Óxido Profundo", "canonical": "#9A360B", "tonalRamp": ["#230000", "#4B0000", "#750F00", "#99350A", "#BE5732", "#E3805E", "#F9B097", "#FFE8E0"] },
-      "rust-wash":   { "role": "primary", "displayName": "Lavado Óxido", "canonical": "rgba(184, 65, 14, 0.08)" },
-      "ember":       { "role": "primary", "displayName": "Ámbar Brasa (oscuro)", "canonical": "#F2894F", "tonalRamp": ["#230000", "#4A0000", "#751200", "#993800", "#BD5918", "#E2824D", "#F8B28E", "#FFE9DD"] },
-      "ember-light": { "role": "primary", "displayName": "Ámbar Claro (oscuro)", "canonical": "#F6A272" },
-      "warm-paper":  { "role": "neutral", "displayName": "Papel Cálido", "canonical": "#F3F1EC", "tonalRamp": ["#0C0B09", "#23211F", "#3F3D39", "#5C5B56", "#7C7A76", "#A09E9A", "#C5C4C1", "#EFEEED"] },
-      "paper-sheet": { "role": "neutral", "displayName": "Hoja", "canonical": "#FBFAF7", "tonalRamp": ["#0B0B0A", "#222220", "#3E3D3B", "#5C5B58", "#7B7A78", "#9F9E9C", "#C5C4C2", "#EFEEEE"] },
-      "paper-shade": { "role": "neutral", "displayName": "Papel Sombreado", "canonical": "#E9E6DF", "tonalRamp": ["#0C0B09", "#23211D", "#3F3D37", "#5D5B55", "#7D7A74", "#A19E98", "#C6C4BF", "#EFEEED"] },
-      "ink":         { "role": "neutral", "displayName": "Tinta", "canonical": "#15171C", "tonalRamp": ["#0A0B0E", "#202226", "#3B3D43", "#585B61", "#787A81", "#9C9EA5", "#C2C4C9", "#EEEEF0"] },
-      "graphite":    { "role": "neutral", "displayName": "Grafito", "canonical": "#545861", "tonalRamp": ["#090B0F", "#1F2228", "#393D46", "#575B64", "#767A84", "#9A9EA8", "#C1C4CB", "#EDEEF1"] },
-      "rule":        { "role": "neutral", "displayName": "Regla", "canonical": "#DAD5CA", "tonalRamp": ["#0D0B07", "#24211B", "#413D34", "#5F5A51", "#7E7A70", "#A29E94", "#C7C4BD", "#EFEEEC"] },
-      "rule-strong": { "role": "neutral", "displayName": "Regla Fuerte", "canonical": "#C2BCAE", "tonalRamp": ["#0D0B06", "#252118", "#423D31", "#605A4E", "#7F7A6D", "#A39E91", "#C8C4BB", "#F0EEEB"] },
-      "night-status-ok": { "role": "semantic", "displayName": "Verde Estado (oscuro)", "canonical": "#45B884" },
-      "on-rust":     { "role": "neutral", "displayName": "Sobre Óxido", "canonical": "#FFFFFF" },
-      "night-ink":   { "role": "neutral", "displayName": "Tinta Nocturna (oscuro)", "canonical": "#101215", "tonalRamp": ["#0A0B0D", "#202224", "#3B3D41", "#585B5F", "#787A7E", "#9C9FA2", "#C2C4C7", "#EEEEEF"] },
-      "night-sheet": { "role": "neutral", "displayName": "Hoja Nocturna (oscuro)", "canonical": "#171A1F" },
-      "night-shade": { "role": "neutral", "displayName": "Sombra Nocturna (oscuro)", "canonical": "#1F2329" },
-      "bone":        { "role": "neutral", "displayName": "Hueso (oscuro)", "canonical": "#ECE9E2" },
-      "ash":         { "role": "neutral", "displayName": "Ceniza (oscuro)", "canonical": "#A1A39F" },
-      "night-rule":  { "role": "neutral", "displayName": "Regla Nocturna (oscuro)", "canonical": "#262A31" },
-      "night-rule-strong": { "role": "neutral", "displayName": "Regla Nocturna Fuerte (oscuro)", "canonical": "#363B44" },
-      "status-ok":   { "role": "semantic", "displayName": "Verde Estado", "canonical": "#2F9E6A", "tonalRamp": ["#001302", "#002F0C", "#004F21", "#006F3F", "#1A905D", "#55B483", "#96D5B0", "#E0F4E8"] }
+      "rust": {
+        "role": "primary",
+        "displayName": "Óxido",
+        "canonical": "#B8410E",
+        "tonalRamp": [
+          "#260000",
+          "#500000",
+          "#7C0000",
+          "#A12B00",
+          "#C74F21",
+          "#EB7952",
+          "#FFAC90",
+          "#FFE7DE"
+        ]
+      },
+      "rust-deep": {
+        "role": "primary",
+        "displayName": "Óxido Profundo",
+        "canonical": "#9A360B",
+        "tonalRamp": [
+          "#230000",
+          "#4B0000",
+          "#750F00",
+          "#99350A",
+          "#BE5732",
+          "#E3805E",
+          "#F9B097",
+          "#FFE8E0"
+        ]
+      },
+      "rust-wash": {
+        "role": "primary",
+        "displayName": "Lavado Óxido",
+        "canonical": "rgba(184, 65, 14, 0.08)"
+      },
+      "ember": {
+        "role": "primary",
+        "displayName": "Ámbar Brasa (oscuro)",
+        "canonical": "#F2894F",
+        "tonalRamp": [
+          "#230000",
+          "#4A0000",
+          "#751200",
+          "#993800",
+          "#BD5918",
+          "#E2824D",
+          "#F8B28E",
+          "#FFE9DD"
+        ]
+      },
+      "ember-light": {
+        "role": "primary",
+        "displayName": "Ámbar Claro (oscuro)",
+        "canonical": "#F6A272"
+      },
+      "warm-paper": {
+        "role": "neutral",
+        "displayName": "Papel Cálido",
+        "canonical": "#F3F1EC",
+        "tonalRamp": [
+          "#0C0B09",
+          "#23211F",
+          "#3F3D39",
+          "#5C5B56",
+          "#7C7A76",
+          "#A09E9A",
+          "#C5C4C1",
+          "#EFEEED"
+        ]
+      },
+      "paper-sheet": {
+        "role": "neutral",
+        "displayName": "Hoja",
+        "canonical": "#FBFAF7",
+        "tonalRamp": [
+          "#0B0B0A",
+          "#222220",
+          "#3E3D3B",
+          "#5C5B58",
+          "#7B7A78",
+          "#9F9E9C",
+          "#C5C4C2",
+          "#EFEEEE"
+        ]
+      },
+      "paper-shade": {
+        "role": "neutral",
+        "displayName": "Papel Sombreado",
+        "canonical": "#E9E6DF",
+        "tonalRamp": [
+          "#0C0B09",
+          "#23211D",
+          "#3F3D37",
+          "#5D5B55",
+          "#7D7A74",
+          "#A19E98",
+          "#C6C4BF",
+          "#EFEEED"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#15171C",
+        "tonalRamp": [
+          "#0A0B0E",
+          "#202226",
+          "#3B3D43",
+          "#585B61",
+          "#787A81",
+          "#9C9EA5",
+          "#C2C4C9",
+          "#EEEEF0"
+        ]
+      },
+      "graphite": {
+        "role": "neutral",
+        "displayName": "Grafito",
+        "canonical": "#545861",
+        "tonalRamp": [
+          "#090B0F",
+          "#1F2228",
+          "#393D46",
+          "#575B64",
+          "#767A84",
+          "#9A9EA8",
+          "#C1C4CB",
+          "#EDEEF1"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Regla",
+        "canonical": "#DAD5CA",
+        "tonalRamp": [
+          "#0D0B07",
+          "#24211B",
+          "#413D34",
+          "#5F5A51",
+          "#7E7A70",
+          "#A29E94",
+          "#C7C4BD",
+          "#EFEEEC"
+        ]
+      },
+      "rule-strong": {
+        "role": "neutral",
+        "displayName": "Regla Fuerte",
+        "canonical": "#C2BCAE",
+        "tonalRamp": [
+          "#0D0B06",
+          "#252118",
+          "#423D31",
+          "#605A4E",
+          "#7F7A6D",
+          "#A39E91",
+          "#C8C4BB",
+          "#F0EEEB"
+        ]
+      },
+      "night-status-ok": {
+        "role": "semantic",
+        "displayName": "Verde Estado (oscuro)",
+        "canonical": "#45B884"
+      },
+      "on-rust": {
+        "role": "neutral",
+        "displayName": "Sobre Óxido",
+        "canonical": "#FFFFFF"
+      },
+      "night-ink": {
+        "role": "neutral",
+        "displayName": "Tinta Nocturna (oscuro)",
+        "canonical": "#101215",
+        "tonalRamp": [
+          "#0A0B0D",
+          "#202224",
+          "#3B3D41",
+          "#585B5F",
+          "#787A7E",
+          "#9C9FA2",
+          "#C2C4C7",
+          "#EEEEEF"
+        ]
+      },
+      "night-sheet": {
+        "role": "neutral",
+        "displayName": "Hoja Nocturna (oscuro)",
+        "canonical": "#171A1F"
+      },
+      "night-shade": {
+        "role": "neutral",
+        "displayName": "Sombra Nocturna (oscuro)",
+        "canonical": "#1F2329"
+      },
+      "bone": {
+        "role": "neutral",
+        "displayName": "Hueso (oscuro)",
+        "canonical": "#ECE9E2"
+      },
+      "ash": {
+        "role": "neutral",
+        "displayName": "Ceniza (oscuro)",
+        "canonical": "#A1A39F"
+      },
+      "night-rule": {
+        "role": "neutral",
+        "displayName": "Regla Nocturna (oscuro)",
+        "canonical": "#262A31"
+      },
+      "night-rule-strong": {
+        "role": "neutral",
+        "displayName": "Regla Nocturna Fuerte (oscuro)",
+        "canonical": "#363B44"
+      },
+      "status-ok": {
+        "role": "semantic",
+        "displayName": "Verde Estado",
+        "canonical": "#2F9E6A",
+        "tonalRamp": [
+          "#001302",
+          "#002F0C",
+          "#004F21",
+          "#006F3F",
+          "#1A905D",
+          "#55B483",
+          "#96D5B0",
+          "#E0F4E8"
+        ]
+      }
     },
     "typographyMeta": {
-      "display":   { "displayName": "Display", "purpose": "Solo el nombre en el hero." },
-      "headline":  { "displayName": "Headline", "purpose": "Títulos de sección y de contacto." },
-      "title":     { "displayName": "Title", "purpose": "Títulos de proyecto y de trayectoria." },
-      "body-lead": { "displayName": "Body Lead", "purpose": "Tagline del hero, en Tinta, máximo 34rem." },
-      "subtitle":  { "displayName": "Subtitle", "purpose": "Subtítulo de sección e introducción de contacto." },
-      "body":      { "displayName": "Body", "purpose": "Párrafos en Grafito." },
-      "body-compact": { "displayName": "Body Compact", "purpose": "Botones, decisiones del destacado, descripciones de trayectoria." },
-      "body-sm":   { "displayName": "Body Small", "purpose": "Links del navbar, chips de habilidad, decisiones de filas." },
-      "label-lg":  { "displayName": "Label Large", "purpose": "Eyebrows, kicker, categorías y encabezados de tabla en mono." },
-      "label":     { "displayName": "Label", "purpose": "Rotulador mono: índices, eyebrows, períodos, tags, categorías." },
-      "code":      { "displayName": "Code", "purpose": "Cuerpo JSON de la tarjeta de respuesta API." }
+      "display": {
+        "displayName": "Display",
+        "purpose": "Solo el nombre en el hero."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Títulos de sección y de contacto."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Títulos de proyecto y de trayectoria."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Tagline del hero, en Tinta, máximo 34rem."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "Subtítulo de sección e introducción de contacto."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Párrafos en Grafito."
+      },
+      "body-compact": {
+        "displayName": "Body Compact",
+        "purpose": "Botones, decisiones del destacado, descripciones de trayectoria."
+      },
+      "body-sm": {
+        "displayName": "Body Small",
+        "purpose": "Links del navbar, chips de habilidad, decisiones de filas."
+      },
+      "label-lg": {
+        "displayName": "Label Large",
+        "purpose": "Eyebrows, kicker, categorías y encabezados de tabla en mono."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Rotulador mono: índices, eyebrows, períodos, tags, categorías."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Cuerpo JSON de la tarjeta de respuesta API."
+      }
     },
     "shadows": [
-      { "name": "sheet", "value": "0 10px 30px -12px rgba(21, 23, 28, 0.18)", "purpose": "La hoja que se levanta del papel: solo la tarjeta de respuesta API. En oscuro usa rgba(0, 0, 0, 0.6)." }
+      {
+        "name": "sheet",
+        "value": "0 10px 30px -12px rgba(21, 23, 28, 0.18)",
+        "purpose": "La hoja que se levanta del papel: solo la tarjeta de respuesta API. En oscuro usa rgba(0, 0, 0, 0.6)."
+      }
     ],
     "motion": [
-      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Curva por defecto para transforms, subrayados y entradas." },
-      { "name": "state-color", "value": "0.2s ease", "purpose": "Cambios de color y borde en hover." },
-      { "name": "press", "value": "transform 0.15s, translateY(1px) scale(0.98)", "purpose": "Presión de botones; icon buttons escalan a 0.96." },
-      { "name": "menu", "value": "220ms ease-out, translateY(-8px) + opacity", "purpose": "Entrada y salida del menú móvil, en CSS. Con movimiento reducido solo fundido." },
-      { "name": "reduced-motion", "value": "transform: none en estados de interacción", "purpose": "Sin desplazamientos ni escalas; color, borde y opacidad conservan su transición. El menú móvil solo funde." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Curva por defecto para transforms, subrayados y entradas."
+      },
+      {
+        "name": "state-color",
+        "value": "0.2s ease",
+        "purpose": "Cambios de color y borde en hover."
+      },
+      {
+        "name": "press",
+        "value": "transform 0.15s, translateY(1px) scale(0.98)",
+        "purpose": "Presión de botones; icon buttons escalan a 0.96."
+      },
+      {
+        "name": "menu",
+        "value": "220ms ease-out, translateY(-8px) + opacity",
+        "purpose": "Entrada y salida del menú móvil, en CSS. Con movimiento reducido solo fundido."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transform: none en estados de interacción",
+        "purpose": "Sin desplazamientos ni escalas; color, borde y opacidad conservan su transición. El menú móvil solo funde."
+      }
     ],
     "breakpoints": [
-      { "name": "xs", "value": "360px" },
-      { "name": "sm", "value": "480px" },
-      { "name": "md", "value": "760px" },
-      { "name": "section", "value": "820px" },
-      { "name": "nav", "value": "860px" },
-      { "name": "lg", "value": "980px" }
+      {
+        "name": "sm",
+        "value": "480px"
+      },
+      {
+        "name": "md",
+        "value": "760px"
+      },
+      {
+        "name": "section",
+        "value": "820px"
+      },
+      {
+        "name": "nav",
+        "value": "860px"
+      },
+      {
+        "name": "lg",
+        "value": "980px"
+      }
     ]
   },
   "components": [
@@ -121,8 +400,8 @@
       "kind": "custom",
       "refersTo": "api-card",
       "description": "Evidencia de AcTitUBB como respuesta HTTP: GET /proyectos/actitubb, 200 OK y cuerpo JSON en mono.",
-      "html": "<figure class=\"ds-whoami\"><div class=\"ds-whoami-bar\"><span class=\"ds-whoami-method\">GET</span><span class=\"ds-whoami-path\">/proyectos/actitubb</span><span class=\"ds-whoami-status\">200 OK</span></div><pre class=\"ds-whoami-body\"><span class=\"ds-p\">{</span>\n  <span class=\"ds-k\">\"tablas\"</span><span class=\"ds-p\">: </span><span class=\"ds-s\">64</span><span class=\"ds-p\">,</span>\n  <span class=\"ds-k\">\"auth\"</span><span class=\"ds-p\">: </span><span class=\"ds-s\">\"JWT en cookies HttpOnly\"</span>\n<span class=\"ds-p\">}</span></pre></figure>",
-      "css": ".ds-whoami { margin: 0; overflow: hidden; background: var(--bg-surface, #FBFAF7); border: 1px solid var(--border, #DAD5CA); border-radius: var(--radius, 8px); box-shadow: var(--shadow, 0 10px 30px -12px rgba(21, 23, 28, 0.18)); font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); } .ds-whoami-bar { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.25rem; border-bottom: 1px solid var(--border, #DAD5CA); font-size: 0.8rem; } .ds-whoami-method { padding: 0.1rem 0.4rem; border-radius: 3px; background: var(--accent, #B8410E); color: var(--on-accent, #FFFFFF); font-weight: 500; } .ds-whoami-path { color: var(--text, #15171C); } .ds-whoami-status { margin-left: auto; color: var(--text-muted, #545861); } .ds-whoami-status::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 0.45rem; border-radius: 50%; background: var(--status-ok, #2F9E6A); vertical-align: 1px; } .ds-whoami-body { margin: 0; padding: 1.25rem 1.25rem 1.5rem; white-space: pre; overflow-x: auto; font-family: inherit; font-size: 0.875rem; line-height: 1.75; color: var(--text, #15171C); } .ds-k { color: var(--text, #15171C); } .ds-s { color: var(--accent, #B8410E); } .ds-p { color: var(--text-muted, #545861); }"
+      "html": "<figure class=\"ds-api-card\"><div class=\"ds-api-card-bar\"><span class=\"ds-api-card-method\">GET</span><span class=\"ds-api-card-path\">/proyectos/actitubb</span><span class=\"ds-api-card-status\">200 OK</span></div><pre class=\"ds-api-card-body\"><span class=\"ds-p\">{</span>\n  <span class=\"ds-k\">\"tablas\"</span><span class=\"ds-p\">: </span><span class=\"ds-s\">64</span><span class=\"ds-p\">,</span>\n  <span class=\"ds-k\">\"auth\"</span><span class=\"ds-p\">: </span><span class=\"ds-s\">\"JWT en cookies HttpOnly\"</span>\n<span class=\"ds-p\">}</span></pre></figure>",
+      "css": ".ds-api-card { margin: 0; overflow: hidden; background: var(--bg-surface, #FBFAF7); border: 1px solid var(--border, #DAD5CA); border-radius: var(--radius, 8px); box-shadow: var(--shadow, 0 10px 30px -12px rgba(21, 23, 28, 0.18)); font-family: var(--font-mono, 'IBM Plex Mono', ui-monospace, monospace); } .ds-api-card-bar { display: flex; align-items: center; gap: 0.75rem; padding: 0.8rem 1.25rem; border-bottom: 1px solid var(--border, #DAD5CA); font-size: 0.8rem; } .ds-api-card-method { padding: 0.1rem 0.4rem; border-radius: 3px; background: var(--accent, #B8410E); color: var(--on-accent, #FFFFFF); font-weight: 500; } .ds-api-card-path { color: var(--text, #15171C); } .ds-api-card-status { margin-left: auto; color: var(--text-muted, #545861); } .ds-api-card-status::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 0.45rem; border-radius: 50%; background: var(--status-ok, #2F9E6A); vertical-align: 1px; } .ds-api-card-body { margin: 0; padding: 1.25rem 1.25rem 1.5rem; white-space: pre; overflow-x: auto; font-family: inherit; font-size: 0.875rem; line-height: 1.75; color: var(--text, #15171C); } .ds-k { color: var(--text, #15171C); } .ds-s { color: var(--accent, #B8410E); } .ds-p { color: var(--text-muted, #545861); }"
     },
     {
       "name": "Featured Project Card",
@@ -144,11 +423,31 @@
       "Movimiento mínimo y funcional; con `prefers-reduced-motion` no hay desplazamientos, solo cambios de color y fundidos."
     ],
     "rules": [
-      { "name": "La Regla del Acento Único", "body": "Óxido es el único color con saturación en la página. Marca índices, la acción primaria y el estado activo; nunca rellena áreas grandes ni aparece como gradiente.", "section": "colors" },
-      { "name": "La Regla de los Roles Gemelos", "body": "Todo token claro tiene su par oscuro con el mismo rol. No se introduce un color en un tema sin su contraparte en el otro.", "section": "colors" },
-      { "name": "La Regla del Rotulador", "body": "La mono nunca lleva párrafos. Se usa para lo que una ficha técnica imprimiría en un rótulo: números, fechas, categorías, tags, endpoints.", "section": "typography" },
-      { "name": "La Regla del Tracking Negativo", "body": "Los títulos se cierran con tracking negativo (−0.02em a −0.045em, más apretado cuanto más grande) y `text-wrap: balance`.", "section": "typography" },
-      { "name": "La Regla de la Hoja Plana", "body": "Las superficies descansan planas. La sombra marca solo el único objeto \"impreso\" del hero; nunca se usa para separar filas o tarjetas en serie, ni para simular que un contenedor es un link.", "section": "elevation" }
+      {
+        "name": "La Regla del Acento Único",
+        "body": "Óxido es el único color con saturación en la página. Marca índices, la acción primaria y el estado activo; nunca rellena áreas grandes ni aparece como gradiente.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla de los Roles Gemelos",
+        "body": "Todo token claro tiene su par oscuro con el mismo rol. No se introduce un color en un tema sin su contraparte en el otro.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla del Rotulador",
+        "body": "La mono nunca lleva párrafos. Se usa para lo que una ficha técnica imprimiría en un rótulo: números, fechas, categorías, tags, endpoints.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla del Tracking Negativo",
+        "body": "Los títulos se cierran con tracking negativo (−0.02em a −0.045em, más apretado cuanto más grande) y `text-wrap: balance`.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla de la Hoja Plana",
+        "body": "Las superficies descansan planas. La sombra marca solo el único objeto \"impreso\" del hero; nunca se usa para separar filas o tarjetas en serie, ni para simular que un contenedor es un link.",
+        "section": "elevation"
+      }
     ],
     "dos": [
       "**Do** usar reglas de 1px (Regla / Regla Fuerte) para estructurar contenido antes de recurrir a una superficie o una sombra.",
