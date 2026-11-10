@@ -1,11 +1,8 @@
 import { useEffect, useId, useRef, useState } from 'react'
-import { complete } from '../commands'
 import { Cmd } from '../TermParts'
 
-export const PROMPT = 'dantrottel@mesa:~$'
-
-// El historial y las líneas viven fuera (en el escritorio): cerrar la ventana no los borra
-export default function Terminal({ d, lines, history, onRun, onPrint, chips }) {
+// El historial, las líneas y la carpeta actual viven fuera (en el escritorio): cerrar la ventana no los borra
+export default function Terminal({ d, lines, history, onRun, onPrint, onComplete, prompt, chips }) {
   const [value, setValue] = useState('')
   const [cursor, setCursor] = useState(null)
   const inputRef = useRef(null)
@@ -43,7 +40,7 @@ export default function Terminal({ d, lines, history, onRun, onPrint, chips }) {
       }
     } else if (e.key === 'Tab' && !e.shiftKey && value.trim()) {
       // Tab completa solo si hay algo que completar; si no, el foco sale del input como siempre
-      const result = complete(value)
+      const result = onComplete(value)
       if (result.value === value && !result.options.length) return
       e.preventDefault()
       setValue(result.value)
@@ -66,7 +63,7 @@ export default function Terminal({ d, lines, history, onRun, onPrint, chips }) {
         {lines.map((line) => (
           <div key={line.id} className="term-entry">
             {line.input !== undefined && (
-              <p className="t-echo"><span className="t-prompt" aria-hidden="true">{PROMPT}</span> {line.input}</p>
+              <p className="t-echo"><span className="t-prompt" aria-hidden="true">{line.prompt}</span> {line.input}</p>
             )}
             {line.output}
           </div>
@@ -80,8 +77,8 @@ export default function Terminal({ d, lines, history, onRun, onPrint, chips }) {
       )}
 
       <form className="term-form" onSubmit={submit}>
-        <label htmlFor={inputId} className="sr-only">{d.term.label}</label>
-        <span className="t-prompt" aria-hidden="true">{PROMPT}</span>
+        <label htmlFor={inputId} className="sr-only">{d.term.label} ({prompt})</label>
+        <span className="t-prompt" aria-hidden="true">{prompt}</span>
         <input
           ref={inputRef}
           id={inputId}

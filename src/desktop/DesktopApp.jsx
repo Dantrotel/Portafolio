@@ -5,7 +5,7 @@ import {
 import { STRINGS } from '../i18n'
 import { tracks } from '../data/tracks'
 import { DESKTOP_STRINGS } from './strings'
-import { APP_IDS, runCommand, commandExamples } from './commands'
+import { APP_IDS, runCommand, commandExamples, complete } from './commands'
 import { visibleProjects, pick } from './projects'
 import { usePlayer } from './usePlayer'
 import { Rich } from './TermParts'
@@ -641,6 +641,7 @@ export default function DesktopApp() {
   // ----- terminal -----
 
   const ctxRef = useRef(null)
+  const termPrompt = `daniel@dantrottel:${shortPath(nodes, nodes[termCwd] ? termCwd : HOME_ID)}$`
 
   const append = useCallback((line) => {
     setLines((prev) => [...prev, { id: lineId.current++, ...line }])
@@ -660,16 +661,21 @@ export default function DesktopApp() {
       return
     }
     setHistory((h) => [...h, input])
-    const result = runCommand(input, ctxRef.current)
+    const ctx = ctxRef.current
+    const result = runCommand(input, ctx)
+    // Los comandos del sistema de archivos devuelven el árbol nuevo o la carpeta nueva
+    if (result.nodes) setNodes(result.nodes)
+    if (result.cwd) setTermCwd(result.cwd)
     if (result.clear) setLines([])
-    else append({ input, output: result.output })
+    else append({ input, output: result.output, prompt: ctx.prompt })
   }, [append, openApp])
 
   const runFromPanel = useCallback((cmd) => run(cmd, { reveal: true }), [run])
 
   useLayoutEffect(() => {
     ctxRef.current = {
-      t, d, isEn, lang, theme, player, strings: DESKTOP_STRINGS, cwd: termCwd, setCwd: setTermCwd,
+      t, d, isEn, lang, theme, player, strings: DESKTOP_STRINGS,
+      nodes, cwd: nodes[termCwd] ? termCwd : HOME_ID, prompt: termPrompt, openNode,
       run: (cmd) => run(cmd),
       openApp, openProject, setTheme, setLang,
       downloadCv: () => {
@@ -680,7 +686,7 @@ export default function DesktopApp() {
       },
       goSimple: () => { window.location.href = SIMPLE_URL },
     }
-  }, [t, d, isEn, lang, theme, player, openApp, openProject, run, termCwd])
+  }, [t, d, isEn, lang, theme, player, openApp, openProject, run, termCwd, nodes, termPrompt, openNode])
 
   const shownLines = useMemo(() => lines.map((line) => (
     line.kind === 'welcome'
@@ -727,6 +733,8 @@ export default function DesktopApp() {
             history={history}
             onRun={run}
             onPrint={print}
+            onComplete={(value) => complete(value, { nodes, cwd: nodes[termCwd] ? termCwd : HOME_ID })}
+            prompt={termPrompt}
             chips={mobile ? examples.slice(0, 12).map(([cmd]) => cmd) : undefined}
           />
         )
