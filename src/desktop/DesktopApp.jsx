@@ -17,6 +17,13 @@ import Skills from './apps/Skills'
 import Contact from './apps/Contact'
 import Music from './apps/Music'
 import Commands from './apps/Commands'
+import DesktopIcons from './DesktopIcons'
+import {
+  loadFs, saveFs, sortedChildren, resolveTarget, rename, move as moveNode, isDirLike, DESKTOP_ID, TRASH_ID,
+} from './fsOps'
+import {
+  CELL_W, ICONS_RIGHT, gridRows, layoutIcons, moveIcons, columnsUsed, loadIconPositions, saveIconPositions,
+} from './iconLayout'
 
 const base = import.meta.env.BASE_URL
 const SIMPLE_URL = `${base}simple/`
@@ -80,15 +87,31 @@ function clampRect(rect) {
   return { x, y, w, h }
 }
 
-// Al cargar: terminal a la izquierda y Proyectos a la derecha, sin taparse desde 1000px
-function initialWindows() {
-  const { vw, bottom } = area()
+// Ancho que ocupan los íconos del escritorio a la derecha (las ventanas iniciales no los tapan)
+function iconsReserve(nodes) {
+  const ids = sortedChildren(nodes, DESKTOP_ID, { byOrder: true }).map((n) => n.id)
+  const layout = layoutIcons(ids, loadIconPositions(), gridRows(window.innerHeight))
+  return columnsUsed(layout) * CELL_W + ICONS_RIGHT
+}
+
+// Al cargar: terminal y Proyectos en el espacio que dejan libre los íconos, sin taparse entre ellas
+function initialWindows(reserve) {
+  const { vw, vh, bottom } = area()
+  const right = vw - reserve - 16
+  const width = right - EDGE
   const height = bottom - AREA_TOP
-  if (vw >= 1000) {
-    const tw = Math.min(560, Math.max(380, Math.round((vw - EDGE * 2) * 0.4)))
+  if (width >= 760) {
+    const tw = Math.min(440, Math.max(300, Math.round(width * 0.38)))
     return {
-      terminal: { x: EDGE, y: AREA_TOP, w: tw, h: Math.min(440, height) },
-      projects: { x: EDGE + tw + 16, y: AREA_TOP, w: vw - EDGE * 2 - tw - 16, h: height },
+      terminal: { x: EDGE, y: AREA_TOP, w: tw, h: Math.min(420, height) },
+      projects: { x: EDGE + tw + 16, y: AREA_TOP, w: width - tw - 16, h: height },
+    }
+  }
+  if (vh >= 820 && width >= 420) {
+    const th = 260
+    return {
+      terminal: { x: EDGE, y: AREA_TOP, w: width, h: th },
+      projects: { x: EDGE, y: AREA_TOP + th + 12, w: width, h: height - th - 12 },
     }
   }
   const pw = Math.min(680, vw - EDGE * 2)
@@ -154,7 +177,7 @@ function wmReducer(wm, action) {
 
 function initialWm() {
   if (window.matchMedia(MOBILE_QUERY).matches) return { wins: {}, order: [] }
-  const rects = initialWindows()
+  const rects = initialWindows(iconsReserve(loadFs()))
   return {
     wins: {
       terminal: { rect: rects.terminal, state: 'open', maximized: false, focusToken: 1 },
@@ -165,6 +188,16 @@ function initialWm() {
 }
 
 // ---------- piezas de la interfaz ----------
+
+function useViewport() {
+  const [size, setSize] = useState(() => ({ vw: window.innerWidth, vh: window.innerHeight }))
+  useEffect(() => {
+    const onResize = () => setSize({ vw: window.innerWidth, vh: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+  return size
+}
 
 function useNow() {
   const [now, setNow] = useState(() => new Date())
@@ -237,6 +270,20 @@ export default function DesktopApp() {
   const [mobileView, setMobileView] = useState(null)
   const [selected, setSelected] = useState(visibleProjects[0]?.slug)
   const player = usePlayer(tracks)
+  const { vw, vh } = useViewport()
+
+  // ----- sistema de archivos y escritorio -----
+  const [nodes, setNodes] = useState(loadFs)
+  const [iconPos, setIconPos] = useState(loadIconPositions)
+  const [selection, setSelection] = useState([])
+  const [renaming, setRenaming] = useState(null)
+
+  useEffect(() => { saveFs(nodes) }, [nodes])
+  useEffect(() => { saveIconPositions(iconPos) }, [iconPos])
+
+  const desktopIds = sortedChildren(nodes, DESKTOP_ID, { byOrder: true }).map((n) => n.id)
+  const rows = gridRows(vh)
+  const iconLayout = layoutIcons(desktopIds, iconPos, rows)
 
   const [lines, setLines] = useState([{ id: 0, kind: 'welcome' }])
   const [history, setHistory] = useState([])
@@ -301,6 +348,40 @@ export default function DesktopApp() {
     setSelected(slug)
     openApp('projects')
   }, [openApp])
+
+  // Abrir un nodo del árbol: carpetas, documentos, enlaces y la terminal
+  const openNode = useCallback((id) => {
+    const node = nodes[id]
+    if (!node) return
+    if (node.type === 'app') return openApp(node.app)
+    const targetId = resolveTarget(nodes, id)
+    const target = nodes[targetId]
+    if (!target) return
+    if (target.type === 'url') return window.open(target.href, '_blank', 'noopener')
+    if (target.type === 'pdf') return window.open(`${base}${target.href}`, '_blank', 'noopener')
+    if (target.project) return openProject(target.project)
+    const app = { projects: 'projects', music: 'music', 'doc-about': 'about', 'doc-journey': 'about', 'doc-skills': 'skills', contact: 'contact' }[targetId]
+    if (app) openApp(app)
+  }, [nodes, openApp, openProject])
+
+  const moveIntoFolder = useCallback((ids, folderId) => {
+    const dirId = resolveTarget(nodes, folderId)
+    if (!dirId || dirId === TRASH_ID) return
+    let next = nodes
+    for (const id of ids) {
+      const result = moveNode(next, id, dirId)
+      if (result.nodes) next = result.nodes
+    }
+    setNodes(next)
+    setSelection([])
+  }, [nodes])
+
+  const renameNode = useCallback((id, value) => {
+    setRenaming(null)
+    if (value === null) return
+    const result = rename(nodes, id, value)
+    if (result.nodes) setNodes(result.nodes)
+  }, [nodes])
 
   // F6 / Shift+F6 recorren las ventanas abiertas
   useEffect(() => {
@@ -451,6 +532,25 @@ export default function DesktopApp() {
               <span className="desk-label-name">Daniel Aguayo</span>
               <span className="desk-label-role">{t.hero.role} · {t.hero.location}</span>
             </h1>
+
+            <DesktopIcons
+              nodes={nodes}
+              lang={lang}
+              d={d}
+              ids={desktopIds}
+              layout={iconLayout}
+              vw={vw}
+              selection={selection.filter((id) => desktopIds.includes(id))}
+              setSelection={setSelection}
+              renaming={renaming}
+              onRename={renameNode}
+              onOpen={(ids) => ids.forEach(openNode)}
+              onDelete={() => {}}
+              onStartRename={(id) => { if (!nodes[id].system) setRenaming(id) }}
+              onMove={(ids, dCol, dRow) => setIconPos(moveIcons(iconLayout, ids, dCol, dRow, rows))}
+              onDropInto={(ids, targetId) => { if (isDirLike(nodes, nodes[targetId])) moveIntoFolder(ids, targetId) }}
+              onContextMenu={() => {}}
+            />
 
             {Object.entries(wm.wins).map(([id, win]) => (
               <Window

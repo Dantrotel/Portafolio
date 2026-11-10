@@ -118,6 +118,9 @@ export const DESKTOP_STRINGS = {
       neofetch: 'ficha del sistema (o sea, mía)',
       simple: 'va a la vista simple',
     },
+    desktop: {
+      label: 'Escritorio',
+    },
     mobile: {
       shortcuts: 'Accesos directos',
       viewCase: 'Ver caso de estudio',
@@ -239,6 +242,9 @@ export const DESKTOP_STRINGS = {
       date: 'date and time',
       neofetch: 'system info (that is, mine)',
       simple: 'goes to the simple view',
+    },
+    desktop: {
+      label: 'Desktop',
     },
     mobile: {
       shortcuts: 'Shortcuts',

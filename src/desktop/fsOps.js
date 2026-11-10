@@ -1,8 +1,8 @@
 // Operaciones sobre el árbol de src/data/fs.js. Todas son puras: reciben el mapa de nodos
 // y devuelven uno nuevo, o { error } con un código que la interfaz traduce.
-import { buildBaseTree, HOME_ID, TRASH_ID } from '../data/fs'
+import { buildBaseTree, HOME_ID, TRASH_ID, DESKTOP_ID } from '../data/fs'
 
-export { HOME_ID, TRASH_ID }
+export { HOME_ID, TRASH_ID, DESKTOP_ID }
 export const HOME_PATH = '/home/daniel'
 
 const FS_KEY = 'desk-fs-v1'

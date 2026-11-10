@@ -36,6 +36,11 @@
 
   --shadow-lift:    0 24px 48px -20px rgba(21, 23, 28, 0.34), 0 2px 6px -2px rgba(21, 23, 28, 0.12);
 
+  /* Íconos de archivos: hoja y tinta */
+  --icon-paper:     #FBFAF7;
+  --icon-ink:       #15171C;
+  --icon-label-bg:  rgba(243, 241, 236, 0.88);
+
   --radius-sm:      4px;
   --radius:         8px;
   --font-body:      'Schibsted Grotesk', system-ui, sans-serif;
@@ -73,6 +78,10 @@
   --term-border:    #262A31;
 
   --shadow-lift:    0 24px 48px -20px rgba(0, 0, 0, 0.75), 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+
+  --icon-paper:     #262A31;
+  --icon-ink:       #ECE9E2;
+  --icon-label-bg:  rgba(14, 16, 19, 0.82);
 
   color-scheme: dark;
 }
@@ -249,6 +258,96 @@ code { font-family: var(--font-mono); }
   letter-spacing: 0;
   color: var(--text-muted);
 }
+
+/* ----- íconos del escritorio ----- */
+
+.icons-bg { position: absolute; inset: 0; z-index: 0; }
+
+.icons { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+.desk-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100px;
+  padding: 6px 4px;
+  border-radius: var(--radius);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: default;
+  transition: transform 0.18s var(--ease-out), background-color 0.15s ease;
+}
+
+.desk-icon:focus-visible { outline: 2px solid var(--accent); outline-offset: 0; }
+
+.desk-icon[data-dragging] { z-index: 2; opacity: 0.85; transition: none; }
+
+.desk-icon[data-over] { background: var(--accent-subtle); outline: 1px dashed var(--accent); outline-offset: -1px; }
+
+.desk-icon-label {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-width: 100%;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--icon-label-bg);
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.desk-icon[aria-selected='true'] .desk-icon-label {
+  -webkit-line-clamp: unset;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.desk-icon[aria-selected='true'] .file-icon { background: var(--accent-subtle); border-radius: var(--radius-sm); }
+
+.icon-rename {
+  width: 100%;
+  padding: 1px 4px;
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 0.78rem;
+  text-align: center;
+  outline: none;
+}
+
+.select-band {
+  position: fixed;
+  z-index: 2;
+  border: 1px solid var(--accent);
+  background: var(--accent-subtle);
+  pointer-events: none;
+}
+
+/* Dibujo de los íconos (FileIcon.jsx) */
+.file-icon { flex: none; overflow: visible; }
+.file-icon .ic-paper { fill: var(--icon-paper); stroke: var(--icon-ink); stroke-width: 1.5; stroke-linejoin: round; }
+.file-icon .ic-line { fill: none; stroke: var(--icon-ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.file-icon .ic-glyph,
+.file-icon .ic-accent-line { fill: none; stroke: var(--accent); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.file-icon .ic-badge { fill: var(--icon-ink); }
+.file-icon .ic-badge--accent { fill: var(--accent); }
+.file-icon .ic-badge-text { fill: var(--icon-paper); font-family: var(--font-mono); font-size: 7px; font-weight: 500; letter-spacing: 0.02em; }
+.file-icon .ic-badge--accent + .ic-badge-text { fill: var(--on-accent); }
+.file-icon .ic-term { fill: #15171C; stroke: var(--icon-ink); stroke-width: 1.5; }
+.file-icon .ic-term-prompt { fill: none; stroke: #F2894F; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.file-icon .ic-shortcut rect { fill: var(--icon-paper); stroke: var(--icon-ink); stroke-width: 1.25; }
+.file-icon .ic-shortcut path { fill: none; stroke: var(--icon-ink); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 
 /* ----- barra superior ----- */
 
@@ -1365,4 +1464,6 @@ code { font-family: var(--font-mono); }
   .launch:active .launch-icon, .phone-icon:active .phone-icon-tile, .phone-back:active { transform: none; }
 
   .copy-icon, .copy-btn[data-copied='true'] .copy-icon--idle { transform: none; }
+
+  .desk-icon { transition: background-color 0.15s ease; }
 }
