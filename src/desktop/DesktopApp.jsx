@@ -620,11 +620,12 @@ export default function DesktopApp() {
     return () => window.removeEventListener('keydown', onKey)
   }, [isMobile, openContextMenu])
 
-  // F6 / Shift+F6 recorren las ventanas abiertas
+  // F6 o Ctrl+` (con Shift, al revés) recorren las ventanas abiertas
   useEffect(() => {
     if (isMobile) return
     const onKey = (e) => {
-      if (e.key !== 'F6') return
+      const backtick = e.ctrlKey && (e.key === '`' || e.code === 'Backquote')
+      if (e.key !== 'F6' && !backtick) return
       const { wins, order } = wmRef.current
       const visible = order.filter((id) => wins[id].state === 'open')
       if (!visible.length) return
