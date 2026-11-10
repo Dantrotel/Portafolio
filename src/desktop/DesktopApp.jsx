@@ -26,7 +26,7 @@ import Settings from './apps/Settings'
 import { WALLPAPERS } from './wallpapers'
 import {
   loadFs, saveFs, resetFs, sortedChildren, children, resolveTarget, rename, move as moveNode, isDirLike, displayName,
-  moveToTrash, emptyTrash, makeDir, newFolderName, shortPath, DESKTOP_ID, TRASH_ID, HOME_ID,
+  moveToTrash, emptyTrash, makeDir, newFolderName, shortPath, restore, resolvePath, isInTrash, DESKTOP_ID, TRASH_ID, HOME_ID,
 } from './fsOps'
 import {
   CELL_W, ICONS_RIGHT, gridRows, layoutIcons, moveIcons, columnsUsed, loadIconPositions, saveIconPositions, clearIconPositions,
@@ -37,7 +37,7 @@ const SIMPLE_URL = `${base}simple/`
 
 const APPS = {
   terminal: { Icon: FiTerminal, w: 560, h: 420 },
-  projects: { Icon: FiFolder, w: 760, h: 580 },
+  files: { Icon: FiFolder, w: 820, h: 580 },
   about: { Icon: FiUser, w: 640, h: 580 },
   skills: { Icon: FiLayers, w: 600, h: 500 },
   contact: { Icon: FiMail, w: 540, h: 440 },
@@ -51,6 +51,9 @@ const EDGE = 24
 const AREA_TOP = TOP_BAR + 12
 const LAUNCHER_SPACE = 96
 const LEAVE_MS = 140
+
+// Favoritas del lanzador
+const DOCK_APPS = ['terminal', 'files', 'music', 'commands', 'settings']
 
 // ---------- utilidades ----------
 
@@ -189,9 +192,9 @@ function initialWm() {
   return {
     wins: {
       terminal: { rect: rects.terminal, state: 'open', maximized: false, focusToken: 1 },
-      projects: { rect: rects.projects, state: 'open', maximized: false, focusToken: 0 },
+      files: { rect: rects.projects, state: 'open', maximized: false, focusToken: 0 },
     },
-    order: ['projects', 'terminal'],
+    order: ['files', 'terminal'],
   }
 }
 
@@ -276,7 +279,13 @@ export default function DesktopApp() {
   const [wm, dispatch] = useReducer(wmReducer, undefined, initialWm)
   const wmRef = useRef(wm)
   const [mobileView, setMobileView] = useState(null)
-  const [selected, setSelected] = useState(visibleProjects[0]?.slug)
+  // Archivos: historial de navegación, selección y vista. Al cargar: ~/Proyectos con AcTitUBB seleccionado
+  const [fm, setFm] = useState(() => ({
+    history: ['projects'],
+    index: 0,
+    selection: visibleProjects[0] ? [`p:${visibleProjects[0].slug}`] : [],
+    view: 'icons',
+  }))
   const player = usePlayer(tracks)
   const { vw, vh } = useViewport()
 
@@ -308,6 +317,7 @@ export default function DesktopApp() {
   useEffect(() => { saveIconPositions(iconPos) }, [iconPos])
 
   const desktopIds = sortedChildren(nodes, DESKTOP_ID, { byOrder: true }).map((n) => n.id)
+  const fmCwd = nodes[fm.history[fm.index]] && !nodes[fm.history[fm.index]].content ? fm.history[fm.index] : HOME_ID
   const rows = gridRows(vh)
   const iconLayout = layoutIcons(desktopIds, iconPos, rows)
 
@@ -341,14 +351,26 @@ export default function DesktopApp() {
 
   // ----- ventanas -----
 
-  const openApp = useCallback((id, { focus = true } = {}) => {
+  const navigateFm = useCallback((dirId, select = []) => {
+    setFm((f) => (f.history[f.index] === dirId
+      ? { ...f, selection: select }
+      : { ...f, history: [...f.history.slice(0, f.index + 1), dirId], index: f.index + 1, selection: select }))
+  }, [])
+
+  const openApp = useCallback((rawId, { focus = true } = {}) => {
+    let id = rawId
+    // "Proyectos" ya no es una ventana propia: es Archivos en ~/Proyectos
+    if (id === 'projects') {
+      navigateFm('projects')
+      id = 'files'
+    }
     if (window.matchMedia(MOBILE_QUERY).matches) {
       setMobileView(id)
       return
     }
     const current = wmRef.current
     dispatch({ type: 'open', id, focus, rect: current.wins[id] ? undefined : cascadeRect(id, current.order.length) })
-  }, [])
+  }, [navigateFm])
 
   // Al cerrar o minimizar, el foco pasa a la ventana de arriba o, si no queda ninguna, al ícono del lanzador
   const leave = useCallback((id, kind, instant = false) => {
@@ -371,9 +393,9 @@ export default function DesktopApp() {
   const maximize = useCallback((id) => dispatch({ type: 'maximize', id }), [])
 
   const openProject = useCallback((slug) => {
-    setSelected(slug)
-    openApp('projects')
-  }, [openApp])
+    navigateFm(`p:${slug}`)
+    openApp('files')
+  }, [openApp, navigateFm])
 
   // Abrir un nodo del árbol: carpetas, documentos, enlaces y la terminal
   const openNode = useCallback((id) => {
@@ -385,10 +407,42 @@ export default function DesktopApp() {
     if (!target) return
     if (target.type === 'url') return window.open(target.href, '_blank', 'noopener')
     if (target.type === 'pdf') return window.open(`${base}${target.href}`, '_blank', 'noopener')
-    if (target.project) return openProject(target.project)
-    const app = { projects: 'projects', music: 'music', 'doc-about': 'about', 'doc-journey': 'about', 'doc-skills': 'skills', contact: 'contact' }[targetId]
-    if (app) openApp(app)
-  }, [nodes, openApp, openProject])
+    // Si ya se está navegando dentro de Archivos, el foco se queda donde está
+    const fromFiles = !!document.activeElement?.closest('.fm')
+    if (target.kind === 'dir') {
+      navigateFm(targetId)
+      return openApp('files', { focus: !fromFiles })
+    }
+    if (target.type === 'audio') {
+      player.select(target.track)
+      return openApp('music')
+    }
+    // Documentos: se leen en la vista previa de Archivos
+    navigateFm(target.parent, [targetId])
+    openApp('files', { focus: !fromFiles })
+  }, [nodes, openApp, navigateFm, player])
+
+  // Ruta escrita en la barra de Archivos: relativa a la carpeta actual o a la personal
+  const openPath = useCallback((value) => {
+    const path = value.trim()
+    if (!path) return
+    const id = resolvePath(nodes, fmCwd, path) || resolvePath(nodes, HOME_ID, path)
+    if (id) openNode(id)
+    else notify(d.files.notFound(path))
+  }, [nodes, fmCwd, openNode, notify, d])
+
+  const restoreIds = useCallback((ids) => {
+    let next = nodes
+    let last = null
+    for (const id of ids) {
+      const result = restore(next, id)
+      if (result.nodes) { next = result.nodes; last = [id, result.to] }
+    }
+    if (!last) return
+    setNodes(next)
+    setFm((f) => ({ ...f, selection: [] }))
+    notify(ids.length === 1 ? d.toast.restored(displayName(next[last[0]], lang), shortPath(next, last[1])) : d.toast.restored(String(ids.length), shortPath(next, last[1])))
+  }, [nodes, d, lang, notify])
 
   // Papelera: nunca borra, mueve. Las carpetas del sistema se quedan donde están y se avisa.
   const trashIds = useCallback((ids) => {
@@ -448,6 +502,7 @@ export default function DesktopApp() {
     if (!result.nodes) return
     setNodes(result.nodes)
     setSelection([result.id])
+    setFm((f) => ({ ...f, selection: [result.id] }))
     setRenaming(result.id)
   }, [nodes, d])
 
@@ -473,14 +528,27 @@ export default function DesktopApp() {
   // Lanzador de "Aplicaciones" del panel
   const launchApp = useCallback((id) => {
     if (id === 'simple') window.location.href = SIMPLE_URL
-    else if (id === 'files') openApp('projects')
+    else if (id === 'files') { navigateFm(HOME_ID); openApp('files') }
     else if (id === 'editor') openNode('doc-about')
     else if (id === 'viewer') openNode('doc-cv')
     else openApp(id)
-  }, [openApp, openNode])
+  }, [openApp, openNode, navigateFm])
 
-  // Menús contextuales: fondo, ícono o papelera
-  const openContextMenu = useCallback(({ id, x, y, returnFocus }) => {
+  // Menús contextuales: fondo (del escritorio o de una carpeta en Archivos), ícono o papelera
+  const openContextMenu = useCallback(({ id, x, y, returnFocus, dir }) => {
+    const sheet = window.matchMedia(MOBILE_QUERY).matches
+    if (!id && dir) {
+      setMenu({
+        x, y, returnFocus, sheet, label: displayName(nodes[dir], lang),
+        items: dir === TRASH_ID
+          ? [{ label: d.menu.emptyTrash, disabled: !trashCount, onSelect: () => setDialog({ kind: 'empty' }) }]
+          : [
+              { label: d.menu.newFolder, onSelect: () => newFolder(dir) },
+              { label: d.menu.openTerminalHere, onSelect: () => openTerminalAt(dir) },
+            ],
+      })
+      return
+    }
     if (!id) {
       setMenu({
         x, y, returnFocus, label: d.menu.desktop,
@@ -498,11 +566,24 @@ export default function DesktopApp() {
       return
     }
     const node = nodes[id]
-    const group = selection.includes(id) && selection.length > 1 ? selection : [id]
+    const pool = dir ? fm.selection : selection
+    const group = pool.includes(id) && pool.length > 1 ? pool : [id]
     const name = displayName(node, lang)
+    if (isInTrash(nodes, id)) {
+      setMenu({
+        x, y, returnFocus, sheet, label: name,
+        items: [
+          { label: d.menu.open, onSelect: () => openNode(id) },
+          { label: d.menu.restore, disabled: node.parent !== TRASH_ID, onSelect: () => restoreIds(group.filter((g) => nodes[g].parent === TRASH_ID)) },
+          { separator: true },
+          { label: d.menu.properties, onSelect: () => setDialog({ kind: 'props', id }) },
+        ],
+      })
+      return
+    }
     if (resolveTarget(nodes, id) === TRASH_ID) {
       setMenu({
-        x, y, returnFocus, label: name,
+        x, y, returnFocus, sheet, label: name,
         items: [
           { label: d.menu.open, onSelect: () => openNode(id) },
           { label: d.menu.emptyTrash, disabled: !trashCount, onSelect: () => setDialog({ kind: 'empty' }) },
@@ -511,7 +592,7 @@ export default function DesktopApp() {
       return
     }
     setMenu({
-      x, y, returnFocus, label: name,
+      x, y, returnFocus, sheet, label: name,
       items: [
         { label: d.menu.open, hint: 'Enter', onSelect: () => group.forEach(openNode) },
         { label: d.menu.openTerminal, onSelect: () => openTerminalAt(id) },
@@ -522,7 +603,7 @@ export default function DesktopApp() {
         { label: d.menu.properties, onSelect: () => setDialog({ kind: 'props', id }) },
       ],
     })
-  }, [nodes, selection, lang, d, trashCount, openNode, openTerminalAt, newFolder, openApp, startRename, trashIds])
+  }, [nodes, selection, fm.selection, lang, d, trashCount, openNode, openTerminalAt, newFolder, openApp, startRename, trashIds, restoreIds])
 
   // Shift+F10 o la tecla de menú con el foco en el fondo abren el menú del escritorio
   useEffect(() => {
@@ -630,8 +711,34 @@ export default function DesktopApp() {
             chips={mobile ? examples.slice(0, 12).map(([cmd]) => cmd) : undefined}
           />
         )
+      case 'files':
       case 'projects':
-        return <Files t={t} d={d} isEn={isEn} selected={selected} onSelect={setSelected} />
+        return (
+          <Files
+            nodes={nodes} lang={lang} t={t} d={d}
+            cwd={fmCwd}
+            canBack={fm.index > 0}
+            canForward={fm.index < fm.history.length - 1}
+            onBack={() => setFm((f) => ({ ...f, index: Math.max(0, f.index - 1), selection: [] }))}
+            onForward={() => setFm((f) => ({ ...f, index: Math.min(f.history.length - 1, f.index + 1), selection: [] }))}
+            onNavigate={(dirId) => navigateFm(dirId)}
+            onOpen={openNode}
+            onOpenPath={openPath}
+            selection={fm.selection}
+            setSelection={(sel) => setFm((f) => ({ ...f, selection: sel }))}
+            view={fm.view}
+            setView={(view) => setFm((f) => ({ ...f, view }))}
+            renaming={renaming}
+            onRename={renameNode}
+            onStartRename={startRename}
+            onTrash={trashIds}
+            onRestore={restoreIds}
+            onEmptyTrash={() => setDialog({ kind: 'empty' })}
+            onContextMenu={openContextMenu}
+            onDropInto={moveIntoFolder}
+            mobile={mobile}
+          />
+        )
       case 'about':
         return <About t={t} d={d} isEn={isEn} />
       case 'skills':
@@ -715,7 +822,7 @@ export default function DesktopApp() {
                 id={id}
                 d={d}
                 title={d.apps[id]}
-                path={id === 'projects' ? `${d.paths.projects}/${selected}` : d.paths[id]}
+                path={id === 'files' ? shortPath(nodes, fmCwd) : d.paths[id]}
                 rect={win.rect}
                 z={10 + wm.order.indexOf(id)}
                 state={win.state}
@@ -734,7 +841,7 @@ export default function DesktopApp() {
 
           <nav className="launcher" aria-label={d.launcher}>
             <ul className="launcher-list">
-              {APP_IDS.map((id) => {
+              {DOCK_APPS.map((id) => {
                 const { Icon } = APPS[id]
                 const win = wm.wins[id]
                 return (

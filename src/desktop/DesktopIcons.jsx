@@ -1,49 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import RenameField from './RenameField'
 import FileIcon from './FileIcon'
 import { displayName, isDirLike } from './fsOps'
 import { CELL_H, CELL_W, cellToPx } from './iconLayout'
+import { DRAG_TYPE } from './apps/Files'
+import { DESKTOP_ID } from './fsOps'
+
+// Soltar algo arrastrado desde Archivos sobre una carpeta, la papelera o el fondo del escritorio
+function htmlDrop(targetId, onDropInto) {
+  return {
+    onDragOver: (e) => {
+      if (!e.dataTransfer.types.includes(DRAG_TYPE)) return
+      e.preventDefault()
+      e.dataTransfer.dropEffect = 'move'
+    },
+    onDrop: (e) => {
+      e.preventDefault()
+      let ids = []
+      try { ids = JSON.parse(e.dataTransfer.getData(DRAG_TYPE) || '[]') } catch { /* nada que soltar */ }
+      ids = ids.filter((id) => id !== targetId)
+      if (ids.length) onDropInto(ids, targetId)
+    },
+  }
+}
 
 const DRAG_THRESHOLD = 5
-
-// Nombre a seleccionar al renombrar: sin la extensión, como hacen los exploradores
-function stemLength(name) {
-  const dot = name.lastIndexOf('.')
-  return dot > 0 ? dot : name.length
-}
-
-function RenameField({ initial, onDone }) {
-  const ref = useRef(null)
-  const done = useRef(false)
-
-  useEffect(() => {
-    const input = ref.current
-    input.focus()
-    input.setSelectionRange(0, stemLength(initial))
-  }, [initial])
-
-  const finish = (value) => {
-    if (done.current) return
-    done.current = true
-    onDone(value)
-  }
-
-  return (
-    <input
-      ref={ref}
-      className="icon-rename"
-      defaultValue={initial}
-      aria-label={initial}
-      onKeyDown={(e) => {
-        e.stopPropagation()
-        if (e.key === 'Enter') finish(e.currentTarget.value)
-        if (e.key === 'Escape') finish(null)
-      }}
-      onBlur={(e) => finish(e.currentTarget.value)}
-      onPointerDown={(e) => e.stopPropagation()}
-      onDoubleClick={(e) => e.stopPropagation()}
-    />
-  )
-}
 
 // Íconos del escritorio: hijos de ~/Escritorio en una cuadrícula.
 // Un clic selecciona; doble clic o Enter abre; Ctrl/Shift suman; arrastrar sobre el fondo selecciona con un rectángulo.
@@ -222,6 +203,7 @@ export default function DesktopIcons({
         onPointerMove={onBgPointerMove}
         onPointerUp={onBgPointerUp}
         onPointerCancel={onBgPointerUp}
+        {...htmlDrop(DESKTOP_ID, onDropInto)}
         onContextMenu={(e) => {
           e.preventDefault()
           setSelection([])
@@ -265,6 +247,7 @@ export default function DesktopIcons({
               onPointerUp={onIconPointerUp}
               onPointerCancel={() => { pointer.current = null; setDrag(null) }}
               onDoubleClick={() => onOpen(selected.has(id) ? selection : [id])}
+              {...(dropTarget ? htmlDrop(id, onDropInto) : {})}
               onContextMenu={(e) => {
                 e.preventDefault()
                 if (!selected.has(id)) setSelection([id])
