@@ -2,12 +2,12 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231F4A8A'/%3E%3Ctext x='16' y='22.5' text-anchor='middle' font-family='monospace' font-size='18' font-weight='700' fill='%23F5F7FA'%3Ed_%3C/text%3E%3C/svg%3E" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2315171C'/%3E%3Ctext x='16' y='22.5' text-anchor='middle' font-family='monospace' font-size='18' font-weight='700' fill='%23F2894F'%3Ed_%3C/text%3E%3C/svg%3E" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <title>Daniel Aguayo (dantrottel) — Desarrollador Full Stack</title>
     <meta name="description" content="Portafolio de Daniel Aguayo (dantrottel), Desarrollador Full Stack con foco en backend (Node.js, APIs, bases de datos). Proyectos, experiencia y contacto." />
-    <meta name="theme-color" content="#F5F7FA" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0A1222" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#E6E2D8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0E1013" media="(prefers-color-scheme: dark)" />
     <meta property="og:title" content="Daniel Aguayo (dantrottel) — Desarrollador Full Stack" />
     <meta property="og:description" content="Desarrollador Full Stack con foco en backend: Node.js, APIs y bases de datos. Egresado de Ingeniería en Computación e Informática, UBB." />
     <meta property="og:type" content="website" />
@@ -25,7 +25,7 @@
     <link rel="canonical" href="https://dantrotel.github.io/Portafolio/" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
       // Aplica el tema antes del primer render para evitar el flash de tema incorrecto
       (function () {
@@ -35,13 +35,27 @@
           theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
         }
         document.documentElement.dataset.theme = theme
+        // La barra del navegador sigue el tema elegido, no solo el del sistema (mismos valores que --bg)
+        var bar = theme === 'dark' ? '#0E1013' : '#E6E2D8'
+        document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+          meta.setAttribute('content', bar)
+          meta.removeAttribute('media')
+        })
       })()
     </script>
-    <script type="module" crossorigin src="/Portafolio/assets/index-irbIQ1Yd.js"></script>
-    <link rel="stylesheet" crossorigin href="/Portafolio/assets/index-BrHAUik7.css">
+    <script type="module" crossorigin src="/Portafolio/assets/desktop-BnohycRu.js"></script>
+    <link rel="modulepreload" crossorigin href="/Portafolio/assets/projectsData-DPt3QKJC.js">
+    <link rel="stylesheet" crossorigin href="/Portafolio/assets/desktop-CQsWC79z.css">
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <p style="max-width:34rem;margin:4rem auto;padding:0 16px;font-family:system-ui,sans-serif;line-height:1.6">
+        Este escritorio necesita JavaScript. El portafolio completo de Daniel Aguayo está en la
+        <a href="/Portafolio/simple/">vista simple</a>.
+        <br />This desktop needs JavaScript. See the full portfolio in the <a href="/Portafolio/simple/">simple view</a>.
+      </p>
+    </noscript>
     <script defer data-domain="dantrotel.github.io" src="https://plausible.io/js/script.js"></script>
   </body>
 </html>
