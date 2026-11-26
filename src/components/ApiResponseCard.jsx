@@ -13,8 +13,8 @@ export default function ApiResponseCard({ t }) {
   const k = c.keys
 
   const entries = [
-    [k.tables,   64],
-    [k.views,    6],
+    [k.tables,   62],
+    [k.views,    7],
     [k.roles,    4],
     [k.auth,     c.auth],
     [k.realtime, 'Socket.io'],

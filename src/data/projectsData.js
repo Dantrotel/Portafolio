@@ -18,9 +18,9 @@ export const projectsData = [
     problemEn:
       'Coordinating many students’ thesis processes at once (proposals, advisors, committees and deadlines) across four roles with different permissions.',
     description:
-      'Proyecto de título aprobado. API REST en Node.js/Express, frontend en Angular + TypeScript y una base MySQL de 64 tablas y 6 vistas, con flujos para estudiante, profesor, jefe de carrera y superadmin. Desplegada en AWS EC2 durante el proyecto.',
+      'Proyecto de título aprobado. API REST en Node.js/Express, frontend en Angular + TypeScript y una base MySQL de 62 tablas y 7 vistas, con flujos para estudiante, profesor, jefe de carrera y superadmin. Desplegada en AWS EC2 durante el proyecto.',
     descriptionEn:
-      'Approved capstone project. REST API in Node.js/Express, Angular + TypeScript frontend and a MySQL database with 64 tables and 6 views, with flows for students, advisors, program heads and a superadmin. Deployed on AWS EC2 during the project.',
+      'Approved capstone project. REST API in Node.js/Express, Angular + TypeScript frontend and a MySQL database with 62 tables and 7 views, with flows for students, advisors, program heads and a superadmin. Deployed on AWS EC2 during the project.',
     // Formato "decisión: razón"; el destacado resalta lo que va antes de los dos puntos
     decisions: [
       'Sesiones revocables: el JWT viaja en cookies HttpOnly, así que el JavaScript de la página no puede leerlo. Al cerrar sesión, su hash SHA-256 entra a una blacklist en MySQL: un token robado deja de servir aunque no haya expirado.',

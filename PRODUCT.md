@@ -16,7 +16,7 @@ Personal portfolio of Daniel Aguayo (handle `dantrottel`), Full Stack Developer 
 
 ## Positioning
 
-Backend with judgment: unlike a typical junior portfolio listing technologies, this one shows the reasoning behind real technical decisions in API and database design. Each project states the problem and the decisions taken (e.g. AcTitUBB: 64 tables and 6 SQL views, four roles, JWT in HttpOnly cookies with a server-side blacklist, access checked by role and by project, the full stack up with one `docker compose up`).
+Backend with judgment: unlike a typical junior portfolio listing technologies, this one shows the reasoning behind real technical decisions in API and database design. Each project states the problem and the decisions taken (e.g. AcTitUBB: 62 tables and 7 SQL views, four roles, JWT in HttpOnly cookies with a server-side blacklist, access checked by role and by project, the full stack up with one `docker compose up`).
 
 ## Operating Context
 
