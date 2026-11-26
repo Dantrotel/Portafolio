@@ -76,30 +76,84 @@ export const projectsData = [
   {
     title: 'Bot DJ para Discord',
     slug: 'bot-dj',
-    aliases: ['djbot'],
+    aliases: ['djbot', 'aguayando'],
     titleEn: 'DJ Bot for Discord',
+    problem:
+      'Escuchar música en grupo en Discord sin cortes ni silencios entre canciones, y que la sesión siga sola cuando se acaba la cola.',
+    problemEn:
+      'Listening to music together on Discord without cuts or silences between tracks, and keeping the session going on its own when the queue runs out.',
     description:
-      'Bot de música para Discord con mezcla tipo DJ: transiciones entre canciones, beatmatching y cambio de tempo sin alterar el tono.',
+      'Bot de música en Node.js con discord.js v14: 22 comandos, cola por servidor, playlists, favoritos y un modo DJ que mezcla las canciones con cruces y empareja su BPM. La cola y la posición sobreviven a un reinicio.',
     descriptionEn:
-      'Music bot for Discord with DJ-style mixing: transitions between tracks, beatmatching and tempo changes without altering pitch.',
-    tags: ['discord.js', 'Node.js'],
-  },
-  {
-    title: 'La Pirámide',
-    slug: 'la-piramide',
-    draft: true,
-    description: '[DESCRIPCIÓN PENDIENTE]',
-    descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
-    tags: ['[STACK]'],
+      'Music bot in Node.js with discord.js v14: 22 commands, per-server queues, playlists, favorites and a DJ mode that blends tracks with crossfades and matches their BPM. The queue and playback position survive a restart.',
+    decisions: [
+      'Cruces sin cortar la canción actual: un mezclador recibe el PCM de las dos pistas a la vez, así la saliente no pierde ni un frame. Si algo falla, se degrada a corte seco.',
+      'BPM propio: lo detecta con FFT y autocorrelación, lo guarda en caché por URL y ajusta el tempo de la entrante para que calce con la saliente.',
+      'Opus directo: el audio de YouTube llega a Discord sin transcodificar; FFmpeg solo entra para volumen, seek o formatos que no son Opus.',
+      'Persistencia segura: solo un módulo escribe en disco, con escrituras atómicas (archivo temporal + rename) agrupadas, y al arrancar reanuda la cola donde quedó.',
+      'Responsabilidades aisladas: yt-dlp y FFmpeg se lanzan desde un único módulo, y cada comando declara sus permisos (rol DJ, uso fuera del canal de voz).',
+    ],
+    decisionsEn: [
+      'Crossfades without cutting the current track: a mixer takes both tracks’ PCM at once, so the outgoing one never drops a frame. If anything fails it falls back to a hard cut.',
+      'Its own BPM detection: FFT plus autocorrelation, cached per URL, then the incoming track’s tempo is adjusted to match the outgoing one.',
+      'Direct Opus: YouTube audio reaches Discord without transcoding; FFmpeg only steps in for volume, seeking or non-Opus formats.',
+      'Safe persistence: a single module writes to disk, with batched atomic writes (temp file + rename), and on startup the queue resumes where it left off.',
+      'Isolated responsibilities: yt-dlp and FFmpeg are launched from one module only, and each command declares its own permissions (DJ role, use outside a voice channel).',
+    ],
+    code: 'https://github.com/Dantrotel/Aguayando',
+    tags: ['Node.js', 'discord.js', 'yt-dlp', 'FFmpeg', 'DSP'],
   },
   {
     title: 'Calculadora de costos',
     slug: 'calculadora',
     titleEn: 'Cost calculator',
-    draft: true,
-    description: '[DESCRIPCIÓN PENDIENTE]',
-    descriptionEn: '[DESCRIPCIÓN PENDIENTE]',
-    tags: ['[STACK]'],
+    problem:
+      'Saber cuánto cuesta realmente producir algo (insumos, merma, trabajo y costos fijos) y a qué precio venderlo, con y sin IVA, sin depender de planillas.',
+    problemEn:
+      'Knowing what something really costs to make (ingredients, waste, labor and fixed costs) and what to sell it for, with and without VAT, without relying on spreadsheets.',
+    description:
+      'App móvil en Expo + TypeScript estricto que calcula el costo de un producto desde sus insumos y entrega el precio de venta. Funciona 100 % offline con SQLite y Drizzle ORM, y tiene 40 archivos de tests con Jest.',
+    descriptionEn:
+      'Mobile app in Expo + strict TypeScript that costs a product from its ingredients and gives its sale price. Works 100% offline with SQLite and Drizzle ORM, with 40 Jest test files.',
+    decisions: [
+      'Nunca float para dinero: los montos se guardan en enteros (centésimas de peso) y las cantidades en milésimas; las fracciones se calculan con BigInt y una sola división por paso.',
+      'Sin totales en la base: el costo de un producto se calcula al leerlo, así que al cambiar el precio de un insumo todos los productos se actualizan solos.',
+      'Lógica de cálculo pura: las fórmulas viven en un módulo sin React, sin base de datos y sin Expo, y cada una tiene tests.',
+      'Capas de costo como en una ficha técnica: materia prima, condimentos, mano de obra y costos indirectos, repartidos por porcentaje o por horas de producción.',
+    ],
+    decisionsEn: [
+      'Never floats for money: amounts are stored as integers (hundredths of a peso) and quantities in thousandths; fractions use BigInt with a single division per step.',
+      'No stored totals: a product’s cost is computed when read, so changing an ingredient’s price updates every product automatically.',
+      'Pure calculation logic: formulas live in a module with no React, no database and no Expo, and every one of them is tested.',
+      'Cost layers like a recipe costing sheet: raw materials, seasonings, labor and overhead, allocated by percentage or by production hours.',
+    ],
+    tags: ['React Native', 'Expo', 'TypeScript', 'SQLite', 'Drizzle ORM', 'Zustand', 'Jest'],
+  },
+  {
+    title: 'La Pirámide Online',
+    slug: 'la-piramide',
+    aliases: ['piramide'],
+    problem:
+      'Jugar en tiempo real un juego de cartas por turnos con amigos que no están en el mismo lugar, sin que nadie pueda hacer trampa desde el navegador.',
+    problemEn:
+      'Playing a turn-based card game in real time with friends who aren’t in the same place, without anyone being able to cheat from the browser.',
+    description:
+      'Versión multijugador del juego de cartas La Pirámide. Monorepo con cliente en React 19 + Tailwind v4 y servidor en Node.js/Express con Socket.io: se crea una sala, se comparte el código y el estado se sincroniza al instante.',
+    descriptionEn:
+      'Multiplayer version of the card game La Pirámide. Monorepo with a React 19 + Tailwind v4 client and a Node.js/Express server with Socket.io: create a room, share the code and the game state syncs instantly.',
+    decisions: [
+      'El servidor manda: el mazo, la pirámide y los turnos viven en el servidor y el cliente solo muestra lo que recibe, así nadie puede ver ni alterar cartas desde el navegador.',
+      'Entradas validadas: cada evento de Socket.io valida el código de sala, sanea los nombres y revisa que las cantidades sean enteros positivos antes de tocar el estado.',
+      'Límite de eventos por conexión: un rate limiter propio corta a quien envíe más de 10 eventos por segundo.',
+      'Salas que se recuperan y se limpian: un jugador que se reconecta vuelve a su lugar, y las salas inactivas se borran solas para no acumular memoria.',
+    ],
+    decisionsEn: [
+      'The server is the authority: the deck, the pyramid and the turns live on the server and the client only renders what it receives, so nobody can peek at or change cards from the browser.',
+      'Validated input: every Socket.io event checks the room code, sanitizes names and verifies amounts are positive integers before touching state.',
+      'Per-connection event limit: a custom rate limiter cuts off anyone sending more than 10 events per second.',
+      'Rooms that recover and clean up: a player who reconnects gets their seat back, and idle rooms are removed automatically so memory doesn’t pile up.',
+    ],
+    tags: ['React', 'Tailwind CSS', 'Node.js', 'Express', 'Socket.io'],
   },
   {
     title: 'Simulación de Carrera Multihilo',
