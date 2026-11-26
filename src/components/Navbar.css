@@ -176,11 +176,13 @@
 }
 
 .mobile-menu-cv { margin-top: 2rem; }
+.mobile-menu-desktop { margin-top: 0.75rem; }
 
 /* Cortes en em: siguen el tamaño de letra del navegador, así con texto al 200 %
    el navbar pasa al menú móvil antes de desbordarse (860px a 16px = 53.75em) */
 @media (max-width: 53.75em) {
   .navbar-links,
+  .navbar-desktop,
   .navbar-cv { display: none; }
 
   .navbar-toggle { display: inline-flex; }

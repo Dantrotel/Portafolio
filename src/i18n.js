@@ -21,6 +21,7 @@ export const STRINGS = {
       toDark: 'Cambiar a tema oscuro',
       language: 'Idioma',
       skip: 'Saltar al contenido',
+      toDesktop: 'Volver al escritorio',
     },
     hero: {
       location: 'Concepción, Chile',
@@ -99,6 +100,7 @@ export const STRINGS = {
       toDark: 'Switch to dark theme',
       language: 'Language',
       skip: 'Skip to content',
+      toDesktop: 'Back to desktop',
     },
     hero: {
       location: 'Concepción, Chile',

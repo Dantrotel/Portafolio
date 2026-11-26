@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { FiMenu, FiX, FiSun, FiMoon, FiDownload } from 'react-icons/fi'
+import { FiMenu, FiX, FiSun, FiMoon, FiDownload, FiMonitor } from 'react-icons/fi'
 import { useActiveSection } from '../hooks/useActiveSection'
 import './Navbar.css'
 
@@ -25,6 +25,8 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
   const toggleRef = useRef(null)
   const active = useActiveSection(sectionIds)
   const cvUrl = `${import.meta.env.BASE_URL}CV.pdf`
+  // La vista simple vive en /simple/; el escritorio es la raíz del sitio
+  const desktopUrl = import.meta.env.BASE_URL
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -130,6 +132,15 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             {theme === 'dark' ? <FiSun size={17} /> : <FiMoon size={17} />}
           </button>
 
+          <a
+            href={desktopUrl}
+            className="icon-btn navbar-desktop"
+            aria-label={t.nav.toDesktop}
+            title={t.nav.toDesktop}
+          >
+            <FiMonitor size={17} aria-hidden="true" />
+          </a>
+
           <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary btn-sm navbar-cv">
             <FiDownload size={14} aria-hidden="true" />
             CV
@@ -174,6 +185,10 @@ export default function Navbar({ t, theme, onThemeToggle, lang, onLangChange }) 
             <a href={cvUrl} download="Daniel_Aguayo_CV.pdf" className="btn btn-primary mobile-menu-cv">
               <FiDownload size={15} aria-hidden="true" />
               {t.hero.ctaCv}
+            </a>
+            <a href={desktopUrl} className="btn btn-secondary mobile-menu-desktop">
+              <FiMonitor size={15} aria-hidden="true" />
+              {t.nav.toDesktop}
             </a>
           </div>
         </nav>
